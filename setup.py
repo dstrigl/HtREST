@@ -109,8 +109,8 @@ setup(
         'Topic :: Home Automation',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: HTTP Servers',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Scientific/Engineering',
-        'Topic :: System :: Hardware :: Hardware Drivers',
         'Topic :: Terminals :: Serial',
     ],
 
