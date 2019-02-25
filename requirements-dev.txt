@@ -1,0 +1,9 @@
+pip==19.0.3
+htheatpump==1.1.0
+pytest==4.3.0
+pytest-cov==2.6.1
+pytest-runner==4.4
+flake8==3.7.6
+coverage==4.5.2
+tox==3.7.0
+
