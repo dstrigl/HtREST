@@ -27,7 +27,7 @@ from htrest import settings
 
 log = logging.getLogger(__name__)
 
-api = Api(version="1.0", title="Ht{}REST", description="Heliotherm heat pump REST API")
+api = Api(version="1.0", title="HtREST", description="Heliotherm heat pump REST API")
 
 
 @api.errorhandler

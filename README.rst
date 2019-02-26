@@ -1,5 +1,5 @@
-Ht{}REST
-========
+HtREST
+======
 
 
 .. image:: https://img.shields.io/pypi/v/htrest.svg
