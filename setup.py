@@ -44,18 +44,18 @@ setup(
     version=__version__,
 
     # Project description
-    description="Heliotherm heat pump REST API",
+    description='Heliotherm heat pump REST API',
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/x-rst',
 
     # Choosen license
-    license="GNU General Public License v3",
+    license='GNU General Public License v3',
 
     # The project's main homepage
     url='https://github.com/dstrigl/HtREST',
 
     # Author details
-    author="Daniel Strigl",
+    author='Daniel Strigl',
     #author_email='?',
 
     # Supported platforms
@@ -123,8 +123,8 @@ setup(
 
     # Entry points specification
     entry_points={
-        "console_scripts": [
-            "htrest=htrest.__main__:main",
+        'console_scripts': [
+            'htrest=htrest.app:main',
         ]
     },
 )
