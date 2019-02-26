@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""The setup script."""
+""" The setup script """
 
 from setuptools import setup, find_packages
 from htrest import __version__
@@ -17,7 +17,9 @@ with open('HISTORY.rst') as history_file:
 
 
 requirements = [
-    'pyserial==3.4',
+    'htheatpump==1.1.0',
+    'flask==1.0.2',
+    'flask_restplus==0.9.2',
     # put package requirements here
 ]
 

@@ -1,5 +1,7 @@
 pip==19.0.3
 htheatpump==1.1.0
+flask==1.0.2
+flask_restplus==0.9.2
 pytest==4.3.0
 pytest-cov==2.6.1
 pytest-runner==4.4
