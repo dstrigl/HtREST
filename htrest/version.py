@@ -60,4 +60,3 @@ class Version(object):
 version = Version("HtREST", 1, 0, 0)
 """ TODO """
 # version.__name__ = "HtREST"
-

@@ -50,12 +50,17 @@ def initialize_app(flask_app):
     flask_app.register_blueprint(blueprint)
 
 
+@app.before_first_request
+def before_first_request():
+    log.info('*** @app.before_first_request')
+
+
 def main():
     initialize_app(app)
     log.info('>>>>> Starting development server at http://{}/api/ <<<<<'.format(app.config['SERVER_NAME']))
-    app.run(debug=settings.FLASK_DEBUG)
+    app.run(debug=settings.FLASK_DEBUG, use_reloader=False)
+    #app.run(debug=settings.FLASK_DEBUG)
 
 
 if __name__ == "__main__":
     main()
-
