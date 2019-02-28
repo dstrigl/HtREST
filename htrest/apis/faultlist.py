@@ -20,27 +20,29 @@
 """ TODO """
 
 import logging
-from flask import Blueprint
-from flask_restplus import Api
-from htrest import settings
-from htrest.apis.faultlist import api as ns1
+from flask import request
+from flask_restplus import Namespace, Resource
 
 
 log = logging.getLogger(__name__)
 
-blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
-api = Api(blueprint,
-          title="HtREST",
-          version="1.0",
-          description="Heliotherm heat pump REST API",
-          # All API metadatas
-          )
-api.add_namespace(ns1)
+api = Namespace("faultlist", description="Operations related to the heat pump fault list")
 
 
-@api.errorhandler
-def default_error_handler(e):
-    message = "An unhandled exception occurred."
-    log.exception(message)
-    if not settings.FLASK_DEBUG:
-        return {"message": message}, 500
+@api.route("/")
+class FaultList(Resource):
+    def get(self):
+        """ TODO """
+        log.info("*** {!s}".format(request.url))
+        return "test"
+
+
+@api.route("/<int:id>")
+@api.param("id", "The fault list index")
+@api.response(404, "Fault list item not found")
+class FaultItem(Resource):
+    def get(self, id):
+        """ TODO """
+        log.info("*** {!s}".format(request.url))
+        #api.abort(404)
+        return {"message": "Fault list item #{:d} not found".format(id)}, 404

@@ -17,30 +17,12 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" TODO """
+""" Tests for code in htheatpump.version. """
 
-import logging
-from flask import Blueprint
-from flask_restplus import Api
-from htrest import settings
-from htrest.apis.faultlist import api as ns1
+from htrest.version import Version
 
 
-log = logging.getLogger(__name__)
-
-blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
-api = Api(blueprint,
-          title="HtREST",
-          version="1.0",
-          description="Heliotherm heat pump REST API",
-          # All API metadatas
-          )
-api.add_namespace(ns1)
-
-
-@api.errorhandler
-def default_error_handler(e):
-    message = "An unhandled exception occurred."
-    log.exception(message)
-    if not settings.FLASK_DEBUG:
-        return {"message": message}, 500
+def test_VersionClass():
+    version = Version('package-name', 1, 2, 3)
+    assert version.short() == '1.2.3'
+    assert str(version) == '[package-name, version 1.2.3]'
