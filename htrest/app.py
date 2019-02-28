@@ -23,7 +23,7 @@ import os
 import logging.config
 from flask import Flask
 from htrest import settings
-from apiv1 import blueprint as apiv1
+from htrest.apiv1 import blueprint as apiv1
 
 
 logging_conf_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "../logging.conf"))
