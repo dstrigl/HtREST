@@ -17,17 +17,30 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" TODO
-"""
+""" TODO """
 
 import logging
+from flask import Blueprint
 from flask_restplus import Api
 from htrest import settings
+#from .apis.namespace1 import api as ns1
+#from .apis.namespace2 import api as ns2
+# ...
 
 
 log = logging.getLogger(__name__)
 
-api = Api(version="1.0", title="HtREST", description="Heliotherm heat pump REST API")
+blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
+api = Api(blueprint,
+          title="HtREST",
+          version="1.0",
+          description="Heliotherm heat pump REST API",
+          # All API metadatas
+          )
+
+#api.add_namespace(ns1)
+#api.add_namespace(ns2)
+# ...
 
 
 @api.errorhandler
