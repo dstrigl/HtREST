@@ -20,7 +20,7 @@
 """ TODO """
 
 import logging
-from flask import request
+from flask import request, current_app
 from flask_restplus import Namespace, Resource
 
 
@@ -33,7 +33,7 @@ api = Namespace("faultlist", description="Operations related to the heat pump fa
 class FaultList(Resource):
     def get(self):
         """ TODO """
-        log.info("*** {!s}".format(request.url))
+        log.info("*** {!s} hthp={!r}".format(request.url, current_app.config["hthp"]))
         return "test"
 
 
@@ -43,6 +43,6 @@ class FaultList(Resource):
 class FaultItem(Resource):
     def get(self, id):
         """ TODO """
-        log.info("*** {!s}".format(request.url))
+        log.info("*** {!s} id={:d}".format(request.url, id))
         #api.abort(404)
         return {"message": "Fault list item #{:d} not found".format(id)}, 404

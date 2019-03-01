@@ -23,12 +23,11 @@ import os
 import logging.config
 from flask import Flask
 from htrest import settings
+from htrest.apiv1 import blueprint as apiv1
 
 logging_conf_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "../logging.conf"))
-logging.config.fileConfig(logging_conf_path)
+logging.config.fileConfig(logging_conf_path, disable_existing_loggers=False)
 log = logging.getLogger(__name__)
-
-from htrest.apiv1 import blueprint as apiv1  # noqa: E402
 
 
 def configure_app(app):
@@ -45,11 +44,12 @@ def configure_app(app):
 
 
 def main():
-    # TODO args host and port
+    # TODO config
     app = Flask(__name__)
     configure_app(app)
     app.register_blueprint(apiv1)
     log.info(">>>>> Starting server @ http://{}/ <<<<<".format(app.config["SERVER_NAME"]))
+    app.config["hthp"] = "**hthp**"  # TODO
     app.run(debug=settings.FLASK_DEBUG, use_reloader=False)
     #app.run(debug=settings.FLASK_DEBUG)
 
