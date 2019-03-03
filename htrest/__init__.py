@@ -21,7 +21,6 @@
 
 from flask import Flask
 from htrest import settings
-from htheatpump.htheatpump import HtHeatpump
 import htrest.version as __version
 __version__ = __version.version.short()
 __author__ = "Daniel Strigl"
@@ -36,6 +35,7 @@ def configure_app(app):
 
 
 def create_app():
+    from htheatpump.htheatpump import HtHeatpump
     global hthp
     hthp = HtHeatpump("/dev/ttyUSB0", baudrate=115200)
     hthp.open_connection()
