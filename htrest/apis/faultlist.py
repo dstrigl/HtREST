@@ -40,7 +40,7 @@ model = api.model("Model", {
     "index":    fields.Integer,
     "error":    fields.Integer,
     "datetime": fields.DateTime,
-    "message" : fields.String,
+    "message":  fields.String,
 })
 
 
