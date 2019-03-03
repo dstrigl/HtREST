@@ -1,3 +1,4 @@
+include app.py
 include HISTORY.rst
 include LICENSE
 include README.rst

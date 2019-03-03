@@ -26,15 +26,8 @@ __version__ = __version.version.short()
 __author__ = "Daniel Strigl"
 
 
-def configure_app(app):
-    app.config["SERVER_NAME"] = settings.FLASK_SERVER_NAME
-    app.config["SWAGGER_UI_DOC_EXPANSION"] = settings.RESTPLUS_SWAGGER_UI_DOC_EXPANSION
-    app.config["RESTPLUS_VALIDATE"] = settings.RESTPLUS_VALIDATE
-    app.config["RESTPLUS_MASK_SWAGGER"] = settings.RESTPLUS_MASK_SWAGGER
-    app.config["ERROR_404_HELP"] = settings.RESTPLUS_ERROR_404_HELP
-
-
 def create_app():
+    # TODO
     from htheatpump.htheatpump import HtHeatpump
     global hthp
     hthp = HtHeatpump("/dev/ttyUSB0", baudrate=115200)
@@ -48,7 +41,11 @@ def create_app():
     #hthp.close_connection()
 
     app = Flask(__name__)
-    configure_app(app)
+    app.config["SERVER_NAME"] = settings.FLASK_SERVER_NAME
+    app.config["SWAGGER_UI_DOC_EXPANSION"] = settings.RESTPLUS_SWAGGER_UI_DOC_EXPANSION
+    app.config["RESTPLUS_VALIDATE"] = settings.RESTPLUS_VALIDATE
+    app.config["RESTPLUS_MASK_SWAGGER"] = settings.RESTPLUS_MASK_SWAGGER
+    app.config["ERROR_404_HELP"] = settings.RESTPLUS_ERROR_404_HELP
 
     from htrest.apiv1 import blueprint as apiv1
     app.register_blueprint(apiv1)
