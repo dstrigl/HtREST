@@ -19,28 +19,16 @@
 
 """ TODO """
 
-import logging
-from flask import Blueprint
-from flask_restplus import Api
-#from htrest import settings
-from htrest.apis.faultlist import api as ns1
+import os
+import logging.config
+from htrest import create_app
 
+logging_conf_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "logging.conf"))
+logging.config.fileConfig(logging_conf_path, disable_existing_loggers=False)
 
-log = logging.getLogger(__name__)
+def main():
+    app = create_app()
+    app.run(debug=True, use_reloader=False)
 
-blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
-api = Api(blueprint,
-          title="HtREST",
-          version="1.0",
-          description="Heliotherm heat pump REST API",
-          # All API metadatas
-          )
-api.add_namespace(ns1)
-
-
-#@api.errorhandler
-#def default_error_handler(e):
-#    message = "An unhandled exception occurred."
-#    log.exception(message)
-#    if not settings.FLASK_DEBUG:
-#        return {"message": message}, 500
+if __name__ == "__main__":
+    main()

@@ -20,21 +20,37 @@
 """ TODO """
 
 import logging
-from flask import request, current_app
-from flask_restplus import Namespace, Resource
+from flask import request
+from flask_restplus import Namespace, Resource, fields
+from htrest import hthp
 
 
 log = logging.getLogger(__name__)
 
 api = Namespace("faultlist", description="Operations related to the heat pump fault list")
 
+# [ { "index"   : 29,                     # fault list index
+#     "error"   : 20,                     # error code
+#     "datetime": datetime.datetime(...), # date and time of the entry
+#     "message" : "EQ_Spreizung",         # error message
+#     },
+#   # ...
+#   ]
+model = api.model("Model", {
+    "index":    fields.Integer,
+    "error":    fields.Integer,
+    "datetime": fields.DateTime,
+    "message" : fields.String,
+})
+
 
 @api.route("/")
 class FaultList(Resource):
+    @api.marshal_list_with(model)
     def get(self):
         """ TODO """
-        log.info("*** {!s} hthp={!r}".format(request.url, current_app.config["hthp"]))
-        return "test"
+        log.info("*** {!s}".format(request.url))
+        return hthp.get_fault_list()
 
 
 @api.route("/<int:id>")
