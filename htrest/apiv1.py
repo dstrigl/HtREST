@@ -20,7 +20,7 @@
 """ TODO """
 
 import logging
-from flask import Blueprint
+from flask import Blueprint, request
 from flask_restplus import Api
 #from htrest import settings
 from htrest.apis.faultlist import api as ns1
@@ -29,6 +29,16 @@ from htrest.apis.faultlist import api as ns1
 log = logging.getLogger(__name__)
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
+
+@blueprint.before_request
+def before_request():
+    log.info("*** before_request: " + __file__ + " " + str(request))
+
+@blueprint.after_request
+def after_request(response):
+    log.info("*** after_request: " + __file__ + " " + str(response))
+    return response
+
 api = Api(blueprint,
           title="HtREST",
           version="1.0",
@@ -37,10 +47,9 @@ api = Api(blueprint,
           )
 api.add_namespace(ns1)
 
-
-#@api.errorhandler
-#def default_error_handler(e):
-#    message = "An unhandled exception occurred."
-#    log.exception(message)
-#    if not settings.FLASK_DEBUG:
-#        return {"message": message}, 500
+@api.errorhandler
+def default_error_handler(e):
+    message = "An unhandled exception occurred."
+    log.exception("*** message: " + message)
+    #if not settings.FLASK_DEBUG:
+    #    return {"message": message}, 500
