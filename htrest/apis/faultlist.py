@@ -22,8 +22,7 @@
 import logging
 from flask import request
 from flask_restplus import Namespace, Resource, fields
-from htrest import hthp
-import datetime
+from htrest import ht_heatpump
 
 
 log = logging.getLogger(__name__)
@@ -38,10 +37,10 @@ api = Namespace("faultlist", description="Operations related to the heat pump fa
 #     "message" : "EQ_Spreizung",          # error message
 #     }
 #
-fault_list_entry = api.model("fault_list_entry", {
-    "index":    fields.Integer,
-    "error":    fields.Integer,
-    "datetime": fields.DateTime,
+fault_list_entry = api.model("fault_list_entry", {  # TODO
+    "index":    fields.Integer(min=0),
+    "error":    fields.Integer(min=0),
+    "datetime": fields.DateTime(dt_format="rfc822"),  # TODO
     "message":  fields.String,
 })
 
@@ -52,7 +51,7 @@ class FaultList(Resource):
     def get(self):
         """ Returns the fault list of the heat pump. """
         log.info("*** {!s}".format(request.url))
-        return hthp.get_fault_list()
+        return ht_heatpump.get_fault_list()
 
 
 @api.route("/<int:id>")
@@ -62,10 +61,10 @@ class FaultEntry(Resource):
     @api.marshal_with(fault_list_entry)
     def get(self, id):
         """ Returns the fault list entry with the given index. """
-        if id not in range(0, hthp.get_fault_list_size()):
+        if id not in range(0, ht_heatpump.get_fault_list_size()):
             api.abort(404, "Fault list entry #{:d} not found".format(id))
         log.info("*** {!s} -- id={:d}".format(request.url, id))
-        return hthp.get_fault_list(id)
+        return ht_heatpump.get_fault_list(id)
 
 
 @api.route("/last")
@@ -74,6 +73,6 @@ class LastFault(Resource):
     def get(self):
         """ Returns the last fault list entry of the heat pump. """
         log.info("*** {!s}".format(request.url))
-        idx, err, dt, msg = hthp.get_last_fault()
+        idx, err, dt, msg = ht_heatpump.get_last_fault()
         #idx, err, dt, msg = (29, 20, datetime.datetime.now(), "EQ_Spreizung")
         return {"index": idx, "error": err, "datetime": dt, "message": msg}

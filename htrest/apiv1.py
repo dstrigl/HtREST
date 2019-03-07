@@ -20,24 +20,16 @@
 """ TODO """
 
 import logging
-from flask import Blueprint, request, current_app
+from flask import Blueprint, request
 from flask_restplus import Api
-#from htrest import settings
+from htrest import ht_heatpump
 from htrest.apis.faultlist import api as ns1
+from htrest.apis.device import api as ns2
 
 
 log = logging.getLogger(__name__)
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
-
-@blueprint.before_request
-def before_request():
-    log.info("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
-
-@blueprint.after_request
-def after_request(response):
-    log.info("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
-    return response
 
 api = Api(blueprint,
           title="HtREST",
@@ -46,10 +38,32 @@ api = Api(blueprint,
           # All API metadatas
           )
 api.add_namespace(ns1)
+api.add_namespace(ns2)
+
+
+@blueprint.before_request
+def before_request():
+    log.info("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
+    ht_heatpump.reconnect()
+    ht_heatpump.login()
+    # TODO exception handling?
+
+
+@blueprint.after_request
+def after_request(response):
+    log.info("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
+    return response
+
+
+@blueprint.teardown_request
+def teardown_request(exc):
+    log.info("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
+    ht_heatpump.logout()
+
 
 @api.errorhandler
 def default_error_handler(ex):
     #log.exception("*** @api.errorhandler -- {!s}".format(ex))
     log.error("*** @api.errorhandler -- {!s}".format(ex))
-    if not current_app.debug:
-        return {"message": str(ex)}, 500
+    #if not current_app.debug:
+    return {"message": str(ex)}, 500
