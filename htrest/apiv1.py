@@ -44,9 +44,9 @@ api.add_namespace(ns2)
 @blueprint.before_request
 def before_request():
     log.info("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
-    ht_heatpump.reconnect()
-    ht_heatpump.login()
-    # TODO exception handling?
+    #ht_heatpump.reconnect()
+    #ht_heatpump.login()
+    # TODO exception handling? call reconnect/login ONLY for registered routes!
 
 
 @blueprint.after_request
@@ -63,7 +63,11 @@ def teardown_request(exc):
 
 @api.errorhandler
 def default_error_handler(ex):
-    #log.exception("*** @api.errorhandler -- {!s}".format(ex))
-    log.error("*** @api.errorhandler -- {!s}".format(ex))
+    message = str(ex)
+    # remove leading and trailing '"' in case of a KeyError
+    if message.startswith('"') and message.endswith('"'):
+        message = message[1:-1]
+    #log.exception("*** @api.errorhandler -- {}".format(message))
+    log.error("*** @api.errorhandler -- {}".format(message))
     #if not current_app.debug:
-    return {"message": str(ex)}, 500
+    return {"message": str(message)}, 500

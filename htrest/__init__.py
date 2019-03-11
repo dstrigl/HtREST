@@ -32,11 +32,11 @@ def create_app():
     global ht_heatpump
     ht_heatpump = HtHeatpump("/dev/ttyUSB0", baudrate=115200)
     print(ht_heatpump)
-    ht_heatpump.open_connection()
-    ht_heatpump.login()
-    print("connected to heat pump with serial number {:d}".format(ht_heatpump.get_serial_number()))
-    print("software version = {} ({:d})".format(*ht_heatpump.get_version()))
-    ht_heatpump.logout()
+    #ht_heatpump.open_connection()
+    #ht_heatpump.login()
+    #print("connected to heat pump with serial number {:d}".format(ht_heatpump.get_serial_number()))
+    #print("software version = {} ({:d})".format(*ht_heatpump.get_version()))
+    #ht_heatpump.logout()
 
     app = Flask(__name__)
     app.config["SERVER_NAME"] = settings.FLASK_SERVER_NAME
@@ -44,7 +44,7 @@ def create_app():
     app.config["RESTPLUS_VALIDATE"] = settings.RESTPLUS_VALIDATE
     app.config["RESTPLUS_MASK_SWAGGER"] = settings.RESTPLUS_MASK_SWAGGER
     app.config["ERROR_404_HELP"] = settings.RESTPLUS_ERROR_404_HELP
-    app.logger.info("*** {!s} -- {!s}".format(app, ht_heatpump))  # TODO
+    app.logger.info("*** {!s} -- {!s}".format(app, ht_heatpump))  # TODO log
 
     from htrest.apiv1 import blueprint as apiv1
     app.register_blueprint(apiv1)
