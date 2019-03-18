@@ -23,27 +23,32 @@ import logging
 from flask import request
 from flask_restplus import Namespace, Resource, fields
 from htrest import ht_heatpump
+from htheatpump.htparams import HtParams
 
 
-log = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 api = Namespace("device", description="Delivers information about the connected heat pump")
 
-device = api.model("device", {  # TODO
-    "property_id":      fields.Integer(min=0, title="*title*", description="*description*", required=True, readonly=True, example=123),
-    "serial_number":    fields.Integer(min=0),
-    "software_version": fields.String,
+device_model = api.model("device_model", {
+    "property_id":      fields.Integer(min=0, description="property number of the heat pump",
+                                       required=True, readonly=True, example=123456),  # TODO
+    "serial_number":    fields.Integer(min=0, description="serial number of the heat pump",
+                                       required=True, readonly=True, example=123456),  # TODO
+    "software_version": fields.String(description="software version of the heat pump",
+                                      required=True, readonly=True, example="3.0.20"),
     # ... TODO add some more properties?
 })
 
 
 @api.route("/")
 class Device(Resource):
-    @api.marshal_with(device)
+    @api.marshal_with(device_model)
     def get(self):
         """ Returns the properties of the heat pump. """
-        log.info("*** {!s}".format(request.url))
-        property_id = ht_heatpump.get_param("Liegenschaft")
+        assert ht_heatpump is not None
+        _logger.info("*** {!s}".format(request.url))
+        property_id = ht_heatpump.get_param("Liegenschaft") if "Liegenschaft" in HtParams else 0  # TODO
         serial_number = ht_heatpump.get_serial_number()
         software_version, _ = ht_heatpump.get_version()
         return {"property_id": property_id, "serial_number": serial_number, "software_version": software_version}

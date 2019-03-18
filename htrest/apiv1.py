@@ -23,11 +23,12 @@ import logging
 from flask import Blueprint, request
 from flask_restplus import Api
 from htrest import ht_heatpump
-from htrest.apis.faultlist import api as ns1
+from htrest.apis.fault_list import api as ns1
 from htrest.apis.device import api as ns2
+from htrest.apis.date_time import api as ns3
 
 
-log = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
 
@@ -39,11 +40,12 @@ api = Api(blueprint,
           )
 api.add_namespace(ns1)
 api.add_namespace(ns2)
+api.add_namespace(ns3)
 
 
 @blueprint.before_request
 def before_request():
-    log.info("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
+    _logger.info("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
     #ht_heatpump.reconnect()
     #ht_heatpump.login()
     # TODO exception handling? call reconnect/login ONLY for registered routes!
@@ -51,13 +53,13 @@ def before_request():
 
 @blueprint.after_request
 def after_request(response):
-    log.info("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
+    _logger.info("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
     return response
 
 
 @blueprint.teardown_request
 def teardown_request(exc):
-    log.info("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
+    _logger.info("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
     ht_heatpump.logout()
 
 
@@ -65,9 +67,9 @@ def teardown_request(exc):
 def default_error_handler(ex):
     message = str(ex)
     # remove leading and trailing '"' in case of a KeyError
-    if message.startswith('"') and message.endswith('"'):
+    if isinstance(ex, KeyError) and message.startswith('"') and message.endswith('"'):
         message = message[1:-1]
-    #log.exception("*** @api.errorhandler -- {}".format(message))
-    log.error("*** @api.errorhandler -- {}".format(message))
+    #_logger.exception("*** @api.errorhandler -- {}".format(message))
+    _logger.error("*** @api.errorhandler -- {}".format(message))
     #if not current_app.debug:
     return {"message": str(message)}, 500

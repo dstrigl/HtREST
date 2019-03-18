@@ -25,7 +25,7 @@ from flask_restplus import Namespace, Resource, fields
 from htrest import ht_heatpump
 
 
-log = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
 api = Namespace("faultlist", description="Operations related to the heat pump fault list")
 
@@ -37,20 +37,22 @@ api = Namespace("faultlist", description="Operations related to the heat pump fa
 #     "message" : "EQ_Spreizung",          # error message
 #     }
 #
-fault_list_entry = api.model("fault_list_entry", {  # TODO
-    "index":    fields.Integer(min=0),
-    "error":    fields.Integer(min=0),
-    "datetime": fields.DateTime(dt_format="rfc822"),  # TODO
-    "message":  fields.String,
+fault_list_entry_model = api.model("fault_list_entry_model", {
+    "index":    fields.Integer(min=0, description="fault list index", required=True, readonly=True, example=1),
+    "error":    fields.Integer(min=0, description="error code", required=True, readonly=True, example=20),
+    "datetime": fields.DateTime(dt_format="iso8601", description="date and time of the error (in ISO 8601)",
+                                required=True, readonly=True, example="2000-01-01T00:00:20"),  # TODO
+    "message":  fields.String(description="error message", required=True, readonly=True, example="EQ_Spreizung"),
 })
 
 
 @api.route("/")
 class FaultList(Resource):
-    @api.marshal_list_with(fault_list_entry)
+    @api.marshal_list_with(fault_list_entry_model)
     def get(self):
         """ Returns the fault list of the heat pump. """
-        log.info("*** {!s}".format(request.url))
+        assert ht_heatpump is not None
+        _logger.info("*** {!s}".format(request.url))
         return ht_heatpump.get_fault_list()
 
 
@@ -58,21 +60,23 @@ class FaultList(Resource):
 @api.param("id", "The fault list index")
 @api.response(404, "Fault list entry not found")
 class FaultEntry(Resource):
-    @api.marshal_with(fault_list_entry)
+    @api.marshal_with(fault_list_entry_model)
     def get(self, id):
         """ Returns the fault list entry with the given index. """
+        assert ht_heatpump is not None
         if id not in range(0, ht_heatpump.get_fault_list_size()):
             api.abort(404, "Fault list entry #{:d} not found".format(id))
-        log.info("*** {!s} -- id={:d}".format(request.url, id))
+        _logger.info("*** {!s} -- id={:d}".format(request.url, id))
         return ht_heatpump.get_fault_list(id)
 
 
 @api.route("/last")
 class LastFault(Resource):
-    @api.marshal_with(fault_list_entry)
+    @api.marshal_with(fault_list_entry_model)
     def get(self):
         """ Returns the last fault list entry of the heat pump. """
-        log.info("*** {!s}".format(request.url))
+        assert ht_heatpump is not None
+        _logger.info("*** {!s}".format(request.url))
         idx, err, dt, msg = ht_heatpump.get_last_fault()
-        #idx, err, dt, msg = (29, 20, datetime.datetime.now(), "EQ_Spreizung")
+        # e.g.: idx, err, dt, msg = (29, 20, datetime.datetime.now(), "EQ_Spreizung")
         return {"index": idx, "error": err, "datetime": dt, "message": msg}
