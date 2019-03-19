@@ -31,12 +31,12 @@ _logger = logging.getLogger(__name__)
 api = Namespace("datetime", description="Operations related to the date and time of the heat pump")
 
 date_time_model = api.model("date_time_model", {
-    "datetime": fields.DateTime(dt_format="iso8601", description="current date and time of the heat pump (in ISO 8601)",
+    "datetime": fields.DateTime(dt_format="iso8601", description="current date and time of the heat pump",
                                 required=True, example=datetime.now().isoformat()),
 })
 
 parser = reqparse.RequestParser()
-parser.add_argument("datetime", type=str, location="json", help="current date and time of the heat pump (in ISO 8601)")
+parser.add_argument("datetime", type=str, location="json", help="current date and time of the heat pump")
 
 
 @api.route("/")
@@ -45,9 +45,10 @@ class DateTime(Resource):
     def get(self):
         """ Returns the current date and time of the heat pump. """
         assert ht_heatpump is not None
+        assert ht_heatpump.is_open
         _logger.info("*** {!s}".format(request.url))
-        #dt, _ = ht_heatpump.get_date_time()
-        dt = datetime.now()  # TODO
+        #dt, _ = ht_heatpump.get_date_time()  # TODO
+        dt = datetime.now()
         return {"datetime": dt}
 
     @api.expect(date_time_model)
@@ -55,11 +56,12 @@ class DateTime(Resource):
     def put(self):
         """ Sets the current date and time of the heat pump. """
         assert ht_heatpump is not None
+        assert ht_heatpump.is_open
         _logger.info("*** {!s}".format(request.url))
         args = parser.parse_args(strict=True)
         dt = args["datetime"]
         if not dt:
-            dt = datetime.now()
+            dt = datetime.now()  # if 'dt' is empty, use the current system time
         else:
             dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S.%f")
         #dt, _ = ht_heatpump.set_date_time(dt)  # TODO

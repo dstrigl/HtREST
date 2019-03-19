@@ -37,7 +37,7 @@ device_model = api.model("device_model", {
                                        required=True, readonly=True, example=123456),  # TODO
     "software_version": fields.String(description="software version of the heat pump",
                                       required=True, readonly=True, example="3.0.20"),
-    # ... TODO add some more properties?
+    # TODO add some more properties?
 })
 
 
@@ -47,6 +47,7 @@ class Device(Resource):
     def get(self):
         """ Returns the properties of the heat pump. """
         assert ht_heatpump is not None
+        assert ht_heatpump.is_open
         _logger.info("*** {!s}".format(request.url))
         property_id = ht_heatpump.get_param("Liegenschaft") if "Liegenschaft" in HtParams else 0  # TODO
         serial_number = ht_heatpump.get_serial_number()

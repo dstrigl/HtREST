@@ -61,15 +61,17 @@ def after_request(response):
 def teardown_request(exc):
     _logger.info("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
     ht_heatpump.logout()
+    # TODO call logout ONLY for registered routes!
 
 
 @api.errorhandler
 def default_error_handler(ex):
-    message = str(ex)
+    msg = str(ex)
     # remove leading and trailing '"' in case of a KeyError
-    if isinstance(ex, KeyError) and message.startswith('"') and message.endswith('"'):
-        message = message[1:-1]
-    #_logger.exception("*** @api.errorhandler -- {}".format(message))
-    _logger.error("*** @api.errorhandler -- {}".format(message))
+    #   see: https://stackoverflow.com/questions/24998968/why-does-strkeyerror-add-extra-quotes
+    if isinstance(ex, KeyError) and msg.startswith('"') and msg.endswith('"'):
+        msg = msg[1:-1]
+    #_logger.exception("*** @api.errorhandler -- {}".format(msg))
+    _logger.error("*** @api.errorhandler -- {}".format(msg))
     #if not current_app.debug:
-    return {"message": str(message)}, 500
+    return {"message": str(msg)}, 500

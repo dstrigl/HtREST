@@ -40,8 +40,8 @@ api = Namespace("faultlist", description="Operations related to the heat pump fa
 fault_list_entry_model = api.model("fault_list_entry_model", {
     "index":    fields.Integer(min=0, description="fault list index", required=True, readonly=True, example=1),
     "error":    fields.Integer(min=0, description="error code", required=True, readonly=True, example=20),
-    "datetime": fields.DateTime(dt_format="iso8601", description="date and time of the error (in ISO 8601)",
-                                required=True, readonly=True, example="2000-01-01T00:00:20"),  # TODO
+    "datetime": fields.DateTime(dt_format="iso8601", description="date and time of the error",
+                                required=True, readonly=True, example="2000-01-01T00:00:20"),  # TODO example
     "message":  fields.String(description="error message", required=True, readonly=True, example="EQ_Spreizung"),
 })
 
@@ -52,6 +52,7 @@ class FaultList(Resource):
     def get(self):
         """ Returns the fault list of the heat pump. """
         assert ht_heatpump is not None
+        assert ht_heatpump.is_open
         _logger.info("*** {!s}".format(request.url))
         return ht_heatpump.get_fault_list()
 
@@ -64,6 +65,7 @@ class FaultEntry(Resource):
     def get(self, id):
         """ Returns the fault list entry with the given index. """
         assert ht_heatpump is not None
+        assert ht_heatpump.is_open
         if id not in range(0, ht_heatpump.get_fault_list_size()):
             api.abort(404, "Fault list entry #{:d} not found".format(id))
         _logger.info("*** {!s} -- id={:d}".format(request.url, id))
@@ -76,6 +78,7 @@ class LastFault(Resource):
     def get(self):
         """ Returns the last fault list entry of the heat pump. """
         assert ht_heatpump is not None
+        assert ht_heatpump.is_open
         _logger.info("*** {!s}".format(request.url))
         idx, err, dt, msg = ht_heatpump.get_last_fault()
         # e.g.: idx, err, dt, msg = (29, 20, datetime.datetime.now(), "EQ_Spreizung")
