@@ -46,9 +46,13 @@ api.add_namespace(ns3)
 @blueprint.before_request
 def before_request():
     _logger.info("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
-    #ht_heatpump.reconnect()
-    #ht_heatpump.login()
-    # TODO exception handling? call reconnect/login ONLY for registered routes!
+    try:
+        ht_heatpump.reconnect()
+        ht_heatpump.login()
+    except Exception as ex:
+        _logger.error(ex)
+        #raise  # TODO
+    # TODO call reconnect/login ONLY for registered routes!
 
 
 @blueprint.after_request

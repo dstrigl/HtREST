@@ -51,8 +51,8 @@ class FaultList(Resource):
     @api.marshal_list_with(fault_list_entry_model)
     def get(self):
         """ Returns the fault list of the heat pump. """
-        assert ht_heatpump is not None
-        assert ht_heatpump.is_open
+        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
         return ht_heatpump.get_fault_list()
 
@@ -64,8 +64,8 @@ class FaultEntry(Resource):
     @api.marshal_with(fault_list_entry_model)
     def get(self, id):
         """ Returns the fault list entry with the given index. """
-        assert ht_heatpump is not None
-        assert ht_heatpump.is_open
+        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if id not in range(0, ht_heatpump.get_fault_list_size()):
             api.abort(404, "Fault list entry #{:d} not found".format(id))
         _logger.info("*** {!s} -- id={:d}".format(request.url, id))
@@ -77,8 +77,8 @@ class LastFault(Resource):
     @api.marshal_with(fault_list_entry_model)
     def get(self):
         """ Returns the last fault list entry of the heat pump. """
-        assert ht_heatpump is not None
-        assert ht_heatpump.is_open
+        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
         idx, err, dt, msg = ht_heatpump.get_last_fault()
         # e.g.: idx, err, dt, msg = (29, 20, datetime.datetime.now(), "EQ_Spreizung")
