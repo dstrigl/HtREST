@@ -35,8 +35,8 @@ date_time_model = api.model("date_time_model", {
                                 required=True, example=datetime.now().isoformat()),
 })
 
-parser = reqparse.RequestParser()
-parser.add_argument("datetime", type=str, location="json", help="current date and time of the heat pump")
+date_time_parser = reqparse.RequestParser()
+date_time_parser.add_argument("datetime", type=str, location="json", help="current date and time of the heat pump")
 
 
 @api.route("/")
@@ -57,7 +57,7 @@ class DateTime(Resource):
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
-        args = parser.parse_args(strict=True)
+        args = date_time_parser.parse_args(strict=True)
         dt = args["datetime"]
         if not dt:  # if 'dt' is empty, use the current system time!
             dt = datetime.now()

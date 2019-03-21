@@ -21,7 +21,7 @@
 
 import logging
 from flask import request
-from flask_restplus import Namespace, Resource, fields
+from flask_restplus import Namespace, Resource, fields, reqparse
 from htheatpump.htparams import HtDataTypes, HtParams
 from htrest import ht_heatpump
 
@@ -48,6 +48,9 @@ param_model = api.model("param_model", {
     "value": fields.Raw(required=True, description="parameter value")
 })
 
+param_value_parser = reqparse.RequestParser()
+param_value_parser.add_argument("value", location="json", help="parameter value")
+
 
 @api.route("/")
 class ParamList(Resource):
@@ -73,3 +76,16 @@ class Param(Resource):
             api.abort(404, "Parameter '{}' not found".format(name))
         _logger.info("*** {!s} -- name={}".format(request.url, name))
         return {"value": 0}  # TODO
+
+    @api.expect(param_model, validate=True)  # BUG validate=...
+    @api.marshal_with(param_model)
+    def put(self, name):
+        """ TODO """
+        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
+        #assert ht_heatpump.is_open, "serial connection to heat pump not established"
+        if name not in HtParams:
+            api.abort(404, "Parameter '{}' not found".format(name))
+        args = param_value_parser.parse_args(strict=True)
+        value = args["value"]
+        _logger.info("*** {!s} -- name={}, value={!s}".format(request.url, name, value))
+        return {"value": value}  # TODO
