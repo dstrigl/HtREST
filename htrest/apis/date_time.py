@@ -45,9 +45,10 @@ class DateTime(Resource):
     def get(self):
         """ Returns the current date and time of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
+        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
         _logger.info("*** {!s}".format(request.url))
-        dt, _ = ht_heatpump.get_date_time()
+        #dt, _ = ht_heatpump.get_date_time()  # TODO
+        dt = datetime.now()
         return {"datetime": dt}
 
     @api.expect(date_time_model)
@@ -55,7 +56,7 @@ class DateTime(Resource):
     def put(self):
         """ Sets the current date and time of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
+        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
         _logger.info("*** {!s}".format(request.url))
         args = date_time_parser.parse_args(strict=True)
         dt = args["datetime"]
@@ -63,5 +64,5 @@ class DateTime(Resource):
             dt = datetime.now()
         else:
             dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S.%f")
-        dt, _ = ht_heatpump.set_date_time(dt)
+        #dt, _ = ht_heatpump.set_date_time(dt)  # TODO
         return {"datetime": dt}

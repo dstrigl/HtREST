@@ -40,7 +40,7 @@ def dt_to_field(p):
     assert False
 
 
-api = Namespace("param", description="Operations related to the heat pump parameters")
+api = Namespace("param", description="Operations related to the heat pump parameters", validate=False)  # TODO
 
 param_models = {name: dt_to_field(param) for name, param in HtParams.items()}
 param_list_model = api.model("param_list_model", param_models)
@@ -74,18 +74,22 @@ class Param(Resource):
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
-        _logger.info("*** {!s} -- name={}".format(request.url, name))
+        _logger.info("*** {!s} -- name='{}'".format(request.url, name))
+        #return {"value": ht_heatpump.get_param(name)}
         return {"value": 0}  # TODO
 
-    @api.expect(param_model, validate=True)  # BUG validate=...
+    @api.expect(param_model, validate=False)  # BUG: "validate=False" (see flask-restplus issue #609)
     @api.marshal_with(param_model)
     def put(self, name):
-        """ TODO """
+        """ Sets the current value of a specific heat pump parameter. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
         args = param_value_parser.parse_args(strict=True)
         value = args["value"]
-        _logger.info("*** {!s} -- name={}, value={!s}".format(request.url, name, value))
+        _logger.info("*** {!s} -- name='{}', value='{!s}', type='{!s}'".format(request.url, name, value, type(value)))
+        # convert the passed value to the corresponding data type
+        value = HtParams[name].from_str(value)
+        #return {"value": ht_heatpump.set_param(name, value)}
         return {"value": value}  # TODO
