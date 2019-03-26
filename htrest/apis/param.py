@@ -43,6 +43,9 @@ def dt_to_field(p):
 api = Namespace("param", description="Operations related to the heat pump parameters", validate=False)  # TODO
 
 param_models = {name: dt_to_field(param) for name, param in HtParams.items()}
+#  --> https://github.com/noirbizarre/flask-restplus/pull/604
+#param_models = {lambda obj: obj[name]: dt_to_field(param) for name, param in HtParams.items()}
+# 'lambda ...' --> workaround for field names with dots
 param_list_model = api.model("param_list_model", param_models)
 param_model = api.model("param_model", {
     "value": fields.Raw(required=True, description="parameter value")
@@ -60,7 +63,26 @@ class ParamList(Resource):
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
         _logger.info("*** {!s}".format(request.url))
-        return {name: param.min_val for name, param in HtParams.items()}  # TODO
+        result = {}
+        for name in HtParams.keys():
+            #value = ht_heatpump.get_param(name)  # TODO
+            value = HtParams[name].min_val
+            result.update({name: value})
+        return result
+
+    @api.expect(param_list_model, validate=False)  # BUG: "validate=False" (see flask-restplus issue #609)
+    @api.marshal_with(param_list_model)
+    def put(self):
+        """ TODO """
+        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
+        #assert ht_heatpump.is_open, "serial connection to heat pump not established"
+        payload = request.get_json()
+        _logger.info("*** {!s} -- payload={!s}".format(request.url, payload))
+        result = {}
+        for name, value in payload.items():
+            #ht_heatpump.set_param(name, value)  # TODO
+            result.update({name: value})
+        return result
 
 
 @api.route("/<string:name>")
@@ -89,6 +111,7 @@ class Param(Resource):
         args = param_value_parser.parse_args(strict=True)
         value = args["value"]
         _logger.info("*** {!s} -- name='{}', value='{!s}', type='{!s}'".format(request.url, name, value, type(value)))
+        assert isinstance(value, str)
         # convert the passed value to the corresponding data type
         value = HtParams[name].from_str(value)
         #return {"value": ht_heatpump.set_param(name, value)}
