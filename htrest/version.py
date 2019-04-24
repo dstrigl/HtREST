@@ -20,7 +20,7 @@
 """ TODO """
 
 
-class Version(object):
+class Version:
     """ Object which encapsulates the version information.
 
     :param package: Name of the package.
@@ -33,13 +33,13 @@ class Version(object):
     :type patch: int
     """
 
-    def __init__(self, package, major, minor, patch):
+    def __init__(self, package: str, major: int, minor: int, patch: int) -> None:
         self.package = package
         self.major = major
         self.minor = minor
         self.patch = patch
 
-    def short(self):
+    def short(self) -> str:
         """" Return a string in canonical short version format ``<major>.<minor>.<patch>``.
 
         :returns: A string in canonical short version format.
@@ -47,7 +47,7 @@ class Version(object):
         """
         return "{:d}.{:d}.{:d}".format(self.major, self.minor, self.patch)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """ Returns a string representation of the object.
 
         :returns: A string representation of this object.

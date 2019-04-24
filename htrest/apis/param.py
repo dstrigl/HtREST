@@ -23,7 +23,7 @@ import logging
 from flask import request
 from flask_restplus import Namespace, Resource, fields, reqparse
 from htheatpump.htparams import HtDataTypes, HtParams
-from htrest import ht_heatpump
+from htrest import ht_heatpump  # type: ignore
 
 _logger = logging.getLogger(__name__)
 

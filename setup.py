@@ -19,7 +19,7 @@ with open('HISTORY.rst') as history_file:
 requirements = [
     'htheatpump==1.1.0',
     'flask==1.0.2',
-    'flask_restplus==0.9.2',
+    'flask_restplus==0.12.1',
     # put package requirements here
 ]
 
@@ -97,7 +97,6 @@ setup(
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
 

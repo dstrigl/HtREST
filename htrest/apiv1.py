@@ -22,7 +22,7 @@
 import logging
 from flask import Blueprint, request
 from flask_restplus import Api
-from htrest import ht_heatpump
+from htrest import ht_heatpump  # type: ignore
 from htrest.apis.fault_list import api as ns1
 from htrest.apis.device import api as ns2
 from htrest.apis.date_time import api as ns3
