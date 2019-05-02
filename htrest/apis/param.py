@@ -29,9 +29,7 @@ _logger = logging.getLogger(__name__)
 
 
 def dt_to_field(p):
-    if p.data_type == HtDataTypes.STRING:
-        return fields.String(required=True)
-    elif p.data_type == HtDataTypes.BOOL:
+    if p.data_type == HtDataTypes.BOOL:
         return fields.Boolean(required=True)
     elif p.data_type == HtDataTypes.INT:
         return fields.Integer(required=True, min=p.min_val, max=p.max_val, example=p.min_val)
@@ -73,7 +71,7 @@ class ParamList(Resource):
     @api.expect(param_list_model, validate=False)  # BUG: "validate=False" (see flask-restplus issue #609)
     @api.marshal_with(param_list_model)
     def put(self):
-        """ TODO """
+        """ Sets the current value of several heat pump parameters. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"
         payload = request.get_json()
@@ -90,7 +88,7 @@ class ParamList(Resource):
 @api.response(404, "Parameter not found")
 class Param(Resource):
     @api.marshal_with(param_model)
-    def get(self, name):
+    def get(self, name: str):
         """ Returns the current value of a specific heat pump parameter. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"
@@ -102,7 +100,7 @@ class Param(Resource):
 
     @api.expect(param_model, validate=False)  # BUG: "validate=False" (see flask-restplus issue #609)
     @api.marshal_with(param_model)
-    def put(self, name):
+    def put(self, name: str):
         """ Sets the current value of a specific heat pump parameter. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"

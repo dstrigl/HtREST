@@ -23,10 +23,11 @@ import logging
 from flask import Blueprint, request
 from flask_restplus import Api
 from htrest import ht_heatpump  # type: ignore
-from htrest.apis.fault_list import api as ns1
-from htrest.apis.device import api as ns2
+from htrest.apis.device import api as ns1
+from htrest.apis.fault_list import api as ns2
 from htrest.apis.date_time import api as ns3
 from htrest.apis.param import api as ns4
+from htrest.apis.time_prog import api as ns5
 
 
 _logger = logging.getLogger(__name__)
@@ -43,6 +44,7 @@ api.add_namespace(ns1)
 api.add_namespace(ns2)
 api.add_namespace(ns3)
 api.add_namespace(ns4)
+api.add_namespace(ns5)
 
 
 @blueprint.before_request

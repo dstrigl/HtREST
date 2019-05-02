@@ -62,7 +62,7 @@ class FaultList(Resource):
 @api.response(404, "Fault list entry not found")
 class FaultEntry(Resource):
     @api.marshal_with(fault_list_entry_model)
-    def get(self, id):
+    def get(self, id: int):
         """ Returns the fault list entry with the given index. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
