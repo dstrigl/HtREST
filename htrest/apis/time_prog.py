@@ -43,17 +43,17 @@ time_prog_entry_model = api.model("time_prog_entry_model", {
 
 time_prog_model = api.model("time_prog_model", {
     "index"  : fields.Integer(min=0, description="index of the time program",
-                              required=True, readonly=True, example=1),
+                              required=False, readonly=True, example=1),
     "name"   : fields.String(description="name of the time program",
-                             required=True, readonly=True, example="Warmwasser"),
+                             required=False, readonly=True, example="Warmwasser"),
     "ead"    : fields.Integer(min=0, description="number of entries a day of the time program",
-                              required=True, readonly=True, example=7),
+                              required=False, readonly=True, example=7),
     "nos"    : fields.Integer(min=0, description="number of states of the time program",
-                              required=True, readonly=True, example=3),
+                              required=False, readonly=True, example=3),
     "ste"    : fields.Integer(min=0, description="step-size in minutes of the time program",
-                              required=True, readonly=True, example=15),
+                              required=False, readonly=True, example=15),
     "nod"    : fields.Integer(min=0, description="number of days of the time program",
-                              required=True, readonly=True, example=7),
+                              required=False, readonly=True, example=7),
     "entries": fields.List(fields.List(fields.Nested(time_prog_entry_model))),  # TODO min_items, max_items
 })
 
@@ -61,6 +61,18 @@ time_prog_entry_parser = reqparse.RequestParser()
 time_prog_entry_parser.add_argument("state", type=int, location="json", help="state of the time program entry")
 time_prog_entry_parser.add_argument("start", type=str, location="json", help="start-time of the time program entry")
 time_prog_entry_parser.add_argument("end", type=str, location="json", help="end-time of the time program entry")
+
+time_prog_parser = reqparse.RequestParser()
+#time_prog_parser.add_argument("index", type=int, location="json", help="index of the time program")
+#time_prog_parser.add_argument("name", type=str, location="json", help="name of the time program")
+#time_prog_parser.add_argument("ead", type=int, location="json", help="number of entries a day of the time program")
+#time_prog_parser.add_argument("nos", type=int, location="json", help="number of states of the time program")
+#time_prog_parser.add_argument("ste", type=int, location="json", help="step-size in minutes of the time program")
+#time_prog_parser.add_argument("nod", type=int, location="json", help="number of days of the time program")
+time_prog_parser.add_argument("entries", type=list, location="json")
+
+time_prog_day_entries_parser = reqparse.RequestParser()
+time_prog_day_entries_parser.add_argument("day_entries", type=list, location=lambda x: x)
 
 
 @api.route("/")
@@ -89,6 +101,18 @@ class TimeProg(Resource):
         #time_prog = ht_heatpump.get_time_prog(id)  # TODO
         time_prog = HtTimeProg(id, "Name{:d}".format(id), 10, 3, 15, 7)  # TODO
         return time_prog.as_json(with_entries=True)
+
+    @api.expect(time_prog_model)
+    @api.marshal_with(time_prog_model)
+    def put(self, id: int):
+        """ Sets all time program entries of a specific time program of the heat pump. """
+        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
+        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
+        _logger.info("*** {!s}".format(request.url))
+        args = time_prog_parser.parse_args(strict=True)
+        args = time_prog_day_entries_parser.parse_args(req=args, strict=True)
+        # TODO
+        return args
 
 
 @api.route("/<int:id>/<int:day>/<int:num>")

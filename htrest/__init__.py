@@ -53,6 +53,7 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888"):
     app.config["RESTPLUS_VALIDATE"] = settings.RESTPLUS_VALIDATE
     app.config["RESTPLUS_MASK_SWAGGER"] = settings.RESTPLUS_MASK_SWAGGER
     app.config["ERROR_404_HELP"] = settings.RESTPLUS_ERROR_404_HELP
+    app.config["BUNDLE_ERRORS"] = settings.RESTPLUS_BUNDLE_ERRORS
     _logger.info("*** created Flask app {!s} with config {!s}".format(app, app.config))
 
     from htrest.apiv1 import blueprint as apiv1
