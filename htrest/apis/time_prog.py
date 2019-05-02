@@ -34,11 +34,11 @@ api = Namespace("timeprog", description="Operations related to the time programs
 
 time_prog_entry_model = api.model("time_prog_entry_model", {
     "state": fields.Integer(min=0, description="state of the time program entry",
-                            required=True, readonly=True, example=1),
-    "start": fields.String(description="start time of the time program entry",
-                           required=True, readonly=True, example="09:45"),
-    "end"  : fields.String(description="end time of the time program entry",
-                           required=True, readonly=True, example="11:15"),
+                            required=True, example=1),
+    "start": fields.String(description="start-time of the time program entry",
+                           required=True, example="09:45"),
+    "end"  : fields.String(description="end-time of the time program entry",
+                           required=True, example="11:15"),
 })
 
 time_prog_model = api.model("time_prog_model", {
