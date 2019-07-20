@@ -21,9 +21,9 @@
 
 import logging
 from flask import request
-from flask_restplus import Namespace, Resource, fields, reqparse
+from flask_restplus import Namespace, Resource, fields
 from datetime import datetime
-from htrest import ht_heatpump   # type: ignore
+from htrest import ht_heatpump  # type: ignore
 
 
 _logger = logging.getLogger(__name__)
@@ -34,9 +34,6 @@ date_time_model = api.model("date_time_model", {
     "datetime": fields.DateTime(dt_format="iso8601", description="current date and time of the heat pump",
                                 required=True, example=datetime.now().isoformat()),
 })
-
-date_time_parser = reqparse.RequestParser()
-date_time_parser.add_argument("datetime", type=str, location="json", help="current date and time of the heat pump")
 
 
 @api.route("/")
@@ -51,15 +48,14 @@ class DateTime(Resource):
         dt = datetime.now()
         return {"datetime": dt}
 
-    @api.expect(date_time_model)
+    @api.expect(date_time_model, validate=True)
     @api.marshal_with(date_time_model)
     def put(self):
         """ Sets the current date and time of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
         _logger.info("*** {!s}".format(request.url))
-        args = date_time_parser.parse_args(strict=True)
-        dt = args["datetime"]
+        dt = api.payload["datetime"]
         if not dt:  # if 'dt' is empty, use the current system time!
             dt = datetime.now()
         else:

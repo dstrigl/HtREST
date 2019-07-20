@@ -21,11 +21,11 @@
 
 import logging
 from flask import request
-from flask_restplus import Namespace, Resource, fields, reqparse
+from flask_restplus import Namespace, Resource, fields
 from htheatpump.httimeprog import TimeProgram as HtTimeProg
 from htheatpump.httimeprog import TimeProgEntry as HtTimeProgEntry
 from htheatpump.httimeprog import TimeProgPeriod as HtTimeProgPeriod
-from htrest import ht_heatpump   # type: ignore
+from htrest import ht_heatpump  # type: ignore
 
 
 _logger = logging.getLogger(__name__)
@@ -57,23 +57,6 @@ time_prog_model = api.model("time_prog_model", {
     "entries": fields.List(fields.List(fields.Nested(time_prog_entry_model))),  # TODO min_items, max_items
 })
 
-time_prog_entry_parser = reqparse.RequestParser()
-time_prog_entry_parser.add_argument("state", type=int, location="json", help="state of the time program entry")
-time_prog_entry_parser.add_argument("start", type=str, location="json", help="start-time of the time program entry")
-time_prog_entry_parser.add_argument("end", type=str, location="json", help="end-time of the time program entry")
-
-time_prog_parser = reqparse.RequestParser()
-#time_prog_parser.add_argument("index", type=int, location="json", help="index of the time program")
-#time_prog_parser.add_argument("name", type=str, location="json", help="name of the time program")
-#time_prog_parser.add_argument("ead", type=int, location="json", help="number of entries a day of the time program")
-#time_prog_parser.add_argument("nos", type=int, location="json", help="number of states of the time program")
-#time_prog_parser.add_argument("ste", type=int, location="json", help="step-size in minutes of the time program")
-#time_prog_parser.add_argument("nod", type=int, location="json", help="number of days of the time program")
-time_prog_parser.add_argument("entries", type=list, location="json")
-
-time_prog_day_entries_parser = reqparse.RequestParser()
-time_prog_day_entries_parser.add_argument("day_entries", type=list, location=lambda x: x)
-
 
 @api.route("/")
 class TimeProgs(Resource):
@@ -102,17 +85,16 @@ class TimeProg(Resource):
         time_prog = HtTimeProg(id, "Name{:d}".format(id), 10, 3, 15, 7)  # TODO
         return time_prog.as_json(with_entries=True)
 
-    @api.expect(time_prog_model)
+    @api.expect(time_prog_model, validate=True)
     @api.marshal_with(time_prog_model)
     def put(self, id: int):
         """ Sets all time program entries of a specific time program of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
         _logger.info("*** {!s}".format(request.url))
-        args = time_prog_parser.parse_args(strict=True)
-        args = time_prog_day_entries_parser.parse_args(req=args, strict=True)
+        payload = api.payload
         # TODO
-        return args
+        return payload
 
 
 @api.route("/<int:id>/<int:day>/<int:num>")
@@ -131,14 +113,14 @@ class TimeProgEntry(Resource):
         entry = HtTimeProgEntry(0, HtTimeProgPeriod(0, 0, 0, 0))  # TODO
         return entry.as_json()
 
-    @api.expect(time_prog_entry_model)
+    @api.expect(time_prog_entry_model, validate=True)
     @api.marshal_with(time_prog_entry_model)
     def put(self, id: int, day: int, num: int):
         """ Sets a specific time program entry of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
         _logger.info("*** {!s}".format(request.url))
-        args = time_prog_entry_parser.parse_args(strict=True)
-        entry = HtTimeProgEntry(args["state"], HtTimeProgPeriod.from_str(args["start"], args["end"]))
+        entry = HtTimeProgEntry(api.payload["state"],
+                                HtTimeProgPeriod.from_str(api.payload["start"], api.payload["end"]))
         #entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)  # TODO
         return entry.as_json()

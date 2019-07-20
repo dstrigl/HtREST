@@ -21,7 +21,7 @@
 
 import logging
 from flask import request
-from flask_restplus import Namespace, Resource, fields, reqparse
+from flask_restplus import Namespace, Resource, fields
 from htheatpump.htparams import HtDataTypes, HtParams
 from htrest import ht_heatpump  # type: ignore
 
@@ -49,9 +49,6 @@ param_model = api.model("param_model", {
     "value": fields.Raw(required=True, description="parameter value")
 })
 
-param_value_parser = reqparse.RequestParser()
-param_value_parser.add_argument("value", location="json", help="parameter value")
-
 
 @api.route("/")
 class ParamList(Resource):
@@ -74,10 +71,9 @@ class ParamList(Resource):
         """ Sets the current value of several heat pump parameters. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        payload = request.get_json()
-        _logger.info("*** {!s} -- payload={!s}".format(request.url, payload))
+        _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))
         result = {}
-        for name, value in payload.items():
+        for name, value in api.payload.items():
             #ht_heatpump.set_param(name, value)  # TODO
             result.update({name: value})
         return result
@@ -106,11 +102,10 @@ class Param(Resource):
         #assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
-        args = param_value_parser.parse_args(strict=True)
-        value = args["value"]
+        value = api.payload["value"]
         _logger.info("*** {!s} -- name='{}', value='{!s}', type='{!s}'".format(request.url, name, value, type(value)))
-        assert isinstance(value, str)
+        #assert isinstance(value, str)
         # convert the passed value to the corresponding data type
-        value = HtParams[name].from_str(value)
+        #value = HtParams[name].from_str(value) TODO
         #return {"value": ht_heatpump.set_param(name, value)}
         return {"value": value}  # TODO
