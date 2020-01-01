@@ -56,6 +56,10 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888"):
     app.config["BUNDLE_ERRORS"] = settings.RESTPLUS_BUNDLE_ERRORS
     _logger.info("*** created Flask app {!s} with config {!s}".format(app, app.config))
 
+    @app.before_first_request
+    def before_first_request():
+        _logger.info("*** @app.before_first_request -- {}".format(__file__))
+
     from htrest.apiv1 import blueprint as apiv1
     app.register_blueprint(apiv1)
 
