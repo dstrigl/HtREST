@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #  HtREST - Heliotherm heat pump REST API
-#  Copyright (C) 2019  Daniel Strigl
+#  Copyright (C) 2020  Daniel Strigl
 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -42,10 +42,10 @@ class DateTime(Resource):
     def get(self):
         """ Returns the current date and time of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
-        #dt, _ = ht_heatpump.get_date_time()  # TODO
-        dt = datetime.now()
+        dt, _ = ht_heatpump.get_date_time()
+        #dt = datetime.now()
         return {"datetime": dt}
 
     @api.expect(date_time_model, validate=True)
@@ -53,12 +53,12 @@ class DateTime(Resource):
     def put(self):
         """ Sets the current date and time of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
         dt = api.payload["datetime"]
         if not dt:  # if 'dt' is empty, use the current system time!
             dt = datetime.now()
         else:
             dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S.%f")
-        #dt, _ = ht_heatpump.set_date_time(dt)  # TODO
+        dt, _ = ht_heatpump.set_date_time(dt)
         return {"datetime": dt}

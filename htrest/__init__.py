@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #  HtREST - Heliotherm heat pump REST API
-#  Copyright (C) 2019  Daniel Strigl
+#  Copyright (C) 2020  Daniel Strigl
 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888"):
         ht_heatpump.logout()
     except Exception as ex:
         _logger.error(ex)
-        #raise  # TODO
+        raise
 
     # create the Flask app
     app = Flask(__name__)

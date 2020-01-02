@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #  HtREST - Heliotherm heat pump REST API
-#  Copyright (C) 2019  Daniel Strigl
+#  Copyright (C) 2020  Daniel Strigl
 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ def before_request():
         ht_heatpump.login()
     except Exception as ex:
         _logger.error(ex)
-        #raise  # TODO
+        raise
     # TODO call reconnect/login ONLY for registered routes!
 
 

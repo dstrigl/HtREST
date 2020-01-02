@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #  HtREST - Heliotherm heat pump REST API
-#  Copyright (C) 2019  Daniel Strigl
+#  Copyright (C) 2020  Daniel Strigl
 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -56,12 +56,12 @@ class ParamList(Resource):
     def get(self):
         """ Returns the list of heat pump parameters with their current value. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
         result = {}
         for name in HtParams.keys():
-            #value = ht_heatpump.get_param(name)  # TODO
-            value = HtParams[name].min_val
+            value = ht_heatpump.get_param(name)
+            #value = HtParams[name].min_val
             result.update({name: value})
         return result
 
@@ -70,7 +70,7 @@ class ParamList(Resource):
     def put(self):
         """ Sets the current value of several heat pump parameters. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))
         result = {}
         for name, value in api.payload.items():
@@ -87,25 +87,25 @@ class Param(Resource):
     def get(self, name: str):
         """ Returns the current value of a specific heat pump parameter. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
         _logger.info("*** {!s} -- name='{}'".format(request.url, name))
-        #return {"value": ht_heatpump.get_param(name)}
-        return {"value": 0}  # TODO
+        return {"value": ht_heatpump.get_param(name)}
+        #return {"value": 0}
 
     @api.expect(param_model, validate=False)  # BUG: "validate=False" (see flask-restplus issue #609)
     @api.marshal_with(param_model)
     def put(self, name: str):
         """ Sets the current value of a specific heat pump parameter. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
         value = api.payload["value"]
         _logger.info("*** {!s} -- name='{}', value='{!s}', type='{!s}'".format(request.url, name, value, type(value)))
-        #assert isinstance(value, str)
+        assert isinstance(value, str)
         # convert the passed value to the corresponding data type
-        #value = HtParams[name].from_str(value) TODO
-        #return {"value": ht_heatpump.set_param(name, value)}
-        return {"value": value}  # TODO
+        value = HtParams[name].from_str(value)
+        #return {"value": ht_heatpump.set_param(name, value)}  # TODO
+        return {"value": value}

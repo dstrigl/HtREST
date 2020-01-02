@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #  HtREST - Heliotherm heat pump REST API
-#  Copyright (C) 2019  Daniel Strigl
+#  Copyright (C) 2020  Daniel Strigl
 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -64,10 +64,10 @@ class TimeProgs(Resource):
     def get(self):
         """ Returns a list of all available time programs of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
-        #time_progs = ht_heatpump.get_time_progs()  # TODO
-        time_progs = [HtTimeProg(idx, "Name{:d}".format(idx), 10, 3, 15, 7) for idx in range(5)]  # TODO
+        time_progs = ht_heatpump.get_time_progs()
+        #time_progs = [HtTimeProg(idx, "Name{:d}".format(idx), 10, 3, 15, 7) for idx in range(5)]
         return [time_prog.as_json(with_entries=False) for time_prog in time_progs]
 
 
@@ -79,10 +79,10 @@ class TimeProg(Resource):
     def get(self, id: int):
         """ Returns the time program with the given index of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
-        #time_prog = ht_heatpump.get_time_prog(id)  # TODO
-        time_prog = HtTimeProg(id, "Name{:d}".format(id), 10, 3, 15, 7)  # TODO
+        time_prog = ht_heatpump.get_time_prog(id)
+        #time_prog = HtTimeProg(id, "Name{:d}".format(id), 10, 3, 15, 7)
         return time_prog.as_json(with_entries=True)
 
     @api.expect(time_prog_model, validate=True)
@@ -90,7 +90,7 @@ class TimeProg(Resource):
     def put(self, id: int):
         """ Sets all time program entries of a specific time program of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
         payload = api.payload
         # TODO
@@ -107,10 +107,10 @@ class TimeProgEntry(Resource):
     def get(self, id: int, day: int, num: int):
         """ Returns a specific time program entry of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
-        #entry = ht_heatpump.get_time_prog_entry(id, day, num)  # TODO
-        entry = HtTimeProgEntry(0, HtTimeProgPeriod(0, 0, 0, 0))  # TODO
+        entry = ht_heatpump.get_time_prog_entry(id, day, num)
+        #entry = HtTimeProgEntry(0, HtTimeProgPeriod(0, 0, 0, 0))
         return entry.as_json()
 
     @api.expect(time_prog_entry_model, validate=True)
@@ -118,9 +118,9 @@ class TimeProgEntry(Resource):
     def put(self, id: int, day: int, num: int):
         """ Sets a specific time program entry of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        #assert ht_heatpump.is_open, "serial connection to heat pump not established"  # TODO
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s}".format(request.url))
         entry = HtTimeProgEntry(api.payload["state"],
                                 HtTimeProgPeriod.from_str(api.payload["start"], api.payload["end"]))
-        #entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)  # TODO
+        entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)
         return entry.as_json()

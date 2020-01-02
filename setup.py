@@ -17,9 +17,9 @@ with open('HISTORY.rst') as history_file:
 
 
 requirements = [
-    'htheatpump==1.1.0',
-    'flask==1.0.2',
-    'flask_restplus==0.12.1',
+    'htheatpump==1.2.0',
+    'flask==1.1.1',
+    'flask_restplus==0.13.0',
     # put package requirements here
 ]
 
@@ -82,7 +82,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
@@ -99,6 +99,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
 
         # Language and Platform
         'Natural Language :: English',
