@@ -22,7 +22,7 @@
 import logging
 from flask import request
 from flask_restplus import Namespace, Resource, fields
-from htheatpump.httimeprog import TimeProgram as HtTimeProg
+#from htheatpump.httimeprog import TimeProgram as HtTimeProg
 from htheatpump.httimeprog import TimeProgEntry as HtTimeProgEntry
 from htheatpump.httimeprog import TimeProgPeriod as HtTimeProgPeriod
 from htrest import ht_heatpump  # type: ignore
