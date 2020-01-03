@@ -17,7 +17,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" TODO """
+""" Heliotherm heat pump REST API Flask application. """
 
 import logging
 from flask import Flask
@@ -56,9 +56,9 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888"):
     app.config["BUNDLE_ERRORS"] = settings.RESTPLUS_BUNDLE_ERRORS
     _logger.info("*** created Flask app {!s} with config {!s}".format(app, app.config))
 
-    @app.before_first_request
-    def before_first_request():
-        _logger.info("*** @app.before_first_request -- {}".format(__file__))
+    #@app.before_first_request
+    #def before_first_request():
+    #    _logger.info("*** @app.before_first_request -- {}".format(__file__))
 
     from htrest.apiv1 import blueprint as apiv1
     app.register_blueprint(apiv1)

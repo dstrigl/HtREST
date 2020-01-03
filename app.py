@@ -17,7 +17,14 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" TODO """
+""" Heliotherm heat pump REST API server main application.
+
+    Example:
+
+    .. code-block:: shell
+
+       $ python3 app.py --device /dev/ttyUSB1 -s localhost:8765 --debug
+"""
 
 import os
 import argparse
@@ -29,7 +36,7 @@ from htrest import create_app
 def main():
     parser = argparse.ArgumentParser(
         description = textwrap.dedent('''\
-            *** TODO ***
+            Heliotherm heat pump REST API server
             '''),
         formatter_class = argparse.RawDescriptionHelpFormatter,
         epilog = textwrap.dedent('''\

@@ -17,7 +17,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" TODO """
+""" REST API for operations related to the date and time of the heat pump. """
 
 import logging
 from flask import request
@@ -43,9 +43,8 @@ class DateTime(Resource):
         """ Returns the current date and time of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        _logger.info("*** {!s}".format(request.url))
+        #_logger.info("*** {!s}".format(request.url))
         dt, _ = ht_heatpump.get_date_time()
-        #dt = datetime.now()
         return {"datetime": dt}
 
     @api.expect(date_time_model, validate=True)
@@ -54,7 +53,7 @@ class DateTime(Resource):
         """ Sets the current date and time of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        _logger.info("*** {!s}".format(request.url))
+        #_logger.info("*** {!s}".format(request.url))
         dt = api.payload["datetime"]
         if not dt:  # if 'dt' is empty, use the current system time!
             dt = datetime.now()

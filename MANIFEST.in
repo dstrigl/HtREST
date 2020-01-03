@@ -1,4 +1,5 @@
 include app.py
+include logging.conf
 include HISTORY.rst
 include LICENSE
 include README.rst

@@ -17,7 +17,19 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" TODO """
+""" Version information handling of the HtREST module.
+
+    You should only have to change the version tuple :const:`version` at the end of this file,
+    e.g.::
+
+        version = Version("HtREST", 1, 2, 3)  # version format <major>.<minor>.<patch>
+
+    Given a version number ``MAJOR.MINOR.PATCH``, increment the:
+
+        * ``MAJOR`` version when making incompatible API changes,
+        * ``MINOR`` version when adding functionality in a backwards-compatible manner, and
+        * ``PATCH`` version when making backwards-compatible bug fixes.
+"""
 
 
 class Version:
@@ -57,5 +69,5 @@ class Version:
 
 
 version = Version("HtREST", 0, 1, 0)
-""" TODO """
+""" Version definition of the :mod:`HtREST` module. """
 # version.__name__ = "HtREST"

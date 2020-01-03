@@ -17,7 +17,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" TODO """
+""" Heliotherm heat pump REST API server APIv1. """
 
 import logging
 from flask import Blueprint, request
@@ -79,7 +79,6 @@ def default_error_handler(ex):
     #   see: https://stackoverflow.com/questions/24998968/why-does-strkeyerror-add-extra-quotes
     if isinstance(ex, KeyError) and msg.startswith('"') and msg.endswith('"'):
         msg = msg[1:-1]
-    #_logger.exception("*** @api.errorhandler -- {}".format(msg))
     _logger.error("*** @api.errorhandler -- {}".format(msg))
     #if not current_app.debug:
     return {"message": str(msg)}, 500

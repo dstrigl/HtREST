@@ -17,7 +17,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" TODO """
+""" REST API for operations related to the heat pump fault list. """
 
 import logging
 from flask import request
@@ -31,18 +31,22 @@ api = Namespace("faultlist", description="Operations related to the heat pump fa
 
 # Single fault list entry of the heat pump, e.g.:
 #
-#   { "index"   : 29,                      # fault list index
-#     "error"   : 20,                      # error code
+#   { "index"   : 28,                      # fault list index
+#     "error"   : 19,                      # error code
 #     "datetime": datetime.datetime(...),  # date and time of the entry
 #     "message" : "EQ_Spreizung",          # error message
 #     }
 #
 fault_list_entry_model = api.model("fault_list_entry_model", {
-    "index":    fields.Integer(min=0, description="fault list index", required=True, readonly=True, example=1),
-    "error":    fields.Integer(min=0, description="error code", required=True, readonly=True, example=20),
+    "index":    fields.Integer(min=0, description="fault list index", required=True, readonly=True, example=28),
+    "error":    fields.Integer(min=0, description="error code", required=True, readonly=True, example=19),
     "datetime": fields.DateTime(dt_format="iso8601", description="date and time of the error",
-                                required=True, readonly=True, example="2000-01-01T00:00:20"),  # TODO example
+                                required=True, readonly=True, example="2014-09-14T02:08:56"),
     "message":  fields.String(description="error message", required=True, readonly=True, example="EQ_Spreizung"),
+})
+
+fault_list_size_model = api.model("fault_list_size_model", {
+    "size": fields.Integer(min=0, description="fault list size", required=True, readonly=True, example=62),
 })
 
 
@@ -53,8 +57,19 @@ class FaultList(Resource):
         """ Returns the fault list of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        _logger.info("*** {!s}".format(request.url))
+        #_logger.info("*** {!s}".format(request.url))
         return ht_heatpump.get_fault_list()
+
+
+@api.route("/size")
+class FaultListSize(Resource):
+    @api.marshal_with(fault_list_size_model)
+    def get(self):
+        """ Returns the fault list size of the heat pump. """
+        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
+        assert ht_heatpump.is_open, "serial connection to heat pump not established"
+        #_logger.info("*** {!s}".format(request.url))
+        return {"size": ht_heatpump.get_fault_list_size()}
 
 
 @api.route("/<int:id>")
@@ -68,7 +83,7 @@ class FaultEntry(Resource):
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if id not in range(0, ht_heatpump.get_fault_list_size()):
             api.abort(404, "Fault list entry #{:d} not found".format(id))
-        _logger.info("*** {!s} -- id={:d}".format(request.url, id))
+        #_logger.info("*** {!s} -- id={:d}".format(request.url, id))
         return ht_heatpump.get_fault_list(id)
 
 
@@ -79,7 +94,7 @@ class LastFault(Resource):
         """ Returns the last fault list entry of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        _logger.info("*** {!s}".format(request.url))
+        #_logger.info("*** {!s}".format(request.url))
         idx, err, dt, msg = ht_heatpump.get_last_fault()
-        # e.g.: idx, err, dt, msg = (29, 20, datetime.datetime.now(), "EQ_Spreizung")
+        # e.g.: idx, err, dt, msg = (28, 19, datetime.datetime.now(), "EQ_Spreizung")
         return {"index": idx, "error": err, "datetime": dt, "message": msg}

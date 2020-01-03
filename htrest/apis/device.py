@@ -17,7 +17,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" TODO """
+""" REST API which delivers information about the connected heat pump. """
 
 import logging
 from flask import request
@@ -32,12 +32,11 @@ api = Namespace("device", description="Delivers information about the connected 
 
 device_model = api.model("device_model", {
     "property_id":      fields.Integer(min=0, description="property number of the heat pump",
-                                       required=True, readonly=True, example=123456),  # TODO example
+                                       required=True, readonly=True, example=123456),
     "serial_number":    fields.Integer(min=0, description="serial number of the heat pump",
-                                       required=True, readonly=True, example=123456),  # TODO example
+                                       required=True, readonly=True, example=123456),
     "software_version": fields.String(description="software version of the heat pump",
                                       required=True, readonly=True, example="3.0.20"),
-    # TODO add some more properties?
 })
 
 
@@ -48,8 +47,8 @@ class Device(Resource):
         """ Returns the properties of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        _logger.info("*** {!s}".format(request.url))
-        property_id = ht_heatpump.get_param("Liegenschaft") if "Liegenschaft" in HtParams else 0  # TODO
+        #_logger.info("*** {!s}".format(request.url))
+        property_id = ht_heatpump.get_param("Liegenschaft") if "Liegenschaft" in HtParams else 0
         serial_number = ht_heatpump.get_serial_number()
         software_version, _ = ht_heatpump.get_version()
         return {"property_id": property_id, "serial_number": serial_number, "software_version": software_version}
