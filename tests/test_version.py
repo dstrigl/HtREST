@@ -17,7 +17,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" Tests for code in htheatpump.version. """
+""" Tests for code in htrest.version. """
 
 from htrest.version import Version
 
