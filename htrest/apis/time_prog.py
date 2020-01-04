@@ -32,6 +32,21 @@ _logger = logging.getLogger(__name__)
 
 api = Namespace("timeprog", description="Operations related to the time programs of the heat pump")
 
+time_prog_model = api.model("time_prog_model", {
+    "index": fields.Integer(min=0, description="index of the time program",
+                            required=False, readonly=True, example=0),
+    "name" : fields.String(description="name of the time program",
+                           required=False, readonly=True, example="Warmwasser"),
+    "ead"  : fields.Integer(min=0, description="number of entries a day of the time program",
+                            required=False, readonly=True, example=7),
+    "nos"  : fields.Integer(min=0, description="number of states of the time program",
+                            required=False, readonly=True, example=3),
+    "ste"  : fields.Integer(min=0, description="step-size in minutes of the time program",
+                            required=False, readonly=True, example=15),
+    "nod"  : fields.Integer(min=0, description="number of days of the time program",
+                            required=False, readonly=True, example=7),
+})
+
 time_prog_entry_model = api.model("time_prog_entry_model", {
     "state": fields.Integer(min=0, description="state of the time program entry",
                             required=True, example=1),
@@ -41,20 +56,8 @@ time_prog_entry_model = api.model("time_prog_entry_model", {
                            required=True, example="11:15"),
 })
 
-time_prog_model = api.model("time_prog_model", {
-    "index"  : fields.Integer(min=0, description="index of the time program",
-                              required=False, readonly=True, example=1),
-    "name"   : fields.String(description="name of the time program",
-                             required=False, readonly=True, example="Warmwasser"),
-    "ead"    : fields.Integer(min=0, description="number of entries a day of the time program",
-                              required=False, readonly=True, example=7),
-    "nos"    : fields.Integer(min=0, description="number of states of the time program",
-                              required=False, readonly=True, example=3),
-    "ste"    : fields.Integer(min=0, description="step-size in minutes of the time program",
-                              required=False, readonly=True, example=15),
-    "nod"    : fields.Integer(min=0, description="number of days of the time program",
-                              required=False, readonly=True, example=7),
-    "entries": fields.List(fields.List(fields.Nested(time_prog_entry_model))),  # TODO min_items, max_items
+time_prog_with_entries_model = api.clone("time_prog_with_entries_model", time_prog_model, {
+    "entries": fields.List(fields.List(fields.Nested(time_prog_entry_model))),
 })
 
 
@@ -73,7 +76,7 @@ class TimeProgs(Resource):
 @api.route("/<int:id>")
 @api.param("id", "The time program index")
 class TimeProg(Resource):
-    @api.marshal_with(time_prog_model, skip_none=True)
+    @api.marshal_with(time_prog_with_entries_model, skip_none=True)
     def get(self, id: int):
         """ Returns the time program with the given index of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
@@ -82,13 +85,14 @@ class TimeProg(Resource):
         time_prog = ht_heatpump.get_time_prog(id)
         return time_prog.as_json(with_entries=True)
 
-    @api.expect(time_prog_model, validate=True)
-    @api.marshal_with(time_prog_model)
+    @api.expect(time_prog_with_entries_model, validate=True)
+    @api.marshal_with(time_prog_with_entries_model)
     def put(self, id: int):
         """ Sets all time program entries of a specific time program of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         #_logger.info("*** {!s}".format(request.url))
+        #time_prog = ht_heatpump.get_time_prog(id, with_entries=False)
         payload = api.payload
         # TODO
         return payload
