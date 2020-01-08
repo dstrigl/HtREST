@@ -121,6 +121,6 @@ class TimeProgEntry(Resource):
         #_logger.info("*** {!s}".format(request.url))
         entry = HtTimeProgEntry(api.payload["state"],
                                 HtTimeProgPeriod.from_str(api.payload["start"], api.payload["end"]))
-        # TODO HtTimeProgEntry.from_json(...)
+        # TODO entry = HtTimeProgEntry.from_json(api.payload)
         entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)
         return entry.as_json()
