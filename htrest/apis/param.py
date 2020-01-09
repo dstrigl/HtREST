@@ -27,23 +27,85 @@ from htrest import ht_heatpump  # type: ignore
 
 _logger = logging.getLogger(__name__)
 
+# Workaround:
+# -----------
+#   https://github.com/noirbizarre/flask-restplus/issues/598#issuecomment-477650244
+#
+# Pull request:
+# -------------
+#   https://github.com/noirbizarre/flask-restplus/pull/604
+#
+class DotKeyFieldMixin:
+    """ Allows use of flask_restplus fields with '.' in key names. By default, '.'
+    is used as a separator for accessing nested properties. Mixin prevents this,
+    allowing fields to use '.' in the key names.
+
+    Example of issue:
+    >>> data = {"my.dot.field": 1234}
+    >>> model = {"my.dot.field: fields.String}
+    >>> marshal(data, model)
+    {"my.dot.field:": None}
+
+    flask_restplus tries to fetch values for data['my']['dot']['field'] instead
+    of data['my.dot.field'] which is the desired behaviour in this case.
+    """
+
+    def output(self, key, obj, **kwargs):
+        key_map = {}
+        transformed_obj = {}
+        for k, v in obj.items():
+            transformed_key = k.replace(".", "___")
+            key_map[k] = transformed_key
+            transformed_obj[transformed_key] = v
+        # if self.attribute is set and contains '.' super().output() will
+        # use '.' as a separator for nested access.
+        # -> temporarily set to None to overcome this
+        with self.toggle_attribute() as attribute:
+            data = super().output(
+                key_map[key if attribute is None else attribute], transformed_obj
+            )
+        return data
+
+    @contextmanager
+    def toggle_attribute(self):
+        """ Context manager to temporarily set self.attribute to None.
+
+        Yields self.attribute before setting to None
+        """
+        attribute = self.attribute
+        self.attribute = None
+        yield attribute
+        self.attribute = attribute
+
+
+class DotKeyBoolean(DotKeyFieldMixin, fields.Boolean):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class DotKeyInteger(DotKeyFieldMixin, fields.Integer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class DotKeyFloat(DotKeyFieldMixin, fields.Float):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 
 def dt_to_field(p):
     if p.data_type == HtDataTypes.BOOL:
-        return fields.Boolean(required=True)
+        return DotKeyBoolean(required=True)
     elif p.data_type == HtDataTypes.INT:
-        return fields.Integer(required=True, min=p.min_val, max=p.max_val, example=p.min_val)
+        return DotKeyInteger(required=True, min=p.min_val, max=p.max_val, example=p.min_val)
     elif p.data_type == HtDataTypes.FLOAT:
-        return fields.Float(required=True, min=p.min_val, max=p.max_val, example=p.min_val)
-    assert False
+        return DotKeyFloat(required=True, min=p.min_val, max=p.max_val, example=p.min_val)
+    assert False  # invalid data type!
 
 
 api = Namespace("param", description="Operations related to the heat pump parameters", validate=True)
 
 param_models = {name: dt_to_field(param) for name, param in HtParams.items()}
-#  --> https://github.com/noirbizarre/flask-restplus/pull/604
-#param_models = {lambda obj: obj[name]: dt_to_field(param) for name, param in HtParams.items()}
-# 'lambda ...' --> workaround for field names with dots
 param_list_model = api.model("param_list_model", param_models)
 param_model = api.model("param_model", {
     "value": fields.Raw(required=True, description="parameter value")
