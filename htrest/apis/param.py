@@ -27,12 +27,11 @@ from htrest import ht_heatpump  # type: ignore
 
 _logger = logging.getLogger(__name__)
 
+# Support 'dot' notation in model/field keys:
+# -------------------------------------------
 # Workaround:
-# -----------
 #   https://github.com/noirbizarre/flask-restplus/issues/598#issuecomment-477650244
-#
 # Pull request:
-# -------------
 #   https://github.com/noirbizarre/flask-restplus/pull/604
 #
 class DotKeyFieldMixin:
