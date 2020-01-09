@@ -22,9 +22,8 @@
 import logging
 from flask import request
 from flask_restplus import Namespace, Resource, fields
-#from htheatpump.httimeprog import TimeProgram as HtTimeProg  # TODO
+from htheatpump.httimeprog import TimeProgram as HtTimeProg
 from htheatpump.httimeprog import TimeProgEntry as HtTimeProgEntry
-from htheatpump.httimeprog import TimeProgPeriod as HtTimeProgPeriod
 from htrest import ht_heatpump  # type: ignore
 
 
@@ -57,7 +56,11 @@ time_prog_entry_model = api.model("time_prog_entry_model", {
 })
 
 time_prog_with_entries_model = api.clone("time_prog_with_entries_model", time_prog_model, {
-    "entries": fields.List(fields.List(fields.Nested(time_prog_entry_model))),
+    "entries": fields.List(
+        fields.List(
+            fields.Nested(time_prog_entry_model, required=True),
+            required=True),
+        required=True),
 })
 
 
@@ -92,10 +95,11 @@ class TimeProg(Resource):
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         #_logger.info("*** {!s}".format(request.url))
-        #time_prog = ht_heatpump.get_time_prog(id, with_entries=False)
-        payload = api.payload
-        # TODO
-        return payload
+        time_prog = ht_heatpump.get_time_prog(id, with_entries=False).as_json(with_entries=False)
+        time_prog.update({"entries": api.payload["entries"]})
+        time_prog = HtTimeProg.from_json(time_prog)
+        time_prog = ht_heatpump.set_time_prog(time_prog)
+        return time_prog.as_json(with_entries=True)
 
 
 @api.route("/<int:id>/<int:day>/<int:num>")
@@ -119,8 +123,6 @@ class TimeProgEntry(Resource):
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         #_logger.info("*** {!s}".format(request.url))
-        entry = HtTimeProgEntry(api.payload["state"],
-                                HtTimeProgPeriod.from_str(api.payload["start"], api.payload["end"]))
-        # TODO entry = HtTimeProgEntry.from_json(api.payload)
+        entry = HtTimeProgEntry.from_json(api.payload)
         entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)
         return entry.as_json()
