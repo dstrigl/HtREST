@@ -24,6 +24,7 @@ from flask import request
 from flask_restplus import Namespace, Resource, fields
 from htheatpump.htparams import HtDataTypes, HtParams
 from htrest import ht_heatpump  # type: ignore
+from contextlib import contextmanager
 
 _logger = logging.getLogger(__name__)
 
@@ -40,13 +41,16 @@ class DotKeyFieldMixin:
     allowing fields to use '.' in the key names.
 
     Example of issue:
-    >>> data = {"my.dot.field": 1234}
-    >>> model = {"my.dot.field: fields.String}
-    >>> marshal(data, model)
-    {"my.dot.field:": None}
 
-    flask_restplus tries to fetch values for data['my']['dot']['field'] instead
-    of data['my.dot.field'] which is the desired behaviour in this case.
+    .. code-block:: python
+
+       >>> data = {"my.dot.field": 1234}
+       >>> model = {"my.dot.field": fields.String}
+       >>> marshal(data, model)
+       {"my.dot.field": None}
+
+    flask_restplus tries to fetch values for ``data['my']['dot']['field']`` instead
+    of ``data['my.dot.field']`` which is the desired behaviour in this case.
     """
 
     def output(self, key, obj, **kwargs):
@@ -67,9 +71,9 @@ class DotKeyFieldMixin:
 
     @contextmanager
     def toggle_attribute(self):
-        """ Context manager to temporarily set self.attribute to None.
+        """ Context manager to temporarily set ``self.attribute`` to :const:`None`.
 
-        Yields self.attribute before setting to None
+        Yields ``self.attribute`` before setting to :const:`None`.
         """
         attribute = self.attribute
         self.attribute = None
@@ -131,7 +135,7 @@ class ParamList(Resource):
         """ Sets the current value of several heat pump parameters. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))  # TODO
+        _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))
         result = {}
         for name, value in api.payload.items():
             #value = ht_heatpump.set_param(name, value)  # TODO
@@ -150,7 +154,7 @@ class Param(Resource):
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
-        _logger.info("*** {!s} -- name='{}'".format(request.url, name))  # TODO
+        #_logger.info("*** {!s} -- name='{}'".format(request.url, name))
         value = ht_heatpump.get_param(name)
         return {"value": value}
 
