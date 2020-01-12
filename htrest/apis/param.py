@@ -30,7 +30,7 @@ _logger = logging.getLogger(__name__)
 
 # Support 'dot' notation in model/field keys:
 # -------------------------------------------
-# Workaround:
+# Workaround by SteadBytes (https://github.com/SteadBytes):
 #   https://github.com/noirbizarre/flask-restplus/issues/598#issuecomment-477650244
 # Pull request:
 #   https://github.com/noirbizarre/flask-restplus/pull/604
@@ -135,7 +135,7 @@ class ParamList(Resource):
         """ Sets the current value of several heat pump parameters. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))
+        _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))  # TODO
         result = {}
         for name, value in api.payload.items():
             #value = ht_heatpump.set_param(name, value)  # TODO
@@ -168,8 +168,5 @@ class Param(Resource):
             api.abort(404, "Parameter '{}' not found".format(name))
         value = api.payload["value"]
         _logger.info("*** {!s} -- name='{}', value='{!s}', type='{!s}'".format(request.url, name, value, type(value)))
-        #assert isinstance(value, str)
-        # convert the passed value to the corresponding data type
-        #value = HtParams[name].from_str(value)
         #value = ht_heatpump.set_param(name, value)  # TODO
         return {"value": value}
