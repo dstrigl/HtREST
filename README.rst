@@ -13,7 +13,7 @@ HtREST
      :alt: Updates
 
 
-`Heliotherm <http://www.heliotherm.com/>`_ heat pump REST API server
+`Heliotherm <http://www.heliotherm.com/>`_ heat pump REST API server.
 
 
 * GitHub repo: https://github.com/dstrigl/HtREST
@@ -63,17 +63,95 @@ API
 GET /api/v1/device
 ~~~~~~~~~~~~~~~~~~
 
-TODO
+  TODO
 
 
 GET /api/v1/datetime
 ~~~~~~~~~~~~~~~~~~~~
 
-TODO
+  TODO
 
 
 PUT /api/v1/datetime
 ~~~~~~~~~~~~~~~~~~~~
 
-TODO
+  TODO
+
+
+GET /api/v1/faultlist
+~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+GET /api/v1/faultlist/size
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+GET /api/v1/faultlist/<int:id>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+GET /api/v1/faultlist/last
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+GET /api/v1/timeprog
+~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+GET /api/v1/timeprog/<int:id>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+PUT /api/v1/timeprog/<int:id>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+GET /api/v1/timeprog/<int:id>/<int:day>/<int:num>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+PUT /api/v1/timeprog/<int:id>/<int:day>/<int:num>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+GET /api/v1/param
+~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+PUT /api/v1/param
+~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+GET /api/v1/param/<string:name>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
+
+
+PUT /api/v1/param/<string:name>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  TODO
 
