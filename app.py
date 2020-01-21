@@ -35,8 +35,9 @@ from htrest import create_app
 
 
 class UserType:
-
-    PATTERN = re.compile(r"^([^:]+):([^:]+)$")  # "<username>:<password>"
+    """ Custom type for argparse, to facilitate validation of a user statement in form of '<username>:<password>'.
+    """
+    PATTERN = re.compile(r"^([^:]+):([^:]+)$")  # regex for "<username>:<password>"
 
     def __call__(self, value):
         if value and not self.PATTERN.match(value):
