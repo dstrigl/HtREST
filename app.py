@@ -27,10 +27,22 @@
 """
 
 import os
+import re
 import argparse
 import textwrap
 import logging.config
 from htrest import create_app
+
+
+class UserType:
+
+    PATTERN = re.compile(r"^([^:]+):([^:]+)$")  # "<username>:<password>"
+
+    def __call__(self, value):
+        if value and not self.PATTERN.match(value):
+            raise argparse.ArgumentTypeError(
+                "'{}' is not a valid user statement in form of '<username>:<password>'".format(value))
+        return value
 
 
 def main():
@@ -74,6 +86,13 @@ def main():
         help = "the name and port number of the server in the form <hostname>:<port>, default: %(default)s")
 
     parser.add_argument(
+        "-u", "--user",
+        default = "",
+        type = UserType(),
+        help = "the username and password for the basic access authentication in the form <username>:<password>,"\
+               " default: %(default)s")
+
+    parser.add_argument(
         "-l", "--logging-config",
         default = os.path.normpath(os.path.join(os.path.dirname(__file__), "logging.conf")),
         type = str,
@@ -91,7 +110,7 @@ def main():
     logging.config.fileConfig(args.logging_config, disable_existing_loggers=False)
 
     # create and start the Flask application
-    app = create_app(args.device, args.baudrate, args.server)
+    app = create_app(args.device, args.baudrate, args.server, args.user)
     app.run(debug=args.debug, use_reloader=False)
 
 

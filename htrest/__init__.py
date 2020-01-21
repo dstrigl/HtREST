@@ -21,6 +21,7 @@
 
 import logging
 from flask import Flask
+from flask_basicauth import BasicAuth  # TODO pip install flask_basicauth
 from htrest import settings
 import htrest.version as __version
 __version__ = __version.version.short()
@@ -30,7 +31,7 @@ __author__ = "Daniel Strigl"
 _logger = logging.getLogger(__name__)
 
 
-def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888"):
+def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888", user=None):
     # try to connect to the heat pump
     try:
         from htheatpump.htheatpump import HtHeatpump
@@ -54,11 +55,17 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888"):
     app.config["RESTPLUS_MASK_SWAGGER"] = settings.RESTPLUS_MASK_SWAGGER
     app.config["ERROR_404_HELP"] = settings.RESTPLUS_ERROR_404_HELP
     app.config["BUNDLE_ERRORS"] = settings.RESTPLUS_BUNDLE_ERRORS
+    if user:
+        username, password = user.split(':', 1)
+        app.config["BASIC_AUTH_USERNAME"] = username
+        app.config["BASIC_AUTH_PASSWORD"] = password
+        app.config["BASIC_AUTH_FORCE"] = True
+        basic_auth = BasicAuth(app)
     _logger.info("*** created Flask app {!s} with config {!s}".format(app, app.config))
 
     @app.before_first_request
     def before_first_request():
-        #_logger.info("*** @app.before_first_request -- {}".format(__file__))
+        _logger.info("*** @app.before_first_request -- {}".format(__file__))
         pass
 
     from htrest.apiv1 import blueprint as apiv1
