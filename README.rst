@@ -28,9 +28,7 @@ API
 +===============================================+=====+======+============================================================================+
 | /api/v1/device                                | X   |      | Delivers information about the connected heat pump.                        |
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
-| /api/v1/datetime                              | X   |      | Returns the current date and time of the heat pump.                        |
-|                                               +-----+------+----------------------------------------------------------------------------+
-|                                               |     | X    | Sets the current date and time of the heat pump.                           |
+| /api/v1/datetime                              | X   | X    | Returns or sets the current date and time of the heat pump.                |
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
 | /api/v1/faultlist                             | X   |      | Returns the fault list of the heat pump.                                   |
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
@@ -42,26 +40,20 @@ API
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
 | /api/v1/timeprog                              | X   |      | Returns a list of all available time programs of the heat pump.            |
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
-| /api/v1/timeprog/<int:id>                     | X   |      | Returns the time program with the given index of the heat pump.            |
-|                                               +-----+------+----------------------------------------------------------------------------+
-|                                               |     | X    | Sets all time program entries of a specific time program of the heat pump. |
+| /api/v1/timeprog/<int:id>                     | X   | X    | Returns or sets the time program with the given index of the heat pump.    |
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
-| /api/v1/timeprog/<int:id>/<int:day>/<int:num> | X   |      | Returns a specific time program entry of the heat pump.                    |
-|                                               +-----+------+----------------------------------------------------------------------------+
-|                                               |     | X    | Sets a specific time program entry of the heat pump.                       |
+| /api/v1/timeprog/<int:id>/<int:day>/<int:num> | X   | X    | Returns or sets a specific time program entry of the heat pump.            |
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
-| /api/v1/param                                 | X   |      | Returns the list of heat pump parameters with their current value.         |
-|                                               +-----+------+----------------------------------------------------------------------------+
-|                                               |     | X    | Sets the current value of several heat pump parameters.                    |
+| /api/v1/param                                 | X   | X    | Returns or sets the current value of several heat pump parameters.         |
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
-| /api/v1/param/<string:name>                   | X   |      | Returns the current value of a specific heat pump parameter.               |
-|                                               +-----+------+----------------------------------------------------------------------------+
-|                                               |     | X    | Sets the current value of a specific heat pump parameter.                  |
+| /api/v1/param/<string:name>                   | X   | X    | Returns or sets the current value of a specific heat pump parameter.       |
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
 
 
 GET /api/v1/device
 ~~~~~~~~~~~~~~~~~~
+
+Delivers information about the connected heat pump.
 
   TODO
 
@@ -69,11 +61,15 @@ GET /api/v1/device
 GET /api/v1/datetime
 ~~~~~~~~~~~~~~~~~~~~
 
+Returns the current date and time of the heat pump.
+
   TODO
 
 
 PUT /api/v1/datetime
 ~~~~~~~~~~~~~~~~~~~~
+
+Sets the current date and time of the heat pump.
 
   TODO
 
@@ -81,11 +77,15 @@ PUT /api/v1/datetime
 GET /api/v1/faultlist
 ~~~~~~~~~~~~~~~~~~~~~
 
+Returns the fault list of the heat pump.
+
   TODO
 
 
 GET /api/v1/faultlist/size
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Returns the fault list size of the heat pump.
 
   TODO
 
@@ -93,11 +93,15 @@ GET /api/v1/faultlist/size
 GET /api/v1/faultlist/<int:id>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Returns the fault list entry with the given index.
+
   TODO
 
 
 GET /api/v1/faultlist/last
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Returns the last fault list entry of the heat pump.
 
   TODO
 
@@ -105,11 +109,15 @@ GET /api/v1/faultlist/last
 GET /api/v1/timeprog
 ~~~~~~~~~~~~~~~~~~~~
 
+Returns a list of all available time programs of the heat pump.
+
   TODO
 
 
 GET /api/v1/timeprog/<int:id>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Returns the time program with the given index of the heat pump.
 
   TODO
 
@@ -117,11 +125,15 @@ GET /api/v1/timeprog/<int:id>
 PUT /api/v1/timeprog/<int:id>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Sets all time program entries of a specific time program of the heat pump.
+
   TODO
 
 
 GET /api/v1/timeprog/<int:id>/<int:day>/<int:num>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Returns a specific time program entry of the heat pump.
 
   TODO
 
@@ -129,11 +141,15 @@ GET /api/v1/timeprog/<int:id>/<int:day>/<int:num>
 PUT /api/v1/timeprog/<int:id>/<int:day>/<int:num>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Sets a specific time program entry of the heat pump.
+
   TODO
 
 
 GET /api/v1/param
 ~~~~~~~~~~~~~~~~~
+
+Returns the current value of a specific heat pump parameter.
 
   TODO
 
@@ -141,11 +157,15 @@ GET /api/v1/param
 PUT /api/v1/param
 ~~~~~~~~~~~~~~~~~
 
+Sets the current value of several heat pump parameters.
+
   TODO
 
 
 GET /api/v1/param/<string:name>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Returns the current value of a specific heat pump parameter.
 
   TODO
 
@@ -153,5 +173,6 @@ GET /api/v1/param/<string:name>
 PUT /api/v1/param/<string:name>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  TODO
+Sets the current value of a specific heat pump parameter.
 
+  TODO
