@@ -187,7 +187,7 @@ You can install or upgrade ``HtREST`` with:
 
 .. code-block:: console
 
-    $ pip install htrest --upgrade
+    $ pip install HtREST --upgrade
 
 Or you can install from source with:
 
