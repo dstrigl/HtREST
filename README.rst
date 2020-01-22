@@ -196,3 +196,18 @@ Or you can install from source with:
     $ git clone https://github.com/dstrigl/HtREST.git
     $ cd htheatpump
     $ python setup.py install
+
+
+Disclaimer
+----------
+
+.. warning::
+
+   Please note that any incorrect or careless usage of this module as well as
+   errors in the implementation can damage your heat pump!
+
+   Therefore, the author does not provide any guarantee or warranty concerning
+   to correctness, functionality or performance and does not accept any liability
+   for damage caused by this module, examples or mentioned information.
+
+   **Thus, use it on your own risk!**
