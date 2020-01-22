@@ -13,7 +13,7 @@ HtREST
      :alt: Updates
 
 
-`Heliotherm <http://www.heliotherm.com/>`_ heat pump REST API server.
+`Heliotherm <http://www.heliotherm.com/>`_ heat pump HTTP/REST API server.
 
 
 * GitHub repo: https://github.com/dstrigl/HtREST
@@ -22,6 +22,8 @@ HtREST
 
 API
 ---
+
+The following table describes the HTTP/REST API exposed by this server application for the Heliotherm heat pump.
 
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
 | URI                                           | GET | POST | description                                                                |
@@ -176,3 +178,21 @@ PUT /api/v1/param/<string:name>
 Sets the current value of a specific heat pump parameter.
 
   TODO
+
+
+Installation
+------------
+
+You can install or upgrade ``HtREST`` with:
+
+.. code-block:: console
+
+    $ pip install htrest --upgrade
+
+Or you can install from source with:
+
+.. code-block:: console
+
+    $ git clone https://github.com/dstrigl/HtREST.git
+    $ cd htheatpump
+    $ python setup.py install
