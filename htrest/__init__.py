@@ -21,7 +21,7 @@
 
 import logging
 from flask import Flask
-from flask_basicauth import BasicAuth  # TODO pip install Flask-BasicAuth
+from flask_basicauth import BasicAuth
 from htrest import settings
 import htrest.version as __version
 __version__ = __version.version.short()

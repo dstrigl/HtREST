@@ -28,7 +28,7 @@ from htheatpump.htparams import HtParams
 
 _logger = logging.getLogger(__name__)
 
-api = Namespace("device", description="Delivers information about the connected heat pump")
+api = Namespace("device", description="Delivers information about the connected heat pump.")
 
 device_model = api.model("device_model", {
     "property_id":      fields.Integer(min=0, description="property number of the heat pump",

@@ -29,7 +29,7 @@ from htrest import ht_heatpump  # type: ignore
 
 _logger = logging.getLogger(__name__)
 
-api = Namespace("timeprog", description="Operations related to the time programs of the heat pump")
+api = Namespace("timeprog", description="Operations related to the time programs of the heat pump.")
 
 time_prog_model = api.model("time_prog_model", {
     "index": fields.Integer(min=0, description="index of the time program",

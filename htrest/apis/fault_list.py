@@ -27,7 +27,7 @@ from htrest import ht_heatpump  # type: ignore
 
 _logger = logging.getLogger(__name__)
 
-api = Namespace("faultlist", description="Operations related to the heat pump fault list")
+api = Namespace("faultlist", description="Operations related to the heat pump fault list.")
 
 # Single fault list entry of the heat pump, e.g.:
 #

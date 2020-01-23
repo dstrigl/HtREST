@@ -28,7 +28,7 @@ from htrest import ht_heatpump  # type: ignore
 
 _logger = logging.getLogger(__name__)
 
-api = Namespace("datetime", description="Operations related to the date and time of the heat pump")
+api = Namespace("datetime", description="Operations related to the date and time of the heat pump.")
 
 date_time_model = api.model("date_time_model", {
     "datetime": fields.DateTime(dt_format="iso8601", description="current date and time of the heat pump",
