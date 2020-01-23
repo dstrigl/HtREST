@@ -57,7 +57,25 @@ GET /api/v1/device
 
 Delivers information about the connected heat pump.
 
-  TODO
+Curl:
+
+.. code-block:: console
+
+    curl -X GET ...
+
+Request URL:
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/device
+
+Response Body:
+
+.. code-block:: json
+
+    {
+      TODO
+    }
 
 
 GET /api/v1/datetime
