@@ -57,19 +57,19 @@ GET /api/v1/device
 
 Delivers information about the connected heat pump.
 
-Curl:
+**Curl**:
 
 .. code-block:: console
 
     curl -X GET ...
 
-Request URL:
+**Request URL**:
 
 .. code-block:: console
 
     http://localhost:8888/api/v1/device
 
-Response Body:
+**Response Body**:
 
 .. code-block:: json
 
