@@ -61,7 +61,7 @@ Delivers information about the connected heat pump.
 
 .. code-block:: console
 
-    curl -X GET ...
+    curl -X GET ... TODO ...
 
 **Request URL**:
 
@@ -74,7 +74,9 @@ Delivers information about the connected heat pump.
 .. code-block:: json
 
     {
-      TODO
+      "property_id": 123456,
+      "serial_number": 123456,
+      "software_version": "3.0.20"
     }
 
 
