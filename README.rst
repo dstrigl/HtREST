@@ -345,7 +345,79 @@ GET /api/v1/timeprog/<int:id>
 
 Returns the time program with the given index of the heat pump.
 
-  TODO
+**Parameter:**
+
+* **<int:id>**: The time program index.
+
+**Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json"
+
+**Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/timeprog/1
+
+**Sample Response:**
+
+.. code-block:: json
+
+    {
+      "index": 1,
+      "name": "Zirkulationspumpe",
+      "ead": 7,
+      "nos": 2,
+      "ste": 15,
+      "nod": 7,
+      "entries": [
+        [
+          {
+            "state": 0,
+            "start": "00:00",
+            "end": "05:15"
+          },
+          {
+            "state": 1,
+            "start": "05:15",
+            "end": "08:00"
+          },
+          {
+            "state": 0,
+            "start": "08:00",
+            "end": "11:30"
+          },
+          {
+            "state": 1,
+            "start": "11:30",
+            "end": "14:00"
+          },
+          {
+            "state": 0,
+            "start": "14:00",
+            "end": "18:00"
+          },
+          {
+            "state": 1,
+            "start": "18:00",
+            "end": "20:00"
+          },
+          {
+            "state": 0,
+            "start": "20:00",
+            "end": "24:00"
+          }
+        ],
+        [...]
+      ]
+    }
+
+
+
+
+
 
 
 PUT /api/v1/timeprog/<int:id>
