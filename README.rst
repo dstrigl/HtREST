@@ -124,7 +124,7 @@ Sets the current date and time of the heat pump.
 .. code-block:: console
 
     curl -X PUT "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
-        -H  "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
+        -H "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
 
 **Request URL:**
 
@@ -141,28 +141,54 @@ Sets the current date and time of the heat pump.
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 GET /api/v1/faultlist
 ~~~~~~~~~~~~~~~~~~~~~
 
 Returns the fault list of the heat pump.
 
-  TODO
+**Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/faultlist/" -H "accept: application/json"
+
+**Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/faultlist/
+
+**Sample Response:**
+
+.. code-block:: json
+
+    [
+        {
+            "index": 0,
+            "error": 65534,
+            "datetime": "2000-01-01T00:00:00",
+            "message": "Keine Stoerung"
+        },
+        {
+            "index": 1,
+            "error": 65286,
+            "datetime": "2000-01-01T00:00:00",
+            "message": "Info: Programmupdate 1"
+        },
+        {
+            "index": 2,
+            "error": 65285,
+            "datetime": "2000-01-01T00:00:00",
+            "message": "Info: Initialisiert"
+        },
+        ...
+        {
+            "index": 28,
+            "error": 19,
+            "datetime": "2014-09-14T02:08:56",
+            "message": "EQ_Spreizung"
+        },
+    ]
 
 
 GET /api/v1/faultlist/size
@@ -170,7 +196,33 @@ GET /api/v1/faultlist/size
 
 Returns the fault list size of the heat pump.
 
-  TODO
+**Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/faultlist/size" -H "accept: application/json"
+
+**Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/faultlist/size
+
+**Sample Response:**
+
+.. code-block:: json
+
+    {
+        "size": 29
+    }
+
+
+
+
+
+
+
+
 
 
 GET /api/v1/faultlist/<int:id>
