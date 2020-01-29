@@ -119,7 +119,7 @@ Sets the current date and time of the heat pump.
         "datetime": "2020-01-29T13:12:07"
     }
 
-*Remark: If 'datetime' is empty current date and time of the host will be used.*
+*Remark: If "datetime" is empty current date and time of the host will be used.*
 
 **Curl:**
 
