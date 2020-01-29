@@ -223,7 +223,7 @@ Returns the fault list entry with the given index.
 
 **Parameter:**
 
-    * <id>: The fault list index.
+* <id>: The fault list index.
 
 **Curl:**
 
