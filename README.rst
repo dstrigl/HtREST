@@ -404,32 +404,90 @@ Sets all time program entries of a specific time program of the heat pump.
 
 .. code-block:: bash
 
-    TODO
+    {
+      "index": 1,
+      "name": "Zirkulationspumpe",
+      "ead": 7,
+      "nos": 2,
+      "ste": 15,
+      "nod": 7,
+      "entries": [
+        [
+          {
+            "state": 0,
+            "start": "00:00",
+            "end": "06:00"
+          },
+          {
+            "state": 1,
+            "start": "06:00",
+            "end": "09:00"
+          },
+          {...},
+          {...},
+          {...},
+          {...},
+          {...}
+        ],
+        [...],
+        [...],
+        [...],
+        [...],
+        [...],
+        [...]
+      ]
+    }
 
 **Curl:**
 
 .. code-block:: console
 
-    TODO
+    curl -X PUT "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json"
+        -H "Content-Type: application/json" -d "{  \"index\": 1,  \"name\": \"Zirkulationspumpe\",  ... }"
 
 **Request URL:**
 
 .. code-block:: console
 
-    TODO
+    http://localhost:8888/api/v1/timeprog/1
 
 **Sample Response:**
 
 .. code-block:: bash
 
-    TODO
-
-
-
-
-
-
-
+    {
+      "index": 1,
+      "name": "Zirkulationspumpe",
+      "ead": 7,
+      "nos": 2,
+      "ste": 15,
+      "nod": 7,
+      "entries": [
+        [
+          {
+            "state": 0,
+            "start": "00:00",
+            "end": "06:00"
+          },
+          {
+            "state": 1,
+            "start": "06:00",
+            "end": "09:00"
+          },
+          {...},
+          {...},
+          {...},
+          {...},
+          {...}
+        ],
+        [...],
+        [...],
+        [...],
+        [...],
+        [...],
+        [...]
+      ]
+    }
 
 
 GET /api/v1/timeprog/<int:id>/<int:day>/<int:num>
