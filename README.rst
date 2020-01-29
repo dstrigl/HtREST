@@ -57,26 +57,26 @@ GET /api/v1/device
 
 Delivers information about the connected heat pump.
 
-**Curl**:
+**Curl:**
 
 .. code-block:: console
 
-    curl -X GET ... TODO ...
+    curl -X GET "http://localhost:8888/api/v1/device/" -H  "accept: application/json"
 
-**Request URL**:
+**Request URL:**
 
 .. code-block:: console
 
-    http://localhost:8888/api/v1/device
+    http://localhost:8888/api/v1/device/
 
-**Response Body**:
+**Sample Response:**
 
 .. code-block:: json
 
     {
-      "property_id": 123456,
-      "serial_number": 123456,
-      "software_version": "3.0.20"
+        "property_id": 123456,
+        "serial_number": 123456,
+        "software_version": "3.0.20"
     }
 
 
@@ -85,7 +85,25 @@ GET /api/v1/datetime
 
 Returns the current date and time of the heat pump.
 
-  TODO
+**Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/datetime/" -H  "accept: application/json"
+
+**Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/datetime/
+
+**Sample Response:**
+
+.. code-block:: json
+
+    {
+        "datetime": "2020-01-29T13:11:35"
+    }
 
 
 PUT /api/v1/datetime
@@ -93,7 +111,50 @@ PUT /api/v1/datetime
 
 Sets the current date and time of the heat pump.
 
-  TODO
+**Sample Payload:**
+
+.. code-block:: json
+
+    {
+        "datetime": "2020-01-29T13:12:07"
+    }
+
+**Curl:**
+
+.. code-block:: console
+
+    curl -X PUT "http://localhost:8888/api/v1/datetime/" -H  "accept: application/json"
+        -H  "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
+
+**Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/datetime/
+
+**Sample Response:**
+
+.. code-block:: json
+
+    {
+        "datetime": "2020-01-29T13:12:07"
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 GET /api/v1/faultlist

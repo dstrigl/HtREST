@@ -58,6 +58,6 @@ class DateTime(Resource):
         if not dt:  # if 'dt' is empty, use the current system time!
             dt = datetime.now()
         else:
-            dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S.%f")
+            dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
         dt, _ = ht_heatpump.set_date_time(dt)
         return {"datetime": dt}
