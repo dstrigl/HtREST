@@ -590,6 +590,7 @@ Returns the current value of all known heat pump parameters.
 
 .. code-block:: bash
 
+    *** TODO TODO TODO ***
     {
       "Temp. Aussen": 1.2,
       "Temp. Aussen verzoegert": 1.4,
