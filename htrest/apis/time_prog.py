@@ -98,7 +98,7 @@ class TimeProg(Resource):
         time_prog = ht_heatpump.get_time_prog(id, with_entries=False).as_json(with_entries=False)
         time_prog.update({"entries": api.payload["entries"]})
         time_prog = HtTimeProg.from_json(time_prog)
-        time_prog = ht_heatpump.set_time_prog(time_prog)
+        #time_prog = ht_heatpump.set_time_prog(time_prog)  # TODO
         return time_prog.as_json(with_entries=True)
 
 
@@ -124,5 +124,5 @@ class TimeProgEntry(Resource):
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         #_logger.info("*** {!s}".format(request.url))
         entry = HtTimeProgEntry.from_json(api.payload)
-        entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)
+        #entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)  # TODO
         return entry.as_json()

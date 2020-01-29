@@ -391,17 +391,45 @@ Returns the time program with the given index of the heat pump.
     }
 
 
-
-
-
-
-
 PUT /api/v1/timeprog/<int:id>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sets all time program entries of a specific time program of the heat pump.
 
-  TODO
+**Parameter:**
+
+* **<int:id>**: The time program index.
+
+**Sample Payload:**
+
+.. code-block:: bash
+
+    TODO
+
+**Curl:**
+
+.. code-block:: console
+
+    TODO
+
+**Request URL:**
+
+.. code-block:: console
+
+    TODO
+
+**Sample Response:**
+
+.. code-block:: bash
+
+    TODO
+
+
+
+
+
+
+
 
 
 GET /api/v1/timeprog/<int:id>/<int:day>/<int:num>
