@@ -74,9 +74,9 @@ Delivers information about the connected heat pump.
 .. code-block:: json
 
     {
-        "property_id": 123456,
-        "serial_number": 123456,
-        "software_version": "3.0.20"
+      "property_id": 123456,
+      "serial_number": 123456,
+      "software_version": "3.0.20"
     }
 
 
@@ -102,7 +102,7 @@ Returns the current date and time of the heat pump.
 .. code-block:: json
 
     {
-        "datetime": "2020-01-29T13:11:35"
+      "datetime": "2020-01-29T13:11:35"
     }
 
 
@@ -116,7 +116,7 @@ Sets the current date and time of the heat pump.
 .. code-block:: json
 
     {
-        "datetime": "2020-01-29T13:12:07"
+      "datetime": "2020-01-29T13:12:07"
     }
 
 *Remark: If "datetime" is empty current date and time of the host will be used.*
@@ -139,7 +139,7 @@ Sets the current date and time of the heat pump.
 .. code-block:: json
 
     {
-        "datetime": "2020-01-29T13:12:07"
+      "datetime": "2020-01-29T13:12:07"
     }
 
 
@@ -165,30 +165,30 @@ Returns the fault list of the heat pump.
 .. code-block:: json
 
     [
-        {
-            "index": 0,
-            "error": 65534,
-            "datetime": "2000-01-01T00:00:00",
-            "message": "Keine Stoerung"
-        },
-        {
-            "index": 1,
-            "error": 65286,
-            "datetime": "2000-01-01T00:00:00",
-            "message": "Info: Programmupdate 1"
-        },
-        {
-            "index": 2,
-            "error": 65285,
-            "datetime": "2000-01-01T00:00:00",
-            "message": "Info: Initialisiert"
-        },
-        {
-            "index": 3,
-            "error": 19,
-            "datetime": "2014-09-14T02:08:56",
-            "message": "EQ_Spreizung"
-        }
+      {
+        "index": 0,
+        "error": 65534,
+        "datetime": "2000-01-01T00:00:00",
+        "message": "Keine Stoerung"
+      },
+      {
+        "index": 1,
+        "error": 65286,
+        "datetime": "2000-01-01T00:00:00",
+        "message": "Info: Programmupdate 1"
+      },
+      {
+        "index": 2,
+        "error": 65285,
+        "datetime": "2000-01-01T00:00:00",
+        "message": "Info: Initialisiert"
+      },
+      {
+        "index": 3,
+        "error": 19,
+        "datetime": "2014-09-14T02:08:56",
+        "message": "EQ_Spreizung"
+      }
     ]
 
 
@@ -214,7 +214,7 @@ Returns the fault list size of the heat pump.
 .. code-block:: json
 
     {
-        "size": 4
+      "size": 4
     }
 
 
@@ -244,10 +244,10 @@ Returns the fault list entry with the given index.
 .. code-block:: json
 
     {
-        "index": 3,
-        "error": 19,
-        "datetime": "2014-09-14T02:08:56",
-        "message": "EQ_Spreizung"
+      "index": 3,
+      "error": 19,
+      "datetime": "2014-09-14T02:08:56",
+      "message": "EQ_Spreizung"
     }
 
 
@@ -273,10 +273,10 @@ Returns the last fault list entry of the heat pump.
 .. code-block:: json
 
     {
-        "index": 3,
-        "error": 19,
-        "datetime": "2014-09-14T02:08:56",
-        "message": "EQ_Spreizung"
+      "index": 3,
+      "error": 19,
+      "datetime": "2014-09-14T02:08:56",
+      "message": "EQ_Spreizung"
     }
 
 
