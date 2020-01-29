@@ -495,7 +495,40 @@ GET /api/v1/timeprog/<int:id>/<int:day>/<int:num>
 
 Returns a specific time program entry of the heat pump.
 
-  TODO
+**Parameter:**
+
+* **<int:num>**: The number of the time program entry (of the specified day).
+* **<int:day>**: The day of the time program entry (inside the specified time program).
+* **<int:id>**:  The time program index.
+
+**Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/timeprog/1/1/1" -H  "accept: application/json"
+
+**Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/timeprog/1/1/1
+
+**Sample Response:**
+
+.. code-block:: bash
+
+    {
+      "state": 1,
+      "start": "06:00",
+      "end": "08:00"
+    }
+
+
+
+
+
+
+
 
 
 PUT /api/v1/timeprog/<int:id>/<int:day>/<int:num>
