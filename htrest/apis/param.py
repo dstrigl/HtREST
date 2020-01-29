@@ -106,7 +106,7 @@ def dt_to_field(p):
     assert False  # invalid data type!
 
 
-api = Namespace("param", description="Operations related to the heat pump parameters.", validate=False)  # validate=True
+api = Namespace("param", description="Operations related to the heat pump parameters.", validate=True)
 
 param_models = {name: dt_to_field(param) for name, param in HtParams.items()}
 param_list_model = api.model("param_list_model", param_models)
