@@ -631,7 +631,7 @@ Or you can install from source with:
 .. code-block:: console
 
     $ git clone https://github.com/dstrigl/HtREST.git
-    $ cd htheatpump
+    $ cd HtREST
     $ python setup.py install
 
 
