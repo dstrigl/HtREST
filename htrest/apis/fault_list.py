@@ -84,7 +84,7 @@ class FaultEntry(Resource):
         if id not in range(0, ht_heatpump.get_fault_list_size()):
             api.abort(404, "Fault list entry #{:d} not found".format(id))
         #_logger.info("*** {!s} -- id={:d}".format(request.url, id))
-        return ht_heatpump.get_fault_list(id)
+        return ht_heatpump.get_fault_list(id)[0]
 
 
 @api.route("/last")

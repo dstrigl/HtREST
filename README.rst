@@ -181,7 +181,7 @@ Returns the fault list of the heat pump.
             "datetime": "2000-01-01T00:00:00",
             "message": "Info: Initialisiert"
         },
-        ...
+        # ...
         {
             "index": 28,
             "error": 19,
@@ -217,20 +217,37 @@ Returns the fault list size of the heat pump.
     }
 
 
-
-
-
-
-
-
-
-
 GET /api/v1/faultlist/<int:id>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Returns the fault list entry with the given index.
 
-  TODO
+**Parameter:**
+
+    * <id>: The fault list index.
+
+**Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/faultlist/28" -H "accept: application/json"
+
+**Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/faultlist/28
+
+**Sample Response:**
+
+.. code-block:: json
+
+    {
+        "index": 28,
+        "error": 19,
+        "datetime": "2014-09-14T02:08:56",
+        "message": "EQ_Spreizung"
+    }
 
 
 GET /api/v1/faultlist/last
@@ -238,7 +255,39 @@ GET /api/v1/faultlist/last
 
 Returns the last fault list entry of the heat pump.
 
-  TODO
+**Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/faultlist/last" -H "accept: application/json"
+
+**Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/faultlist/last
+
+**Sample Response:**
+
+.. code-block:: json
+
+    {
+        "index": 28,
+        "error": 19,
+        "datetime": "2014-09-14T02:08:56",
+        "message": "EQ_Spreizung"
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 GET /api/v1/timeprog
