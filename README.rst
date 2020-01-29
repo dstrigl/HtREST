@@ -572,7 +572,7 @@ Sets a specific time program entry of the heat pump.
 GET /api/v1/param
 ~~~~~~~~~~~~~~~~~
 
-Returns the current value of several heat pump parameters.
+Returns the current value of all known heat pump parameters.
 
 **Sample Curl:**
 
@@ -598,7 +598,54 @@ Returns the current value of several heat pump parameters.
       "Temp. Ruecklauf": 35.7,
       "Temp. EQ_Eintritt": 5,
       "Temp. EQ_Austritt": 4.5,
+      "Stoerung": false,
+      "HKR Soll_Raum": 21.5,
       ...
+    }
+
+
+PUT /api/v1/param
+~~~~~~~~~~~~~~~~~
+
+Sets the current value of several heat pump parameters.
+
+**Sample Payload:**
+
+.. code-block:: bash
+
+    {
+      "Betriebsart": 1,
+      "HKR Soll_Raum": 21.5,
+      "HKR Aufheiztemp. (K)": 3,
+      "HKR Absenktemp. (K)": -3,
+      "WW Minimaltemp.": 15,
+      "WW Normaltemp.": 50,
+    }
+
+**Sample Curl:**
+
+.. code-block:: console
+
+    curl -X PUT "http://localhost:8888/api/v1/param/" -H "accept: application/json"
+        -H "Content-Type: application/json" -d "{  \"Betriebsart\": 1,  \"HKR Soll_Raum\": 21.5,  ... }"
+
+**Sample Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/param/
+
+**Sample Response:**
+
+.. code-block:: bash
+
+    {
+      "Betriebsart": 1,
+      "HKR Soll_Raum": 21.5,
+      "HKR Aufheiztemp. (K)": 3,
+      "HKR Absenktemp. (K)": -3,
+      "WW Minimaltemp.": 15,
+      "WW Normaltemp.": 50,
     }
 
 
@@ -612,19 +659,6 @@ Returns the current value of several heat pump parameters.
 
 
 
-
-
-
-
-
-
-
-PUT /api/v1/param
-~~~~~~~~~~~~~~~~~
-
-Sets the current value of several heat pump parameters.
-
-  TODO
 
 
 GET /api/v1/param/<string:name>
