@@ -136,6 +136,7 @@ class ParamList(Resource):
 
     @api.expect(param_list_model, validate=False)  # BUG: "validate=False" (see flask-restplus issue #609)
     @api.marshal_with(param_list_model)
+    @api.response(404, "Parameter not found")
     def put(self):
         """ Sets the current value of several heat pump parameters. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
@@ -143,6 +144,8 @@ class ParamList(Resource):
         _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))  # TODO
         result = {}
         for name, value in api.payload.items():
+            if name not in HtParams:
+                api.abort(404, "Parameter '{}' not found".format(name))
             #value = ht_heatpump.set_param(name, value)  # TODO
             result.update({name: value})
         return result
