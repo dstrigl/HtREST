@@ -181,7 +181,7 @@ Returns the fault list of the heat pump.
             "datetime": "2000-01-01T00:00:00",
             "message": "Info: Initialisiert"
         },
-        # ...
+        // ...
         {
             "index": 28,
             "error": 19,
