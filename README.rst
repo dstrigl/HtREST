@@ -61,7 +61,7 @@ Delivers information about the connected heat pump.
 
 .. code-block:: console
 
-    curl -X GET "http://localhost:8888/api/v1/device/" -H  "accept: application/json"
+    curl -X GET "http://localhost:8888/api/v1/device/" -H "accept: application/json"
 
 **Request URL:**
 
@@ -89,7 +89,7 @@ Returns the current date and time of the heat pump.
 
 .. code-block:: console
 
-    curl -X GET "http://localhost:8888/api/v1/datetime/" -H  "accept: application/json"
+    curl -X GET "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
 
 **Request URL:**
 
@@ -123,7 +123,7 @@ Sets the current date and time of the heat pump.
 
 .. code-block:: console
 
-    curl -X PUT "http://localhost:8888/api/v1/datetime/" -H  "accept: application/json"
+    curl -X PUT "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
         -H  "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
 
 **Request URL:**
