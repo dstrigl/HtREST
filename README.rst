@@ -329,17 +329,6 @@ Returns a list of all available time programs of the heat pump.
     ]
 
 
-
-
-
-
-
-
-
-
-
-
-
 GET /api/v1/timeprog/<int:id>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -410,7 +399,12 @@ Returns the time program with the given index of the heat pump.
             "end": "24:00"
           }
         ],
-        [...]
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
       ]
     }
 
