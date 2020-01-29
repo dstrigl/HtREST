@@ -186,7 +186,7 @@ Returns the fault list of the heat pump.
             "error": 19,
             "datetime": "2014-09-14T02:08:56",
             "message": "EQ_Spreizung"
-        },
+        }
     ]
 
 
