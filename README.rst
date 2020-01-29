@@ -280,23 +280,64 @@ Returns the last fault list entry of the heat pump.
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
 GET /api/v1/timeprog
 ~~~~~~~~~~~~~~~~~~~~
 
 Returns a list of all available time programs of the heat pump.
 
-  TODO
+**Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/timeprog/" -H "accept: application/json"
+
+**Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/timeprog/
+
+**Sample Response:**
+
+.. code-block:: json
+
+    [
+      {
+        "index": 0,
+        "name": "Warmwasser",
+        "ead": 7,
+        "nos": 2,
+        "ste": 15,
+        "nod": 7
+      },
+      {
+        "index": 1,
+        "name": "Zirkulationspumpe",
+        "ead": 7,
+        "nos": 2,
+        "ste": 15,
+        "nod": 7
+      },
+      {
+        "index": 2,
+        "name": "Heizung",
+        "ead": 7,
+        "nos": 3,
+        "ste": 15,
+        "nod": 7
+      }
+    ]
+
+
+
+
+
+
+
+
+
+
+
 
 
 GET /api/v1/timeprog/<int:id>
