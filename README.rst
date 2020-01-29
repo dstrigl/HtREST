@@ -352,7 +352,7 @@ Returns the time program with the given index of the heat pump.
 
 **Sample Response:**
 
-.. code-block:: console
+.. code-block:: bash
 
     {
       "index": 1,
