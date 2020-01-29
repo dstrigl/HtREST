@@ -57,13 +57,13 @@ GET /api/v1/device
 
 Delivers information about the connected heat pump.
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X GET "http://localhost:8888/api/v1/device/" -H "accept: application/json"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -85,13 +85,13 @@ GET /api/v1/datetime
 
 Returns the current date and time of the heat pump.
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X GET "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -121,14 +121,14 @@ Sets the current date and time of the heat pump.
 
 *Remark: If "datetime" is empty current date and time of the host will be used.*
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X PUT "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
         -H "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -148,13 +148,13 @@ GET /api/v1/faultlist
 
 Returns the fault list of the heat pump.
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X GET "http://localhost:8888/api/v1/faultlist/" -H "accept: application/json"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -197,13 +197,13 @@ GET /api/v1/faultlist/size
 
 Returns the fault list size of the heat pump.
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X GET "http://localhost:8888/api/v1/faultlist/size" -H "accept: application/json"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -227,13 +227,13 @@ Returns the fault list entry with the given index.
 
 * **<int:id>**: The fault list index.
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X GET "http://localhost:8888/api/v1/faultlist/3" -H "accept: application/json"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -256,13 +256,13 @@ GET /api/v1/faultlist/last
 
 Returns the last fault list entry of the heat pump.
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X GET "http://localhost:8888/api/v1/faultlist/last" -H "accept: application/json"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -285,13 +285,13 @@ GET /api/v1/timeprog
 
 Returns a list of all available time programs of the heat pump.
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X GET "http://localhost:8888/api/v1/timeprog/" -H "accept: application/json"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -340,13 +340,13 @@ Returns the time program with the given index of the heat pump.
 
 * **<int:id>**: The time program index.
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X GET "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -438,14 +438,14 @@ Sets all time program entries of a specific time program of the heat pump.
       ]
     }
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
     curl -X PUT "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json"
         -H "Content-Type: application/json" -d "{  \"index\": 1,  \"name\": \"Zirkulationspumpe\",  ... }"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
@@ -501,13 +501,13 @@ Returns a specific time program entry of the heat pump.
 * **<int:day>**: The day of the time program entry (inside the specified time program).
 * **<int:id>**:  The time program index.
 
-**Curl:**
+**Sample Curl:**
 
 .. code-block:: console
 
-    curl -X GET "http://localhost:8888/api/v1/timeprog/1/1/1" -H  "accept: application/json"
+    curl -X GET "http://localhost:8888/api/v1/timeprog/1/1/1" -H "accept: application/json"
 
-**Request URL:**
+**Sample Request URL:**
 
 .. code-block:: console
 
