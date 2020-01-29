@@ -35,7 +35,8 @@ _logger = logging.getLogger(__name__)
 # Pull request:
 #   https://github.com/noirbizarre/flask-restplus/pull/604
 #
-class DotKeyFieldMixin:
+#class DotKeyFieldMixin:
+class DotKeyFieldMixin(fields.Raw):
     """ Allows use of flask_restplus fields with '.' in key names. By default, '.'
     is used as a separator for accessing nested properties. Mixin prevents this,
     allowing fields to use '.' in the key names.
@@ -108,8 +109,12 @@ def dt_to_field(p):
 
 api = Namespace("param", description="Operations related to the heat pump parameters.", validate=True)
 
-param_models = {name: dt_to_field(param) for name, param in HtParams.items()}
-param_list_model = api.model("param_list_model", param_models)
+#param_models = {name: dt_to_field(param) for name, param in HtParams.items()}
+#param_list_model = api.model("param_list_model", param_models)
+wildcard = fields.Wildcard(DotKeyFieldMixin)
+param_list_model = api.model("param_list_model", {
+    "*": wildcard
+})
 param_model = api.model("param_model", {
     "value": fields.Raw(required=True, description="parameter value")
 })
