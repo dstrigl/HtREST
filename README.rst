@@ -71,7 +71,7 @@ Delivers information about the connected heat pump.
 
 **Sample Response:**
 
-.. code-block:: json
+.. code-block:: bash
 
     {
       "property_id": 123456,
@@ -99,7 +99,7 @@ Returns the current date and time of the heat pump.
 
 **Sample Response:**
 
-.. code-block:: json
+.. code-block:: bash
 
     {
       "datetime": "2020-01-29T13:11:35"
@@ -113,7 +113,7 @@ Sets the current date and time of the heat pump.
 
 **Sample Payload:**
 
-.. code-block:: json
+.. code-block:: bash
 
     {
       "datetime": "2020-01-29T13:12:07"
@@ -136,7 +136,7 @@ Sets the current date and time of the heat pump.
 
 **Sample Response:**
 
-.. code-block:: json
+.. code-block:: bash
 
     {
       "datetime": "2020-01-29T13:12:07"
@@ -162,7 +162,7 @@ Returns the fault list of the heat pump.
 
 **Sample Response:**
 
-.. code-block:: json
+.. code-block:: bash
 
     [
       {
@@ -211,7 +211,7 @@ Returns the fault list size of the heat pump.
 
 **Sample Response:**
 
-.. code-block:: json
+.. code-block:: bash
 
     {
       "size": 4
@@ -241,7 +241,7 @@ Returns the fault list entry with the given index.
 
 **Sample Response:**
 
-.. code-block:: json
+.. code-block:: bash
 
     {
       "index": 3,
@@ -270,7 +270,7 @@ Returns the last fault list entry of the heat pump.
 
 **Sample Response:**
 
-.. code-block:: json
+.. code-block:: bash
 
     {
       "index": 3,
@@ -299,7 +299,7 @@ Returns a list of all available time programs of the heat pump.
 
 **Sample Response:**
 
-.. code-block:: json
+.. code-block:: bash
 
     [
       {
@@ -325,7 +325,9 @@ Returns a list of all available time programs of the heat pump.
         "nos": 3,
         "ste": 15,
         "nod": 7
-      }
+      },
+      {...},
+      {...}
     ]
 
 
@@ -373,31 +375,11 @@ Returns the time program with the given index of the heat pump.
             "start": "05:15",
             "end": "08:00"
           },
-          {
-            "state": 0,
-            "start": "08:00",
-            "end": "11:30"
-          },
-          {
-            "state": 1,
-            "start": "11:30",
-            "end": "14:00"
-          },
-          {
-            "state": 0,
-            "start": "14:00",
-            "end": "18:00"
-          },
-          {
-            "state": 1,
-            "start": "18:00",
-            "end": "20:00"
-          },
-          {
-            "state": 0,
-            "start": "20:00",
-            "end": "24:00"
-          }
+          {...},
+          {...},
+          {...},
+          {...},
+          {...}
         ],
         [...],
         [...],
