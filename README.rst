@@ -578,7 +578,7 @@ Returns the current value of all known heat pump parameters.
 
 .. code-block:: console
 
-    curl -X GET "http://localhost:8888/api/v1/param/" -H  "accept: application/json"
+    curl -X GET "http://localhost:8888/api/v1/param/" -H "accept: application/json"
 
 **Sample Request URL:**
 
@@ -619,7 +619,7 @@ Sets the current value of several heat pump parameters.
       "HKR Aufheiztemp. (K)": 3,
       "HKR Absenktemp. (K)": -3,
       "WW Minimaltemp.": 15,
-      "WW Normaltemp.": 50,
+      "WW Normaltemp.": 50
     }
 
 **Sample Curl:**
@@ -645,7 +645,7 @@ Sets the current value of several heat pump parameters.
       "HKR Aufheiztemp. (K)": 3,
       "HKR Absenktemp. (K)": -3,
       "WW Minimaltemp.": 15,
-      "WW Normaltemp.": 50,
+      "WW Normaltemp.": 50
     }
 
 
