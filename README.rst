@@ -181,9 +181,8 @@ Returns the fault list of the heat pump.
             "datetime": "2000-01-01T00:00:00",
             "message": "Info: Initialisiert"
         },
-        // ...
         {
-            "index": 28,
+            "index": 3,
             "error": 19,
             "datetime": "2014-09-14T02:08:56",
             "message": "EQ_Spreizung"
@@ -213,7 +212,7 @@ Returns the fault list size of the heat pump.
 .. code-block:: json
 
     {
-        "size": 29
+        "size": 4
     }
 
 
@@ -230,20 +229,20 @@ Returns the fault list entry with the given index.
 
 .. code-block:: console
 
-    curl -X GET "http://localhost:8888/api/v1/faultlist/28" -H "accept: application/json"
+    curl -X GET "http://localhost:8888/api/v1/faultlist/3" -H "accept: application/json"
 
 **Request URL:**
 
 .. code-block:: console
 
-    http://localhost:8888/api/v1/faultlist/28
+    http://localhost:8888/api/v1/faultlist/3
 
 **Sample Response:**
 
 .. code-block:: json
 
     {
-        "index": 28,
+        "index": 3,
         "error": 19,
         "datetime": "2014-09-14T02:08:56",
         "message": "EQ_Spreizung"
@@ -272,7 +271,7 @@ Returns the last fault list entry of the heat pump.
 .. code-block:: json
 
     {
-        "index": 28,
+        "index": 3,
         "error": 19,
         "datetime": "2014-09-14T02:08:56",
         "message": "EQ_Spreizung"
