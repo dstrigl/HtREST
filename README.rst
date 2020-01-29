@@ -352,7 +352,7 @@ Returns the time program with the given index of the heat pump.
 
 **Sample Response:**
 
-.. code-block:: json
+.. code-block:: console
 
     {
       "index": 1,
@@ -399,12 +399,12 @@ Returns the time program with the given index of the heat pump.
             "end": "24:00"
           }
         ],
-        [],
-        [],
-        [],
-        [],
-        [],
-        []
+        [...],
+        [...],
+        [...],
+        [...],
+        [...],
+        [...]
       ]
     }
 
