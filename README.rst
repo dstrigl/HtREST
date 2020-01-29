@@ -569,28 +569,54 @@ Sets a specific time program entry of the heat pump.
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 GET /api/v1/param
 ~~~~~~~~~~~~~~~~~
 
-Returns the current value of a specific heat pump parameter.
+Returns the current value of several heat pump parameters.
 
-  TODO
+**Sample Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/param/" -H  "accept: application/json"
+
+**Sample Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/param/
+
+**Sample Response:**
+
+.. code-block:: bash
+
+    {
+      "Temp. Aussen": 1.2,
+      "Temp. Aussen verzoegert": 1.4,
+      "Temp. Brauchwasser": 50.2,
+      "Temp. Vorlauf": 48.7,
+      "Temp. Ruecklauf": 35.7,
+      "Temp. EQ_Eintritt": 5,
+      "Temp. EQ_Austritt": 4.5,
+      ...
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 PUT /api/v1/param
