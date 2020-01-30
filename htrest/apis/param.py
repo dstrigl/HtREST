@@ -35,8 +35,7 @@ _logger = logging.getLogger(__name__)
 # Pull request:
 #   https://github.com/noirbizarre/flask-restplus/pull/604
 #
-#class DotKeyFieldMixin:
-class DotKeyFieldMixin(fields.Raw):
+class DotKeyField(fields.Raw):
     """ Allows use of flask_restplus fields with '.' in key names. By default, '.'
     is used as a separator for accessing nested properties. Mixin prevents this,
     allowing fields to use '.' in the key names.
@@ -82,36 +81,9 @@ class DotKeyFieldMixin(fields.Raw):
         self.attribute = attribute
 
 
-class DotKeyBoolean(DotKeyFieldMixin, fields.Boolean):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+api = Namespace("param", description="Operations related to the heat pump parameters.")
 
-
-class DotKeyInteger(DotKeyFieldMixin, fields.Integer):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
-class DotKeyFloat(DotKeyFieldMixin, fields.Float):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
-def dt_to_field(p):
-    if p.data_type == HtDataTypes.BOOL:
-        return DotKeyBoolean(required=True)
-    elif p.data_type == HtDataTypes.INT:
-        return DotKeyInteger(required=True, min=p.min_val, max=p.max_val, example=p.min_val)
-    elif p.data_type == HtDataTypes.FLOAT:
-        return DotKeyFloat(required=True, min=p.min_val, max=p.max_val, example=p.min_val)
-    assert False  # invalid data type!
-
-
-api = Namespace("param", description="Operations related to the heat pump parameters.", validate=True)
-
-#param_models = {name: dt_to_field(param) for name, param in HtParams.items()}
-#param_list_model = api.model("param_list_model", param_models)
-wildcard = fields.Wildcard(DotKeyFieldMixin)
+wildcard = fields.Wildcard(DotKeyField)
 param_list_model = api.model("param_list_model", {
     "*": wildcard
 })
@@ -134,18 +106,19 @@ class ParamList(Resource):
             result.update({name: value})
         return result
 
-    @api.expect(param_list_model, validate=False)  # BUG: "validate=False" (see flask-restplus issue #609)
+    @api.expect(param_list_model)
     @api.marshal_with(param_list_model)
-    @api.response(404, "Parameter not found")
+    @api.response(404, "Parameter(s) not found")
     def put(self):
         """ Sets the current value of several heat pump parameters. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))  # TODO
+        unknown = [name for name in api.payload.keys() if name not in HtParams]
+        if unknown:
+            api.abort(404, "Parameter(s) {} not found".format(','.join("{!s}".format(unknown))))
         result = {}
         for name, value in api.payload.items():
-            if name not in HtParams:
-                api.abort(404, "Parameter '{}' not found".format(name))
             #value = ht_heatpump.set_param(name, value)  # TODO
             result.update({name: value})
         return result
@@ -166,7 +139,7 @@ class Param(Resource):
         value = ht_heatpump.get_param(name)
         return {"value": value}
 
-    @api.expect(param_model, validate=False)
+    @api.expect(param_model)
     @api.marshal_with(param_model)
     def put(self, name: str):
         """ Sets the current value of a specific heat pump parameter. """
