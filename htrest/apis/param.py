@@ -28,6 +28,7 @@ from contextlib import contextmanager
 
 _logger = logging.getLogger(__name__)
 
+
 # Support 'dot' notation in model/field keys:
 # -------------------------------------------
 # Workaround by SteadBytes (https://github.com/SteadBytes):
@@ -52,6 +53,8 @@ class DotKeyField(fields.Raw):
     flask_restplus tries to fetch values for ``data['my']['dot']['field']`` instead
     of ``data['my.dot.field']`` which is the desired behaviour in this case.
     """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def output(self, key, obj, **kwargs):
         key_map = {}
@@ -83,7 +86,7 @@ class DotKeyField(fields.Raw):
 
 api = Namespace("param", description="Operations related to the heat pump parameters.")
 
-wildcard = fields.Wildcard(DotKeyField)
+wildcard = fields.Wildcard(DotKeyField(required=True, description="parameter value"))
 param_list_model = api.model("param_list_model", {
     "*": wildcard
 })
@@ -116,7 +119,9 @@ class ParamList(Resource):
         _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))  # TODO
         unknown = [name for name in api.payload.keys() if name not in HtParams]
         if unknown:
-            api.abort(404, "Parameter(s) {} not found".format(','.join("{!s}".format(unknown))))
+            api.abort(404, "Parameter(s) {} not found".format(
+                ", ".join(map(lambda n: "{!r}".format(n), unknown))
+            ))
         result = {}
         for name, value in api.payload.items():
             #value = ht_heatpump.set_param(name, value)  # TODO
@@ -139,7 +144,7 @@ class Param(Resource):
         value = ht_heatpump.get_param(name)
         return {"value": value}
 
-    @api.expect(param_model)
+    @api.expect(param_model, validate=False)  # TODO
     @api.marshal_with(param_model)
     def put(self, name: str):
         """ Sets the current value of a specific heat pump parameter. """

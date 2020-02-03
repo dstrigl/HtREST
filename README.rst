@@ -590,17 +590,16 @@ Returns the current value of all known heat pump parameters.
 
 .. code-block:: bash
 
-    *** TODO TODO TODO ***
     {
-      "Temp. Aussen": 1.2,
-      "Temp. Aussen verzoegert": 1.4,
-      "Temp. Brauchwasser": 50.2,
-      "Temp. Vorlauf": 48.7,
-      "Temp. Ruecklauf": 35.7,
-      "Temp. EQ_Eintritt": 5,
-      "Temp. EQ_Austritt": 4.5,
+      "HKR Soll_Raum": 23,
       "Stoerung": false,
-      "HKR Soll_Raum": 21.5,
+      "Temp. EQ_Austritt": 4.7,
+      "Temp. EQ_Eintritt": 6.1,
+      "Temp. Ruecklauf": 27.7,
+      "Temp. Vorlauf": 27.8,
+      "Temp. Brauchwasser": 50.1,
+      "Temp. Aussen verzoegert": 4.9,
+      "Temp. Aussen": 4.9,
       ...
     }
 
@@ -650,24 +649,34 @@ Sets the current value of several heat pump parameters.
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 GET /api/v1/param/<string:name>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Returns the current value of a specific heat pump parameter.
 
-  TODO
+**Parameter:**
+
+* **<string:name>**: The parameter name.
+
+**Sample Curl:**
+
+.. code-block:: console
+
+    curl -X GET "http://localhost:8888/api/v1/param/Temp.%20Aussen" -H "accept: application/json"
+
+**Sample Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/param/Temp.%20Aussen
+
+**Sample Response:**
+
+.. code-block:: bash
+
+    {
+      "value": 4.9
+    }
 
 
 PUT /api/v1/param/<string:name>
@@ -675,7 +684,38 @@ PUT /api/v1/param/<string:name>
 
 Sets the current value of a specific heat pump parameter.
 
-  TODO
+**Parameter:**
+
+* **<string:name>**: The parameter name.
+
+**Sample Payload:**
+
+.. code-block:: bash
+
+    {
+      "value": 22.5
+    }
+
+**Sample Curl:**
+
+.. code-block:: console
+
+    curl -X PUT "http://localhost:8888/api/v1/param/HKR%20Soll_Raum" -H "accept: application/json"
+        -H "Content-Type: application/json" -d "{  \"value\": 22.5}"
+
+**Sample Request URL:**
+
+.. code-block:: console
+
+    http://localhost:8888/api/v1/param/HKR%20Soll_Raum
+
+**Sample Response:**
+
+.. code-block:: bash
+
+    {
+      "value": 22.5
+    }
 
 
 Installation
