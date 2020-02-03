@@ -29,6 +29,14 @@ from contextlib import contextmanager
 _logger = logging.getLogger(__name__)
 
 
+class ParamValueField(fields.Raw):
+    __schema_type__ = ["number", "boolean"]
+    __schema_example__ = "number or boolean"
+
+    def __init__(self):
+        super().__init__(required=True, description="parameter value")
+
+
 # Support 'dot' notation in model/field keys:
 # -------------------------------------------
 # Workaround by SteadBytes (https://github.com/SteadBytes):
@@ -36,7 +44,7 @@ _logger = logging.getLogger(__name__)
 # Pull request:
 #   https://github.com/noirbizarre/flask-restplus/pull/604
 #
-class DotKeyField(fields.Raw):
+class DotKeyField(ParamValueField):
     """ Allows use of flask_restplus fields with '.' in key names. By default, '.'
     is used as a separator for accessing nested properties. Mixin prevents this,
     allowing fields to use '.' in the key names.
@@ -53,8 +61,6 @@ class DotKeyField(fields.Raw):
     flask_restplus tries to fetch values for ``data['my']['dot']['field']`` instead
     of ``data['my.dot.field']`` which is the desired behaviour in this case.
     """
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
 
     def output(self, key, obj, **kwargs):
         key_map = {}
@@ -86,12 +92,12 @@ class DotKeyField(fields.Raw):
 
 api = Namespace("param", description="Operations related to the heat pump parameters.")
 
-wildcard = fields.Wildcard(DotKeyField(required=True, description="parameter value"))
+wildcard = fields.Wildcard(DotKeyField)
 param_list_model = api.model("param_list_model", {
     "*": wildcard
 })
 param_model = api.model("param_model", {
-    "value": fields.Raw(required=True, description="parameter value")
+    "value": ParamValueField
 })
 
 
