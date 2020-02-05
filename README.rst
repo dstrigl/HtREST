@@ -749,3 +749,11 @@ Disclaimer
    for damage caused by this module, examples or mentioned information.
 
    **Thus, use it on your own risk!**
+
+
+Wanna support me?
+-----------------
+
+.. image:: buymeacoffee.svg
+   :target: https://www.buymeacoffee.com/N362PLZ
+   :alt: Buy Me A Coffee
