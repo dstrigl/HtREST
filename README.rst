@@ -754,6 +754,6 @@ Disclaimer
 Wanna support me?
 -----------------
 
-.. image:: buymeacoffee.svg
+.. image:: buymeacoffee.png
    :target: https://www.buymeacoffee.com/N362PLZ
    :alt: Buy Me A Coffee
