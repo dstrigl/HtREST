@@ -50,7 +50,9 @@ class DateTime(Resource):
     @api.expect(date_time_model, validate=True)
     @api.marshal_with(date_time_model)
     def put(self):
-        """ Sets the current date and time of the heat pump. """
+        """ Sets the current date and time of the heat pump.
+        Note: If 'datetime' is empty current date and time of the host will be used.
+        """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         #_logger.info("*** {!s}".format(request.url))
