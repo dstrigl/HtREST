@@ -13,7 +13,7 @@ HtREST
      :alt: Updates
 
 
-`Heliotherm <http://www.heliotherm.com/>`_ heat pump HTTP/REST API server.
+`Heliotherm <http://www.heliotherm.com/>`_ heat pump HTTP/REST API server
 
 
 * GitHub repo: https://github.com/dstrigl/HtREST
