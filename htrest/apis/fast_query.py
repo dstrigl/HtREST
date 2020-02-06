@@ -64,4 +64,4 @@ class FastQuery(Resource):
             api.abort(404, "Parameter '{}' not found".format(name))
         _logger.info("*** {!s} -- name='{}'".format(request.url, name))  # TODO
         value = ht_heatpump.fast_query(name)
-        return {"value": value}
+        return {"value": value[name]}

@@ -731,20 +731,26 @@ Performs a fast query of all heat pump parameters representing a 'MP' data point
 
 .. code-block:: console
 
-    TODO
+    curl -X GET "http://localhost:8888/api/v1/fastquery/" -H "accept: application/json"
 
 **Sample Request URL:**
 
 .. code-block:: console
 
-    TODO
+    http://localhost:8888/api/v1/fastquery/
 
 **Sample Response:**
 
 .. code-block:: bash
 
     {
-      TODO
+      "HKR_Sollwert": 32.2,
+      "Verdichteranforderung": 3,
+      "Frischwasserpumpe": 0,
+      "FWS Stroemungsschalter": false,
+      "Stoerung": false,
+      "Verdichter": true,
+      "Zirkulationspumpe WW": false,
       ...
     }
 
@@ -762,20 +768,20 @@ Performs a fast query of a specific heat pump parameter which represents a 'MP' 
 
 .. code-block:: console
 
-    TODO
+    curl -X GET "http://localhost:8888/api/v1/fastquery/Temp.%20Aussen%20verzoegert" -H "accept: application/json"
 
 **Sample Request URL:**
 
 .. code-block:: console
 
-    TODO
+    http://localhost:8888/api/v1/fastquery/Temp.%20Aussen%20verzoegert
 
 **Sample Response:**
 
 .. code-block:: bash
 
     {
-      "value": TODO
+      "value": -3.6
     }
 
 
