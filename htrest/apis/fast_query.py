@@ -52,7 +52,7 @@ class FastQueryList(Resource):
 
 
 @api.route("/<string:name>")
-@api.param("name", "The parameter name (representing a 'MP' data point)")
+@api.param("name", "The parameter name (which represents a 'MP' data point)")
 @api.response(404, "Parameter not found")
 class FastQuery(Resource):
     @api.marshal_with(param_model)
