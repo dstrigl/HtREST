@@ -126,7 +126,7 @@ class ParamList(Resource):
         unknown = [name for name in api.payload.keys() if name not in HtParams]
         if unknown:
             api.abort(404, "Parameter(s) {} not found".format(
-                ", ".join(map(lambda n: "{!r}".format(n), unknown))
+                ", ".join(map(lambda name: "{!r}".format(name), unknown))
             ))
         result = {}
         for name, value in api.payload.items():
