@@ -50,6 +50,8 @@ The following table describes the HTTP/REST API exposed by this server applicati
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
 | /api/v1/param/<string:name>                   | X   | X    | Returns or sets the current value of a specific heat pump parameter.       |
 +-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
+| /api/v1/fastquery                             | X   |      | Fast query of heat pump parameters representing a 'MP' data point.         |
++-----------------------------------------------+-----+------+----------------------------------------------------------------------------+
 
 
 GET /api/v1/device
@@ -715,6 +717,63 @@ Sets the current value of a specific heat pump parameter.
 
     {
       "value": 22.5
+    }
+
+
+GET /api/v1/fastquery
+~~~~~~~~~~~~~~~~~~~~~
+
+Performs a fast query of all heat pump parameters representing a 'MP' data point.
+
+**Sample Curl:**
+
+.. code-block:: console
+
+    TODO
+
+**Sample Request URL:**
+
+.. code-block:: console
+
+    TODO
+
+**Sample Response:**
+
+.. code-block:: bash
+
+    {
+      TODO
+      ...
+    }
+
+
+GET /api/v1/fastquery/<string:name>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Performs a fast query of a specific heat pump parameter (must represent a 'MP' data point).
+
+**Parameter:**
+
+* **<string:name>**: The parameter name (representing a 'MP' data point).
+
+**Sample Curl:**
+
+.. code-block:: console
+
+    TODO
+
+**Sample Request URL:**
+
+.. code-block:: console
+
+    TODO
+
+**Sample Response:**
+
+.. code-block:: bash
+
+    {
+      "value": TODO
     }
 
 
