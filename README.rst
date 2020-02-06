@@ -768,20 +768,20 @@ Performs a fast query of a specific heat pump parameter which represents a 'MP' 
 
 .. code-block:: console
 
-    curl -X GET "http://localhost:8888/api/v1/fastquery/Temp.%20Aussen%20verzoegert" -H "accept: application/json"
+    curl -X GET "http://localhost:8888/api/v1/fastquery/Verdichter" -H "accept: application/json"
 
 **Sample Request URL:**
 
 .. code-block:: console
 
-    http://localhost:8888/api/v1/fastquery/Temp.%20Aussen%20verzoegert
+    http://localhost:8888/api/v1/fastquery/Verdichter
 
 **Sample Response:**
 
 .. code-block:: bash
 
     {
-      "value": -3.6
+      "value": true
     }
 
 
