@@ -27,7 +27,8 @@ from htrest.apis.device import api as ns1
 from htrest.apis.fault_list import api as ns2
 from htrest.apis.date_time import api as ns3
 from htrest.apis.param import api as ns4
-from htrest.apis.time_prog import api as ns5
+from htrest.apis.fast_query import api as ns5
+from htrest.apis.time_prog import api as ns6
 
 
 _logger = logging.getLogger(__name__)
@@ -45,6 +46,7 @@ api.add_namespace(ns2)
 api.add_namespace(ns3)
 api.add_namespace(ns4)
 api.add_namespace(ns5)
+api.add_namespace(ns6)
 
 
 @blueprint.before_request
