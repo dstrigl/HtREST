@@ -57,7 +57,7 @@ class FastQueryList(Resource):
 class FastQuery(Resource):
     @api.marshal_with(param_model)
     def get(self, name: str):
-        """ Performs a fast query of a specific heat pump parameter (must represent a 'MP' data point). """
+        """ Performs a fast query of a specific heat pump parameter which represents a 'MP' data point. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if name not in HtParams:
