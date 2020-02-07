@@ -18,8 +18,8 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'htheatpump==1.2.1',
-    'flask==1.1.1',
-    'flask_restplus==0.13.0',
+    'Flask==1.1.1',
+    'flask-restplus==0.13.0',
     'Flask-BasicAuth==0.2.0',
     # put package requirements here
 ]
