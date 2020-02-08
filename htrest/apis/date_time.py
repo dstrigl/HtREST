@@ -20,7 +20,7 @@
 """ REST API for operations related to the date and time of the heat pump. """
 
 import logging
-from flask import request
+#from flask import request  # TODO
 from flask_restplus import Namespace, Resource, fields
 from datetime import datetime
 from htrest.app import ht_heatpump  # type: ignore

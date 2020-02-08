@@ -20,7 +20,7 @@
 """ REST API for operations related to the heat pump fault list. """
 
 import logging
-from flask import request
+#from flask import request  # TODO
 from flask_restplus import Namespace, Resource, fields
 from htrest.app import ht_heatpump  # type: ignore
 

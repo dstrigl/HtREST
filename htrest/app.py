@@ -57,7 +57,7 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888", 
         app.config["BASIC_AUTH_USERNAME"] = username
         app.config["BASIC_AUTH_PASSWORD"] = password
         app.config["BASIC_AUTH_FORCE"] = True
-        basic_auth = BasicAuth(app)
+        basic_auth = BasicAuth(app)  # noqa: F841
     _logger.info("*** created Flask app {!s} with config {!s}".format(app, app.config))
 
     @app.before_first_request

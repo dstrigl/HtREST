@@ -20,7 +20,7 @@
 """ REST API which delivers information about the connected heat pump. """
 
 import logging
-from flask import request
+#from flask import request  # TODO
 from flask_restplus import Namespace, Resource, fields
 from htheatpump.htparams import HtParams
 from htrest.app import ht_heatpump  # type: ignore

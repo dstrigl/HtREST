@@ -20,7 +20,7 @@
 """ REST API for operations related to the time programs of the heat pump. """
 
 import logging
-from flask import request
+#from flask import request  # TODO
 from flask_restplus import Namespace, Resource, fields
 from htheatpump.httimeprog import TimeProgram as HtTimeProg
 from htheatpump.httimeprog import TimeProgEntry as HtTimeProgEntry
