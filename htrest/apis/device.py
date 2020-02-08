@@ -22,8 +22,8 @@
 import logging
 from flask import request
 from flask_restplus import Namespace, Resource, fields
-from htrest import ht_heatpump  # type: ignore
 from htheatpump.htparams import HtParams
+from htrest.app import ht_heatpump  # type: ignore
 
 
 _logger = logging.getLogger(__name__)

@@ -22,13 +22,13 @@
 import logging
 from flask import Blueprint, request
 from flask_restplus import Api
-from htrest import ht_heatpump  # type: ignore
 from htrest.apis.device import api as ns1
 from htrest.apis.fault_list import api as ns2
 from htrest.apis.date_time import api as ns3
 from htrest.apis.param import api as ns4
 from htrest.apis.fast_query import api as ns5
 from htrest.apis.time_prog import api as ns6
+from htrest.app import ht_heatpump  # type: ignore
 
 
 _logger = logging.getLogger(__name__)

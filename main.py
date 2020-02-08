@@ -31,7 +31,7 @@ import re
 import argparse
 import textwrap
 import logging.config
-from htrest import create_app
+from htrest.app import create_app
 
 
 class UserType:

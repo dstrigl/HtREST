@@ -125,7 +125,7 @@ setup(
     # Entry points specification
     entry_points={
         'console_scripts': [
-            'htrest=app:main',
+            'htrest=main:main',
         ]
     },
 )
