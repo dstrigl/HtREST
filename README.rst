@@ -2,15 +2,15 @@ HtREST
 ======
 
 
-.. image:: https://img.shields.io/pypi/v/htrest.svg
-        :target: https://pypi.python.org/pypi/htrest
+.. image:: https://img.shields.io/pypi/v/HtREST.svg
+  :target: https://pypi.python.org/pypi/HtREST
 
-.. image:: https://img.shields.io/travis/dstrigl/htrest.svg
-        :target: https://travis-ci.org/dstrigl/htrest
+.. image:: https://img.shields.io/travis/dstrigl/HtREST.svg
+  :target: https://travis-ci.org/dstrigl/HtREST
 
-.. image:: https://pyup.io/repos/github/dstrigl/htrest/shield.svg
-     :target: https://pyup.io/repos/github/dstrigl/htrest/
-     :alt: Updates
+.. image:: https://pyup.io/repos/github/dstrigl/HtREST/shield.svg
+  :target: https://pyup.io/repos/github/dstrigl/HtREST/
+  :alt: Updates
 
 
 `Heliotherm <http://www.heliotherm.com/>`_ heat pump HTTP/REST API server
