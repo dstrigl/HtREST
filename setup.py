@@ -18,6 +18,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'htheatpump==1.2.1',
+    'Werkzeug==0.16.1',
     'Flask==1.1.1',
     'flask-restplus==0.13.0',
     'Flask-BasicAuth==0.2.0',
@@ -125,7 +126,7 @@ setup(
     # Entry points specification
     entry_points={
         'console_scripts': [
-            'htrest=main:main',
+            'htrest=htrest.__main__:main',
         ]
     },
 )

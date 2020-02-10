@@ -5,7 +5,7 @@ Requires=network.target
 
 [Service]
 Type=idle
-ExecStart=/usr/bin/python3 app.py -d /dev/ttyUSB0 -b 19200 -s 192.168.1.80:8888 -u john:p@ssw0rd
+ExecStart=/usr/bin/python3 -m htrest -d /dev/ttyUSB0 -b 19200 -s 192.168.1.80:8888 -u john:p@ssw0rd
 WorkingDirectory=/home/pi/HtREST
 StandardOutput=inherit
 StandardError=inherit

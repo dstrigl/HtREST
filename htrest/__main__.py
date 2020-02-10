@@ -90,7 +90,7 @@ def main():
         "-u", "--user",
         default = "",
         type = UserType(),
-        help = "the username and password for the basic access authentication in the form <username>:<password>,"\
+        help = "the username and password for the basic access authentication in the form <username>:<password>,"
                " default: %(default)s")
 
     parser.add_argument(
