@@ -20,9 +20,9 @@
 """ Settings for the Heliotherm heat pump REST API server. """
 
 
-# Flask-Restplus settings
-RESTPLUS_SWAGGER_UI_DOC_EXPANSION = "list"
-RESTPLUS_VALIDATE = True
-RESTPLUS_MASK_SWAGGER = False
-RESTPLUS_ERROR_404_HELP = False
-RESTPLUS_BUNDLE_ERRORS = True
+# Flask-RESTX settings
+RESTX_SWAGGER_UI_DOC_EXPANSION = "list"
+RESTX_VALIDATE = True
+RESTX_MASK_SWAGGER = False
+RESTX_ERROR_404_HELP = False
+RESTX_BUNDLE_ERRORS = True

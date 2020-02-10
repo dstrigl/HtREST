@@ -21,7 +21,7 @@
 
 import logging
 #from flask import request  # TODO
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 from htheatpump.httimeprog import TimeProgram as HtTimeProg
 from htheatpump.httimeprog import TimeProgEntry as HtTimeProgEntry
 from htrest.app import ht_heatpump  # type: ignore

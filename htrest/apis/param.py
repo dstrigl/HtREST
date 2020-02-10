@@ -21,7 +21,7 @@
 
 import logging
 from flask import request
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 from htheatpump.htparams import HtParams
 from .utils import ParamValueField, DotKeyField
 from htrest.app import ht_heatpump  # type: ignore

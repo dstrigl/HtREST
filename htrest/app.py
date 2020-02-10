@@ -47,11 +47,11 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888", 
     # create the Flask app
     app = Flask(__name__)
     app.config["SERVER_NAME"] = server
-    app.config["SWAGGER_UI_DOC_EXPANSION"] = settings.RESTPLUS_SWAGGER_UI_DOC_EXPANSION
-    app.config["RESTPLUS_VALIDATE"] = settings.RESTPLUS_VALIDATE
-    app.config["RESTPLUS_MASK_SWAGGER"] = settings.RESTPLUS_MASK_SWAGGER
-    app.config["ERROR_404_HELP"] = settings.RESTPLUS_ERROR_404_HELP
-    app.config["BUNDLE_ERRORS"] = settings.RESTPLUS_BUNDLE_ERRORS
+    app.config["SWAGGER_UI_DOC_EXPANSION"] = settings.RESTX_SWAGGER_UI_DOC_EXPANSION
+    app.config["RESTX_VALIDATE"] = settings.RESTX_VALIDATE
+    app.config["RESTX_MASK_SWAGGER"] = settings.RESTX_MASK_SWAGGER
+    app.config["ERROR_404_HELP"] = settings.RESTX_ERROR_404_HELP
+    app.config["BUNDLE_ERRORS"] = settings.RESTX_BUNDLE_ERRORS
     if user:
         username, password = user.split(':', 1)
         app.config["BASIC_AUTH_USERNAME"] = username

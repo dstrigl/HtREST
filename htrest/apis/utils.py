@@ -19,7 +19,7 @@
 
 """ Miscellaneous helper functions and classes for the REST API. """
 
-from flask_restplus import fields
+from flask_restx import fields
 from contextlib import contextmanager
 
 
@@ -39,7 +39,7 @@ class ParamValueField(fields.Raw):
 #   https://github.com/noirbizarre/flask-restplus/pull/604
 #
 class DotKeyField(ParamValueField):
-    """ Allows use of flask_restplus fields with '.' in key names. By default, '.'
+    """ Allows use of flask_restx fields with '.' in key names. By default, '.'
     is used as a separator for accessing nested properties. Mixin prevents this,
     allowing fields to use '.' in the key names.
 
@@ -52,7 +52,7 @@ class DotKeyField(ParamValueField):
        >>> marshal(data, model)
        {"my.dot.field": None}
 
-    flask_restplus tries to fetch values for ``data['my']['dot']['field']`` instead
+    flask_restx tries to fetch values for ``data['my']['dot']['field']`` instead
     of ``data['my.dot.field']`` which is the desired behaviour in this case.
     """
 
