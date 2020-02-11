@@ -20,7 +20,7 @@
 """ REST API for operations related to the heat pump fault list. """
 
 import logging
-#from flask import request  # TODO
+from flask import request
 from flask_restx import Namespace, Resource, fields
 from htrest.app import ht_heatpump  # type: ignore
 
@@ -57,7 +57,7 @@ class FaultList(Resource):
         """ Returns the fault list of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        #_logger.info("*** {!s}".format(request.url))
+        _logger.debug("*** {!s}".format(request.url))
         return ht_heatpump.get_fault_list()
 
 
@@ -68,7 +68,7 @@ class FaultListSize(Resource):
         """ Returns the fault list size of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        #_logger.info("*** {!s}".format(request.url))
+        _logger.debug("*** {!s}".format(request.url))
         return {"size": ht_heatpump.get_fault_list_size()}
 
 
@@ -83,7 +83,7 @@ class FaultEntry(Resource):
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if id not in range(0, ht_heatpump.get_fault_list_size()):
             api.abort(404, "Fault list entry #{:d} not found".format(id))
-        #_logger.info("*** {!s} -- id={:d}".format(request.url, id))
+        _logger.debug("*** {!s} -- id={}".format(request.url, id))
         return ht_heatpump.get_fault_list(id)[0]
 
 
@@ -94,7 +94,7 @@ class LastFault(Resource):
         """ Returns the last fault list entry of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        #_logger.info("*** {!s}".format(request.url))
+        _logger.debug("*** {!s}".format(request.url))
         idx, err, dt, msg = ht_heatpump.get_last_fault()
         # e.g.: idx, err, dt, msg = (28, 19, datetime.datetime.now(), "EQ_Spreizung")
         return {"index": idx, "error": err, "datetime": dt, "message": msg}

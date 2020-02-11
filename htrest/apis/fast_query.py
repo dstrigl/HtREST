@@ -48,7 +48,7 @@ class FastQueryList(Resource):
         """ Performs a fast query of all heat pump parameters representing a 'MP' data point. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        _logger.info("*** {!s}".format(request.url))  # TODO
+        _logger.debug("*** {!s}".format(request.url))
         return ht_heatpump.fast_query()
 
 
@@ -63,6 +63,6 @@ class FastQuery(Resource):
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
-        _logger.info("*** {!s} -- name='{}'".format(request.url, name))  # TODO
+        _logger.debug("*** {!s} -- name={!r}".format(request.url, name))
         value = ht_heatpump.fast_query(name)
         return {"value": value[name]}

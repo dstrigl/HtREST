@@ -20,7 +20,7 @@
 """ REST API for operations related to the date and time of the heat pump. """
 
 import logging
-#from flask import request  # TODO
+from flask import request
 from flask_restx import Namespace, Resource, fields
 from datetime import datetime
 from htrest.app import ht_heatpump  # type: ignore
@@ -43,7 +43,7 @@ class DateTime(Resource):
         """ Returns the current date and time of the heat pump. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        #_logger.info("*** {!s}".format(request.url))
+        _logger.debug("*** {!s}".format(request.url))
         dt, _ = ht_heatpump.get_date_time()
         return {"datetime": dt}
 
@@ -55,7 +55,7 @@ class DateTime(Resource):
         """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        #_logger.info("*** {!s}".format(request.url))
+        _logger.debug("*** {!s} -- payload={!s}".format(request.url, api.payload))
         dt = api.payload["datetime"]
         if not dt:  # if 'dt' is empty, use the current system time!
             dt = datetime.now()

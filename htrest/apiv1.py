@@ -63,13 +63,13 @@ def before_request():
 
 @blueprint.after_request
 def after_request(response):
-    _logger.info("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
+    _logger.debug("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
     return response
 
 
 @blueprint.teardown_request
 def teardown_request(exc):
-    _logger.info("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
+    _logger.debug("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
     ht_heatpump.logout()
     # TODO call logout ONLY for registered routes!
 

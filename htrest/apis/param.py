@@ -48,7 +48,7 @@ class ParamList(Resource):
         """ Returns the list of heat pump parameters with their current value. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        #_logger.info("*** {!s}".format(request.url))
+        _logger.debug("*** {!s}".format(request.url))
         result = {}
         for name in HtParams.keys():
             value = ht_heatpump.get_param(name)
@@ -62,7 +62,7 @@ class ParamList(Resource):
         """ Sets the current value of several heat pump parameters. """
         assert ht_heatpump is not None, "'ht_heatpump' must not be None"
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))  # TODO
+        _logger.debug("*** {!s} -- payload={!s}".format(request.url, api.payload))
         unknown = [name for name in api.payload.keys() if name not in HtParams]
         if unknown:
             api.abort(404, "Parameter(s) {} not found".format(
@@ -86,11 +86,11 @@ class Param(Resource):
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
-        #_logger.info("*** {!s} -- name='{}'".format(request.url, name))
+        _logger.debug("*** {!s} -- name={!r}".format(request.url, name))
         value = ht_heatpump.get_param(name)
         return {"value": value}
 
-    @api.expect(param_model, validate=False)  # TODO
+    @api.expect(param_model)
     @api.marshal_with(param_model)
     def put(self, name: str):
         """ Sets the current value of a specific heat pump parameter. """
@@ -99,6 +99,6 @@ class Param(Resource):
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
         value = api.payload["value"]
-        _logger.info("*** {!s} -- name='{}', value='{!s}', type='{!s}'".format(request.url, name, value, type(value)))
+        _logger.debug("*** {!s} -- name={!r}, value={}, type={}".format(request.url, name, value, type(value)))
         #value = ht_heatpump.set_param(name, value)  # TODO
         return {"value": value}

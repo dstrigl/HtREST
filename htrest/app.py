@@ -62,7 +62,7 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888", 
 
     @app.before_first_request
     def before_first_request():
-        _logger.info("*** @app.before_first_request -- {}".format(__file__))
+        _logger.debug("*** @app.before_first_request -- {}".format(__file__))
         pass
 
     from htrest.apiv1 import blueprint as apiv1
