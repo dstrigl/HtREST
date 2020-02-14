@@ -25,6 +25,7 @@ from flask_restx import Namespace, Resource, fields
 from htheatpump.htparams import HtParams
 from .utils import ParamValueField, DotKeyField
 from htrest.app import ht_heatpump  # type: ignore
+from htrest.settings import READ_ONLY as HTREST_READ_ONLY
 
 
 _logger = logging.getLogger(__name__)
@@ -70,7 +71,8 @@ class ParamList(Resource):
             ))
         result = {}
         for name, value in api.payload.items():
-            #value = ht_heatpump.set_param(name, value)  # TODO
+            if not HTREST_READ_ONLY:
+                value = ht_heatpump.set_param(name, value)
             result.update({name: value})
         return result
 
@@ -100,5 +102,6 @@ class Param(Resource):
             api.abort(404, "Parameter '{}' not found".format(name))
         value = api.payload["value"]
         _logger.debug("*** {!s} -- name={!r}, value={}, type={}".format(request.url, name, value, type(value)))
-        #value = ht_heatpump.set_param(name, value)  # TODO
+        if not HTREST_READ_ONLY:
+            value = ht_heatpump.set_param(name, value)
         return {"value": value}

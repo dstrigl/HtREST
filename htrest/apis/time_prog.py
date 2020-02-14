@@ -25,6 +25,7 @@ from flask_restx import Namespace, Resource, fields
 from htheatpump.httimeprog import TimeProgram as HtTimeProg
 from htheatpump.httimeprog import TimeProgEntry as HtTimeProgEntry
 from htrest.app import ht_heatpump  # type: ignore
+from htrest.settings import READ_ONLY as HTREST_READ_ONLY
 
 
 _logger = logging.getLogger(__name__)
@@ -98,7 +99,8 @@ class TimeProg(Resource):
         time_prog = ht_heatpump.get_time_prog(id, with_entries=False).as_json(with_entries=False)
         time_prog.update({"entries": api.payload["entries"]})
         time_prog = HtTimeProg.from_json(time_prog)
-        #time_prog = ht_heatpump.set_time_prog(time_prog)  # TODO
+        if not HTREST_READ_ONLY:
+            time_prog = ht_heatpump.set_time_prog(time_prog)
         return time_prog.as_json(with_entries=True)
 
 
@@ -124,5 +126,6 @@ class TimeProgEntry(Resource):
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s} -- id={}, day={}, num={}, payload={!s}".format(request.url, id, day, num, api.payload))
         entry = HtTimeProgEntry.from_json(api.payload)
-        #entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)  # TODO
+        if not HTREST_READ_ONLY:
+            entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)
         return entry.as_json()
