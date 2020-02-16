@@ -803,6 +803,37 @@ Or you can install from source with:
     $ python setup.py install
 
 
+Usage
+-----
+
+.. code-block:: console
+
+    usage: __main__.py [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
+                       [-s SERVER] [-u USER] [-l LOGGING_CONFIG] [--debug]
+
+    Heliotherm heat pump REST API server
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -d DEVICE, --device DEVICE
+                            the serial device on which the heat pump is connected,
+                            default: /dev/ttyUSB0
+      -b {9600,19200,38400,57600,115200}, --baudrate {9600,19200,38400,57600,115200}
+                            baudrate of the serial connection (same as configured
+                            on the heat pump), default: 115200
+      -s SERVER, --server SERVER
+                            the name and port number of the server in the form
+                            <hostname>:<port>, default: localhost:8888
+      -u USER, --user USER  the username and password for the basic access
+                            authentication in the form <username>:<password>,
+                            default:
+      -l LOGGING_CONFIG, --logging-config LOGGING_CONFIG
+                            the filename under which the logging configuration can
+                            be found, default:
+                            /home/pi/HtREST/htrest/logging.conf
+      --debug               enable Flask debug mode, default: False
+
+
 Disclaimer
 ----------
 
