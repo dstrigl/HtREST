@@ -830,7 +830,7 @@ Usage
       -l LOGGING_CONFIG, --logging-config LOGGING_CONFIG
                             the filename under which the logging configuration can
                             be found, default:
-                            /home/dast/prog/HtREST/htrest/logging.conf
+                            /home/pi/HtREST/htrest/logging.conf
       --debug               enable Flask debug mode, default: False
 
 
