@@ -806,10 +806,10 @@ Or you can install from source with:
 Usage
 -----
 
-.. code-block:: console
+.. code-block:: bash
 
-    usage: __main__.py [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
-                       [-s SERVER] [-u USER] [-l LOGGING_CONFIG] [--debug]
+    usage: htrest [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
+                  [-s SERVER] [-u USER] [-l LOGGING_CONFIG] [--debug]
 
     Heliotherm heat pump REST API server
 
@@ -830,7 +830,7 @@ Usage
       -l LOGGING_CONFIG, --logging-config LOGGING_CONFIG
                             the filename under which the logging configuration can
                             be found, default:
-                            /home/pi/HtREST/htrest/logging.conf
+                            /home/dast/prog/HtREST/htrest/logging.conf
       --debug               enable Flask debug mode, default: False
 
 
