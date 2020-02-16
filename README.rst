@@ -806,7 +806,7 @@ Or you can install from source with:
 Usage
 -----
 
-.. code-block:: bash
+.. code-block:: console
 
     usage: htrest [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
                   [-s SERVER] [-u USER] [-l LOGGING_CONFIG] [--debug]
