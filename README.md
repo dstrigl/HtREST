@@ -112,8 +112,7 @@ Sets the current date and time of the heat pump.
 **Sample Curl:**
 
 ```
-curl -X PUT "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
-    -H "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
+curl -X PUT "http://localhost:8888/api/v1/datetime/" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
 ```
 
 **Sample Request URL:**
@@ -128,7 +127,7 @@ http://localhost:8888/api/v1/datetime/
 {
   "datetime": "2020-01-29T13:12:07"
 }
-
+```
 
 
 
