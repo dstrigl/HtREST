@@ -750,13 +750,13 @@ http://localhost:8888/api/v1/fastquery/Verdichter
 
 You can install or upgrade `HtREST` with:
 
-```bash
+```
 $ pip install HtREST --upgrade
 ```
 
 Or you can install from source with:
 
-```bash
+```
 $ git clone https://github.com/dstrigl/HtREST.git
 $ cd HtREST
 $ python setup.py install
@@ -765,7 +765,7 @@ $ python setup.py install
 
 ## Usage
 
-```bash
+```
 usage: htrest [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
               [-s SERVER] [-u USER] [-l LOGGING_CONFIG] [--debug]
 
