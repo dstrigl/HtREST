@@ -201,13 +201,13 @@ http://localhost:8888/api/v1/faultlist/size
 ```
 
 
-### GET /api/v1/faultlist/<int:id>
+### GET /api/v1/faultlist/\<int:id\>
 
 Returns the fault list entry with the given index.
 
 **Parameter:**
 
-* **<int:id>**: The fault list index.
+* **\<int:id\>**: The fault list index.
 
 **Sample Curl:**
 
