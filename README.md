@@ -802,7 +802,7 @@ optional arguments:
                         the name and port number of the server in the form
                         <hostname>:<port>, default: localhost:8888
   -u USER, --user USER  the username and password for the basic access
-                        authentication in the form '<username>:<password>',
+                        authentication in the form "<username>:<password>",
                         default:
   -l LOGGING_CONFIG, --logging-config LOGGING_CONFIG
                         the filename under which the logging configuration can
