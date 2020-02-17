@@ -747,7 +747,7 @@ http://localhost:8888/api/v1/fastquery/Verdichter
 
 ## Installation
 
-You can install or upgrade ``HtREST`` with:
+You can install or upgrade `HtREST` with:
 
 ```bash
 $ pip install HtREST --upgrade
