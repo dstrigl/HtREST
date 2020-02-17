@@ -576,6 +576,9 @@ http://localhost:8888/api/v1/param/
 }
 ```
 
+*Remark: A list of available Heliotherm heat pump parameters can be found
+[here](https://htheatpump.readthedocs.io/en/latest/htparams.html).*
+
 
 ### PUT /api/v1/param
 
@@ -619,6 +622,9 @@ http://localhost:8888/api/v1/param/
 }
 ```
 
+*Remark: A list of available Heliotherm heat pump parameters can be found
+[here](https://htheatpump.readthedocs.io/en/latest/htparams.html).*
+
 
 ### GET /api/v1/param/\<string:name\>
 
@@ -647,6 +653,9 @@ http://localhost:8888/api/v1/param/Temp.%20Aussen
   "value": 4.9
 }
 ```
+
+*Remark: A list of available Heliotherm heat pump parameters can be found
+[here](https://htheatpump.readthedocs.io/en/latest/htparams.html).*
 
 
 ### PUT /api/v1/param/\<string:name\>
@@ -685,6 +694,9 @@ http://localhost:8888/api/v1/param/HKR%20Soll_Raum
 }
 ```
 
+*Remark: A list of available Heliotherm heat pump parameters can be found
+[here](https://htheatpump.readthedocs.io/en/latest/htparams.html).*
+
 
 ### GET /api/v1/fastquery
 
@@ -717,6 +729,9 @@ http://localhost:8888/api/v1/fastquery/
 }
 ```
 
+*Remark: A list of available Heliotherm heat pump parameters can be found
+[here](https://htheatpump.readthedocs.io/en/latest/htparams.html).*
+
 
 ### GET /api/v1/fastquery/\<string:name\>
 
@@ -745,6 +760,9 @@ http://localhost:8888/api/v1/fastquery/Verdichter
   "value": true
 }
 ```
+
+*Remark: A list of available Heliotherm heat pump parameters can be found
+[here](https://htheatpump.readthedocs.io/en/latest/htparams.html).*
 
 
 ## Installation
