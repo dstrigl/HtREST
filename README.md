@@ -277,7 +277,7 @@ http://localhost:8888/api/v1/timeprog/
 
 **Sample Response:**
 
-```json
+```
 [
   {
     "index": 0,
@@ -303,8 +303,8 @@ http://localhost:8888/api/v1/timeprog/
     "ste": 15,
     "nod": 7
   },
-  {...},
-  {...}
+  { ... },
+  { ... }
 ]
 ```
 
