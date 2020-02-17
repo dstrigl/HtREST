@@ -788,7 +788,7 @@ $ python setup.py install
 usage: htrest [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
               [-s SERVER] [-u USER] [-l LOGGING_CONFIG] [--debug]
 
-Heliotherm heat pump REST API server.
+Heliotherm heat pump REST API server
 
 optional arguments:
   -h, --help            show this help message and exit

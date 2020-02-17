@@ -49,7 +49,7 @@ class UserType:
 def main():
     parser = argparse.ArgumentParser(
         description = textwrap.dedent('''\
-            Heliotherm heat pump REST API server.
+            Heliotherm heat pump REST API server
             '''),
         formatter_class = argparse.RawDescriptionHelpFormatter,
         epilog = textwrap.dedent('''\
