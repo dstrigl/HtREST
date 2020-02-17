@@ -43,22 +43,6 @@ The following table describes the HTTP/REST API exposed by this server applicati
 | `/api/v1/fastquery/<string:name>`               |   X   |       | Performs a fast query of a specific heat pump parameter which represents a 'MP' data point. |
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### GET /api/v1/device
 
 Delivers information about the connected heat pump.
@@ -86,74 +70,75 @@ http://localhost:8888/api/v1/device/
 ```
 
 
-
-
-
-
-
-
-
-GET /api/v1/datetime
-~~~~~~~~~~~~~~~~~~~~
+### GET /api/v1/datetime
 
 Returns the current date and time of the heat pump.
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/datetime/
+```
+http://localhost:8888/api/v1/datetime/
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```json
+{
+  "datetime": "2020-01-29T13:11:35"
+}
+```
 
-    {
-      "datetime": "2020-01-29T13:11:35"
-    }
 
-
-PUT /api/v1/datetime
-~~~~~~~~~~~~~~~~~~~~
+### PUT /api/v1/datetime
 
 Sets the current date and time of the heat pump.
 
 **Sample Payload:**
 
-.. code-block:: bash
-
-    {
-      "datetime": "2020-01-29T13:12:07"
-    }
+```json
+{
+  "datetime": "2020-01-29T13:12:07"
+}
+```
 
 *Remark: If "datetime" is empty current date and time of the host will be used.*
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X PUT "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
-        -H "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
+```
+curl -X PUT "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
+    -H "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/datetime/
+```
+http://localhost:8888/api/v1/datetime/
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```json
+{
+  "datetime": "2020-01-29T13:12:07"
+}
 
-    {
-      "datetime": "2020-01-29T13:12:07"
-    }
+
+
+
+
+
+
+
+
+
+
 
 
 GET /api/v1/faultlist
