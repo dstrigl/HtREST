@@ -25,7 +25,8 @@
 
 ## API
 
-The following table describes the HTTP/REST API exposed by this server application for the Heliotherm heat pump.
+The following table describes the HTTP/REST API exposed by this server application for the
+[Heliotherm](http://www.heliotherm.com/) heat pump.
 
 | URI                                             | GET   | POST  | description                                                                                 |
 | :---------------------------------------------- | :---: | :---: | :------------------------------------------------------------------------------------------ |
