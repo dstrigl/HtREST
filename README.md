@@ -61,7 +61,7 @@ http://localhost:8888/api/v1/device/
 
 **Sample Response:**
 
-```json
+```
 {
   "property_id": 123456,
   "serial_number": 123456,
@@ -88,7 +88,7 @@ http://localhost:8888/api/v1/datetime/
 
 **Sample Response:**
 
-```json
+```
 {
   "datetime": "2020-01-29T13:11:35"
 }
@@ -101,7 +101,7 @@ Sets the current date and time of the heat pump.
 
 **Sample Payload:**
 
-```json
+```
 {
   "datetime": "2020-01-29T13:12:07"
 }
@@ -123,7 +123,7 @@ http://localhost:8888/api/v1/datetime/
 
 **Sample Response:**
 
-```json
+```
 {
   "datetime": "2020-01-29T13:12:07"
 }
@@ -148,7 +148,7 @@ http://localhost:8888/api/v1/faultlist/
 
 **Sample Response:**
 
-```json
+```
 [
   {
     "index": 0,
@@ -194,7 +194,7 @@ http://localhost:8888/api/v1/faultlist/size
 
 **Sample Response:**
 
-```json
+```
 {
   "size": 4
 }
@@ -223,7 +223,7 @@ http://localhost:8888/api/v1/faultlist/3
 
 **Sample Response:**
 
-```json
+```
 {
   "index": 3,
   "error": 19,
@@ -249,7 +249,7 @@ http://localhost:8888/api/v1/faultlist/last
 
 **Sample Response:**
 
-```json
+```
 {
   "index": 3,
   "error": 19,
@@ -303,10 +303,18 @@ http://localhost:8888/api/v1/timeprog/
     "ste": 15,
     "nod": 7
   },
-  { ... },
-  { ... }
+  {...},
+  {...}
 ]
 ```
+
+
+
+
+
+
+
+
 
 
 
