@@ -233,89 +233,82 @@ http://localhost:8888/api/v1/faultlist/3
 ```
 
 
-
-
-
-
-
-GET /api/v1/faultlist/last
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+### GET /api/v1/faultlist/last
 
 Returns the last fault list entry of the heat pump.
 
-**Sample Curl:**
-
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/faultlist/last" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/faultlist/last" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/faultlist/last
+```
+http://localhost:8888/api/v1/faultlist/last
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```json
+{
+  "index": 3,
+  "error": 19,
+  "datetime": "2014-09-14T02:08:56",
+  "message": "EQ_Spreizung"
+}
+```
 
-    {
-      "index": 3,
-      "error": 19,
-      "datetime": "2014-09-14T02:08:56",
-      "message": "EQ_Spreizung"
-    }
 
-
-GET /api/v1/timeprog
-~~~~~~~~~~~~~~~~~~~~
+### GET /api/v1/timeprog
 
 Returns a list of all available time programs of the heat pump.
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/timeprog/" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/timeprog/" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/timeprog/
+```
+http://localhost:8888/api/v1/timeprog/
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```json
+[
+  {
+    "index": 0,
+    "name": "Warmwasser",
+    "ead": 7,
+    "nos": 2,
+    "ste": 15,
+    "nod": 7
+  },
+  {
+    "index": 1,
+    "name": "Zirkulationspumpe",
+    "ead": 7,
+    "nos": 2,
+    "ste": 15,
+    "nod": 7
+  },
+  {
+    "index": 2,
+    "name": "Heizung",
+    "ead": 7,
+    "nos": 3,
+    "ste": 15,
+    "nod": 7
+  },
+  {...},
+  {...}
+]
+```
 
-    [
-      {
-        "index": 0,
-        "name": "Warmwasser",
-        "ead": 7,
-        "nos": 2,
-        "ste": 15,
-        "nod": 7
-      },
-      {
-        "index": 1,
-        "name": "Zirkulationspumpe",
-        "ead": 7,
-        "nos": 2,
-        "ste": 15,
-        "nod": 7
-      },
-      {
-        "index": 2,
-        "name": "Heizung",
-        "ead": 7,
-        "nos": 3,
-        "ste": 15,
-        "nod": 7
-      },
-      {...},
-      {...}
-    ]
+
 
 
 GET /api/v1/timeprog/<int:id>
