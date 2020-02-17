@@ -130,93 +130,78 @@ http://localhost:8888/api/v1/datetime/
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-GET /api/v1/faultlist
-~~~~~~~~~~~~~~~~~~~~~
+### GET /api/v1/faultlist
 
 Returns the fault list of the heat pump.
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/faultlist/" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/faultlist/" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/faultlist/
+```
+http://localhost:8888/api/v1/faultlist/
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```json
+[
+  {
+    "index": 0,
+    "error": 65534,
+    "datetime": "2000-01-01T00:00:00",
+    "message": "Keine Stoerung"
+  },
+  {
+    "index": 1,
+    "error": 65286,
+    "datetime": "2000-01-01T00:00:00",
+    "message": "Info: Programmupdate 1"
+  },
+  {
+    "index": 2,
+    "error": 65285,
+    "datetime": "2000-01-01T00:00:00",
+    "message": "Info: Initialisiert"
+  },
+  {
+    "index": 3,
+    "error": 19,
+    "datetime": "2014-09-14T02:08:56",
+    "message": "EQ_Spreizung"
+  }
+]
+```
 
-    [
-      {
-        "index": 0,
-        "error": 65534,
-        "datetime": "2000-01-01T00:00:00",
-        "message": "Keine Stoerung"
-      },
-      {
-        "index": 1,
-        "error": 65286,
-        "datetime": "2000-01-01T00:00:00",
-        "message": "Info: Programmupdate 1"
-      },
-      {
-        "index": 2,
-        "error": 65285,
-        "datetime": "2000-01-01T00:00:00",
-        "message": "Info: Initialisiert"
-      },
-      {
-        "index": 3,
-        "error": 19,
-        "datetime": "2014-09-14T02:08:56",
-        "message": "EQ_Spreizung"
-      }
-    ]
 
-
-GET /api/v1/faultlist/size
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+### GET /api/v1/faultlist/size
 
 Returns the fault list size of the heat pump.
 
-**Sample Curl:**
-
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/faultlist/size" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/faultlist/size" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/faultlist/size
+```
+http://localhost:8888/api/v1/faultlist/size
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```json
+{
+  "size": 4
+}
+```
 
-    {
-      "size": 4
-    }
 
-
-GET /api/v1/faultlist/<int:id>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### GET /api/v1/faultlist/<int:id>
 
 Returns the fault list entry with the given index.
 
@@ -226,26 +211,31 @@ Returns the fault list entry with the given index.
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/faultlist/3" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/faultlist/3" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/faultlist/3
+```
+http://localhost:8888/api/v1/faultlist/3
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```json
+{
+  "index": 3,
+  "error": 19,
+  "datetime": "2014-09-14T02:08:56",
+  "message": "EQ_Spreizung"
+}
+```
 
-    {
-      "index": 3,
-      "error": 19,
-      "datetime": "2014-09-14T02:08:56",
-      "message": "EQ_Spreizung"
-    }
+
+
+
+
 
 
 GET /api/v1/faultlist/last
