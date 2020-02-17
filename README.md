@@ -309,548 +309,489 @@ http://localhost:8888/api/v1/timeprog/
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-GET /api/v1/timeprog/<int:id>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### GET /api/v1/timeprog/\<int:id\>
 
 Returns the time program with the given index of the heat pump.
 
 **Parameter:**
 
-* **<int:id>**: The time program index.
+* **\<int:id\>**: The time program index.
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/timeprog/1
+```
+http://localhost:8888/api/v1/timeprog/1
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```
+{
+  "index": 1,
+  "name": "Zirkulationspumpe",
+  "ead": 7,
+  "nos": 2,
+  "ste": 15,
+  "nod": 7,
+  "entries": [
+    [
+      {
+        "state": 0,
+        "start": "00:00",
+        "end": "05:15"
+      },
+      {
+        "state": 1,
+        "start": "05:15",
+        "end": "08:00"
+      },
+      {...},
+      {...},
+      {...},
+      {...},
+      {...}
+    ],
+    [...],
+    [...],
+    [...],
+    [...],
+    [...],
+    [...]
+  ]
+}
+```
 
-    {
-      "index": 1,
-      "name": "Zirkulationspumpe",
-      "ead": 7,
-      "nos": 2,
-      "ste": 15,
-      "nod": 7,
-      "entries": [
-        [
-          {
-            "state": 0,
-            "start": "00:00",
-            "end": "05:15"
-          },
-          {
-            "state": 1,
-            "start": "05:15",
-            "end": "08:00"
-          },
-          {...},
-          {...},
-          {...},
-          {...},
-          {...}
-        ],
-        [...],
-        [...],
-        [...],
-        [...],
-        [...],
-        [...]
-      ]
-    }
 
-
-PUT /api/v1/timeprog/<int:id>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### PUT /api/v1/timeprog/\<int:id\>
 
 Sets all time program entries of a specific time program of the heat pump.
 
 **Parameter:**
 
-* **<int:id>**: The time program index.
+* **\<int:id\>**: The time program index.
 
 **Sample Payload:**
 
-.. code-block:: bash
-
-    {
-      "index": 1,
-      "name": "Zirkulationspumpe",
-      "ead": 7,
-      "nos": 2,
-      "ste": 15,
-      "nod": 7,
-      "entries": [
-        [
-          {
-            "state": 0,
-            "start": "00:00",
-            "end": "06:00"
-          },
-          {
-            "state": 1,
-            "start": "06:00",
-            "end": "09:00"
-          },
-          {...},
-          {...},
-          {...},
-          {...},
-          {...}
-        ],
-        [...],
-        [...],
-        [...],
-        [...],
-        [...],
-        [...]
-      ]
-    }
+```
+{
+  "index": 1,
+  "name": "Zirkulationspumpe",
+  "ead": 7,
+  "nos": 2,
+  "ste": 15,
+  "nod": 7,
+  "entries": [
+    [
+      {
+        "state": 0,
+        "start": "00:00",
+        "end": "06:00"
+      },
+      {
+        "state": 1,
+        "start": "06:00",
+        "end": "09:00"
+      },
+      {...},
+      {...},
+      {...},
+      {...},
+      {...}
+    ],
+    [...],
+    [...],
+    [...],
+    [...],
+    [...],
+    [...]
+  ]
+}
+```
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X PUT "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json"
-        -H "Content-Type: application/json" -d "{  \"index\": 1,  \"name\": \"Zirkulationspumpe\",  ... }"
+```
+curl -X PUT "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"index\": 1,  \"name\": \"Zirkulationspumpe\",  ... }"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/timeprog/1
+```
+http://localhost:8888/api/v1/timeprog/1
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```
+{
+  "index": 1,
+  "name": "Zirkulationspumpe",
+  "ead": 7,
+  "nos": 2,
+  "ste": 15,
+  "nod": 7,
+  "entries": [
+    [
+      {
+        "state": 0,
+        "start": "00:00",
+        "end": "06:00"
+      },
+      {
+        "state": 1,
+        "start": "06:00",
+        "end": "09:00"
+      },
+      {...},
+      {...},
+      {...},
+      {...},
+      {...}
+    ],
+    [...],
+    [...],
+    [...],
+    [...],
+    [...],
+    [...]
+  ]
+}
+```
 
-    {
-      "index": 1,
-      "name": "Zirkulationspumpe",
-      "ead": 7,
-      "nos": 2,
-      "ste": 15,
-      "nod": 7,
-      "entries": [
-        [
-          {
-            "state": 0,
-            "start": "00:00",
-            "end": "06:00"
-          },
-          {
-            "state": 1,
-            "start": "06:00",
-            "end": "09:00"
-          },
-          {...},
-          {...},
-          {...},
-          {...},
-          {...}
-        ],
-        [...],
-        [...],
-        [...],
-        [...],
-        [...],
-        [...]
-      ]
-    }
 
-
-GET /api/v1/timeprog/<int:id>/<int:day>/<int:num>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### GET /api/v1/timeprog/\<int:id\>/\<int:day\>/\<int:num\>
 
 Returns a specific time program entry of the heat pump.
 
 **Parameter:**
 
-* **<int:num>**: The number of the time program entry (of the specified day).
-* **<int:day>**: The day of the time program entry (inside the specified time program).
-* **<int:id>**:  The time program index.
+* **\<int:num\>**: The number of the time program entry (of the specified day).
+* **\<int:day\>**: The day of the time program entry (inside the specified time program).
+* **\<int:id\>**:  The time program index.
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/timeprog/1/1/1" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/timeprog/1/1/1" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/timeprog/1/1/1
+```
+http://localhost:8888/api/v1/timeprog/1/1/1
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```
+{
+  "state": 1,
+  "start": "06:00",
+  "end": "08:00"
+}
+```
 
-    {
-      "state": 1,
-      "start": "06:00",
-      "end": "08:00"
-    }
 
-
-PUT /api/v1/timeprog/<int:id>/<int:day>/<int:num>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### PUT /api/v1/timeprog/\<int:id\>/\<int:day\>/\<int:num\>
 
 Sets a specific time program entry of the heat pump.
 
 **Parameter:**
 
-* **<int:num>**: The number of the time program entry (of the specified day).
-* **<int:day>**: The day of the time program entry (inside the specified time program).
-* **<int:id>**:  The time program index.
+* **\<int:num\>**: The number of the time program entry (of the specified day).
+* **\<int:day\>**: The day of the time program entry (inside the specified time program).
+* **\<int:id\>**:  The time program index.
 
 **Sample Payload:**
 
-.. code-block:: bash
-
-    {
-      "state": 1,
-      "start": "06:00",
-      "end": "08:00"
-    }
+```
+{
+  "state": 1,
+  "start": "06:00",
+  "end": "08:00"
+}
+```
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X PUT "http://localhost:8888/api/v1/timeprog/1/1/1" -H "accept: application/json"
-        -H "Content-Type: application/json" -d "{  \"state\": 1,  \"start\": \"06:00\",  \"end\": \"08:00\"}"
+```
+curl -X PUT "http://localhost:8888/api/v1/timeprog/1/1/1" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"state\": 1,  \"start\": \"06:00\",  \"end\": \"08:00\"}"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/timeprog/1/1/1
+```
+http://localhost:8888/api/v1/timeprog/1/1/1
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```
+{
+  "state": 1,
+  "start": "06:00",
+  "end": "08:00"
+}
+```
 
-    {
-      "state": 1,
-      "start": "06:00",
-      "end": "08:00"
-    }
 
-
-GET /api/v1/param
-~~~~~~~~~~~~~~~~~
+### GET /api/v1/param
 
 Returns the current value of all known heat pump parameters.
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/param/" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/param/" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/param/
+```
+http://localhost:8888/api/v1/param/
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```
+{
+  "HKR Soll_Raum": 23,
+  "Stoerung": false,
+  "Temp. EQ_Austritt": 4.7,
+  "Temp. EQ_Eintritt": 6.1,
+  "Temp. Ruecklauf": 27.7,
+  "Temp. Vorlauf": 27.8,
+  "Temp. Brauchwasser": 50.1,
+  "Temp. Aussen verzoegert": 4.9,
+  "Temp. Aussen": 4.9,
+  ...
+}
+```
 
-    {
-      "HKR Soll_Raum": 23,
-      "Stoerung": false,
-      "Temp. EQ_Austritt": 4.7,
-      "Temp. EQ_Eintritt": 6.1,
-      "Temp. Ruecklauf": 27.7,
-      "Temp. Vorlauf": 27.8,
-      "Temp. Brauchwasser": 50.1,
-      "Temp. Aussen verzoegert": 4.9,
-      "Temp. Aussen": 4.9,
-      ...
-    }
 
-
-PUT /api/v1/param
-~~~~~~~~~~~~~~~~~
+### PUT /api/v1/param
 
 Sets the current value of several heat pump parameters.
 
 **Sample Payload:**
 
-.. code-block:: bash
-
-    {
-      "Betriebsart": 1,
-      "HKR Soll_Raum": 21.5,
-      "HKR Aufheiztemp. (K)": 3,
-      "HKR Absenktemp. (K)": -3,
-      "WW Minimaltemp.": 15,
-      "WW Normaltemp.": 50
-    }
+```
+{
+  "Betriebsart": 1,
+  "HKR Soll_Raum": 21.5,
+  "HKR Aufheiztemp. (K)": 3,
+  "HKR Absenktemp. (K)": -3,
+  "WW Minimaltemp.": 15,
+  "WW Normaltemp.": 50
+}
+```
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X PUT "http://localhost:8888/api/v1/param/" -H "accept: application/json"
-        -H "Content-Type: application/json" -d "{  \"Betriebsart\": 1,  \"HKR Soll_Raum\": 21.5,  ... }"
+```
+curl -X PUT "http://localhost:8888/api/v1/param/" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"Betriebsart\": 1,  \"HKR Soll_Raum\": 21.5,  ... }"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/param/
+```
+http://localhost:8888/api/v1/param/
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```
+{
+  "Betriebsart": 1,
+  "HKR Soll_Raum": 21.5,
+  "HKR Aufheiztemp. (K)": 3,
+  "HKR Absenktemp. (K)": -3,
+  "WW Minimaltemp.": 15,
+  "WW Normaltemp.": 50
+}
+```
 
-    {
-      "Betriebsart": 1,
-      "HKR Soll_Raum": 21.5,
-      "HKR Aufheiztemp. (K)": 3,
-      "HKR Absenktemp. (K)": -3,
-      "WW Minimaltemp.": 15,
-      "WW Normaltemp.": 50
-    }
 
-
-GET /api/v1/param/<string:name>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### GET /api/v1/param/\<string:name\>
 
 Returns the current value of a specific heat pump parameter.
 
 **Parameter:**
 
-* **<string:name>**: The parameter name.
+* **\<string:name\>**: The parameter name.
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/param/Temp.%20Aussen" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/param/Temp.%20Aussen" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/param/Temp.%20Aussen
+```
+http://localhost:8888/api/v1/param/Temp.%20Aussen
+```
 
 **Sample Response:**
 
-.. code-block:: bash
+```
+{
+  "value": 4.9
+}
+```
 
-    {
-      "value": 4.9
-    }
 
-
-PUT /api/v1/param/<string:name>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### PUT /api/v1/param/\<string:name\>
 
 Sets the current value of a specific heat pump parameter.
 
 **Parameter:**
 
-* **<string:name>**: The parameter name.
+* **\<string:name\>**: The parameter name.
 
 **Sample Payload:**
 
-.. code-block:: bash
-
-    {
-      "value": 22.5
-    }
-
-**Sample Curl:**
-
-.. code-block:: console
-
-    curl -X PUT "http://localhost:8888/api/v1/param/HKR%20Soll_Raum" -H "accept: application/json"
-        -H "Content-Type: application/json" -d "{  \"value\": 22.5}"
-
-**Sample Request URL:**
-
-.. code-block:: console
-
-    http://localhost:8888/api/v1/param/HKR%20Soll_Raum
-
-**Sample Response:**
-
-.. code-block:: bash
-
-    {
-      "value": 22.5
-    }
-
-
-GET /api/v1/fastquery
-~~~~~~~~~~~~~~~~~~~~~
-
-Performs a fast query of all heat pump parameters representing a 'MP' data point.
+```
+{
+  "value": 22.5
+}
+```
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/fastquery/" -H "accept: application/json"
+```
+curl -X PUT "http://localhost:8888/api/v1/param/HKR%20Soll_Raum" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"value\": 22.5}"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/fastquery/
+```
+http://localhost:8888/api/v1/param/HKR%20Soll_Raum
+```
 
 **Sample Response:**
 
-.. code-block:: bash
-
-    {
-      "HKR_Sollwert": 32.2,
-      "Verdichteranforderung": 3,
-      "Frischwasserpumpe": 0,
-      "FWS Stroemungsschalter": false,
-      "Stoerung": false,
-      "Verdichter": true,
-      "Zirkulationspumpe WW": false,
-      ...
-    }
+```
+{
+  "value": 22.5
+}
+```
 
 
-GET /api/v1/fastquery/<string:name>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### GET /api/v1/fastquery
 
-Performs a fast query of a specific heat pump parameter which represents a 'MP' data point.
+Performs a fast query of all heat pump parameters representing a "MP" data point.
+
+**Sample Curl:**
+
+```
+curl -X GET "http://localhost:8888/api/v1/fastquery/" -H "accept: application/json"
+```
+
+**Sample Request URL:**
+
+```
+http://localhost:8888/api/v1/fastquery/
+```
+
+**Sample Response:**
+
+```
+{
+  "HKR_Sollwert": 32.2,
+  "Verdichteranforderung": 3,
+  "Frischwasserpumpe": 0,
+  "FWS Stroemungsschalter": false,
+  "Stoerung": false,
+  "Verdichter": true,
+  "Zirkulationspumpe WW": false,
+  ...
+}
+```
+
+
+### GET /api/v1/fastquery/\<string:name\>
+
+Performs a fast query of a specific heat pump parameter which represents a "MP" data point.
 
 **Parameter:**
 
-* **<string:name>**: The parameter name (representing a 'MP' data point).
+* **\<string:name\>**: The parameter name (representing a "MP" data point).
 
 **Sample Curl:**
 
-.. code-block:: console
-
-    curl -X GET "http://localhost:8888/api/v1/fastquery/Verdichter" -H "accept: application/json"
+```
+curl -X GET "http://localhost:8888/api/v1/fastquery/Verdichter" -H "accept: application/json"
+```
 
 **Sample Request URL:**
 
-.. code-block:: console
-
-    http://localhost:8888/api/v1/fastquery/Verdichter
+```
+http://localhost:8888/api/v1/fastquery/Verdichter
+```
 
 **Sample Response:**
 
-.. code-block:: bash
-
-    {
-      "value": true
-    }
-
-
+```
+{
+  "value": true
+}
+```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Installation
-------------
+## Installation
 
 You can install or upgrade ``HtREST`` with:
 
-.. code-block:: console
-
-    $ pip install HtREST --upgrade
+```bash
+$ pip install HtREST --upgrade
+```
 
 Or you can install from source with:
 
-.. code-block:: console
-
-    $ git clone https://github.com/dstrigl/HtREST.git
-    $ cd HtREST
-    $ python setup.py install
-
-
-Usage
------
-
-.. code-block:: console
-
-    usage: htrest [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
-                  [-s SERVER] [-u USER] [-l LOGGING_CONFIG] [--debug]
-
-    Heliotherm heat pump REST API server
-
-    optional arguments:
-      -h, --help            show this help message and exit
-      -d DEVICE, --device DEVICE
-                            the serial device on which the heat pump is connected,
-                            default: /dev/ttyUSB0
-      -b {9600,19200,38400,57600,115200}, --baudrate {9600,19200,38400,57600,115200}
-                            baudrate of the serial connection (same as configured
-                            on the heat pump), default: 115200
-      -s SERVER, --server SERVER
-                            the name and port number of the server in the form
-                            <hostname>:<port>, default: localhost:8888
-      -u USER, --user USER  the username and password for the basic access
-                            authentication in the form <username>:<password>,
-                            default:
-      -l LOGGING_CONFIG, --logging-config LOGGING_CONFIG
-                            the filename under which the logging configuration can
-                            be found, default:
-                            /home/pi/HtREST/htrest/logging.conf
-      --debug               enable Flask debug mode, default: False
+```bash
+$ git clone https://github.com/dstrigl/HtREST.git
+$ cd HtREST
+$ python setup.py install
+```
 
 
+## Usage
+
+```bash
+usage: htrest [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
+              [-s SERVER] [-u USER] [-l LOGGING_CONFIG] [--debug]
+
+Heliotherm heat pump REST API server.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DEVICE, --device DEVICE
+                        the serial device on which the heat pump is connected,
+                        default: /dev/ttyUSB0
+  -b {9600,19200,38400,57600,115200}, --baudrate {9600,19200,38400,57600,115200}
+                        baudrate of the serial connection (same as configured
+                        on the heat pump), default: 115200
+  -s SERVER, --server SERVER
+                        the name and port number of the server in the form
+                        <hostname>:<port>, default: localhost:8888
+  -u USER, --user USER  the username and password for the basic access
+                        authentication in the form <username>:<password>,
+                        default:
+  -l LOGGING_CONFIG, --logging-config LOGGING_CONFIG
+                        the filename under which the logging configuration can
+                        be found, default:
+                        /home/pi/HtREST/htrest/logging.conf
+  --debug               enable Flask debug mode, default: False
+```
 
 
-
-
-
-
-
-
-
-
-
-
-
-Wanna support me?
------------------
+## Wanna support me?
 
 [![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://www.buymeacoffee.com/N362PLZ)
