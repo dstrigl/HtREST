@@ -45,7 +45,7 @@ setup(
     version=__version__,
 
     # Project description
-    description='Heliotherm heat pump REST API server',
+    description='Heliotherm heat pump REST API',
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/x-rst',
 
