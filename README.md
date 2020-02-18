@@ -816,3 +816,8 @@ optional arguments:
 ## Wanna support me?
 
 [![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://www.buymeacoffee.com/N362PLZ)
+
+
+## License
+
+Distributed under the terms of the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html).
