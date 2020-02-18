@@ -1,9 +1,10 @@
-[![PyPI version](https://img.shields.io/pypi/v/HtREST.svg)](https://pypi.python.org/pypi/HtREST)
-[![Build status](https://img.shields.io/travis/dstrigl/HtREST.svg)](https://travis-ci.org/dstrigl/HtREST)
+# HtREST
+
+[![PyPI version](https://img.shields.io/pypi/v/HtREST.svg)](https://pypi.org/project/HtREST)
+[![Python versions](https://img.shields.io/pypi/pyversions/HtREST.svg)](https://pypi.org/project/HtREST)
+[![Build status](https://img.shields.io/travis/com/dstrigl/HtREST?logo=travis)](https://travis-ci.com/dstrigl/HtREST)
 [![Updates](https://pyup.io/repos/github/dstrigl/HtREST/shield.svg)](https://pyup.io/repos/github/dstrigl/HtREST)
 
-
-# HtREST
 
 [Heliotherm](http://www.heliotherm.com/) heat pump HTTP/REST API server for Python 3.5, 3.6 and 3.7.
 
