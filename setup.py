@@ -47,7 +47,7 @@ setup(
     # Project description
     description='Heliotherm heat pump REST API',
     long_description=readme + '\n\n' + history,
-    long_description_content_type='text/x-rst',
+    long_description_content_type='text/markdown',
 
     # Choosen license
     license='GNU General Public License v3',
@@ -64,7 +64,7 @@ setup(
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    packages=find_packages(include=['htrest']),
+    packages=find_packages(),
     include_package_data=True,
 
     # Specification what the project minimally needs to run correctly, used by
