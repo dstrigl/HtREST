@@ -58,7 +58,7 @@ class DateTime(Resource):
         assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s} -- payload={!s}".format(request.url, api.payload))
         dt = api.payload["datetime"]
-        if not dt:  # if 'dt' is empty, use the current system time!
+        if not dt:  # if 'dt' is empty (or None), use the current system time!
             dt = datetime.now()
         else:
             dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
