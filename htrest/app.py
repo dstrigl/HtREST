@@ -28,7 +28,7 @@ from htrest import settings
 _logger = logging.getLogger(__name__)
 
 
-def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888", user=None):
+def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None):
     # try to connect to the heat pump
     try:
         from htheatpump.htheatpump import HtHeatpump
@@ -46,14 +46,13 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, server="localhost:8888", 
 
     # create the Flask app
     app = Flask(__name__)
-    app.config["SERVER_NAME"] = server
     app.config["SWAGGER_UI_DOC_EXPANSION"] = settings.RESTX_SWAGGER_UI_DOC_EXPANSION
     app.config["RESTX_VALIDATE"] = settings.RESTX_VALIDATE
     app.config["RESTX_MASK_SWAGGER"] = settings.RESTX_MASK_SWAGGER
     app.config["ERROR_404_HELP"] = settings.RESTX_ERROR_404_HELP
     app.config["BUNDLE_ERRORS"] = settings.RESTX_BUNDLE_ERRORS
     if user:
-        username, password = user.split(':', 1)
+        username, _, password = user.partition(":")
         app.config["BASIC_AUTH_USERNAME"] = username
         app.config["BASIC_AUTH_PASSWORD"] = password
         app.config["BASIC_AUTH_FORCE"] = True

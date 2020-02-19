@@ -34,16 +34,30 @@ import logging.config
 from htrest.app import create_app
 
 
-class UserType:
-    """ Custom type for argparse, to facilitate validation of a user statement in form of '<username>:<password>'.
+class UserAction(argparse.Action):
+    """ Custom action for argparse, to facilitate validation of a user statement in form of "<username>:<password>".
     """
     PATTERN = re.compile(r"^([^:]+):([^:]+)$")  # regex for "<username>:<password>"
 
-    def __call__(self, value):
-        if value and not self.PATTERN.match(value):
-            raise argparse.ArgumentTypeError(
-                "'{}' is not a valid user statement in form of '<username>:<password>'".format(value))
-        return value
+    def __call__(self, parser, namespace, values, option_string=None):
+        assert type(values) is str
+        if values and not self.PATTERN.match(values):
+            raise argparse.ArgumentError(
+                self, "'{}' is not a valid user statement in form of '<username>:<password>'".format(values)
+            )
+        setattr(namespace, self.dest, values)
+
+
+class PortAction(argparse.Action):
+    """ Custom action for argparse, to facilitate validation of a port number (0-65535).
+    """
+    PORT_RANGE = range(0, 65536)  # range of valid port numbers
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        assert type(values) is int
+        if values not in self.PORT_RANGE:
+            raise argparse.ArgumentError(self, "port number must be between 0 and 65535")
+        setattr(namespace, self.dest, values)
 
 
 def main():
@@ -81,20 +95,29 @@ def main():
         help = "baudrate of the serial connection (same as configured on the heat pump), default: %(default)s")
 
     parser.add_argument(
-        "-s", "--server",
-        default = "localhost:8888",
+        "--host",
+        default = "127.0.0.1",
         type = str,
-        help = "the name and port number of the server in the form <hostname>:<port>, default: %(default)s")
+        help = "the hostname to listen on, set to \"0.0.0.0\" to have the server available externally as well,"
+               " default: %(default)s")
 
     parser.add_argument(
-        "-u", "--user",
+        "--port",
+        default = 8888,
+        type = int,
+        action=PortAction,
+        help = "the port number of the webserver, default: %(default)s")
+
+    parser.add_argument(
+        "--user",
         default = "",
-        type = UserType(),
+        type = str,
+        action = UserAction,
         help = "the username and password for the basic access authentication in the form \"<username>:<password>\","
                " default: %(default)s")
 
     parser.add_argument(
-        "-l", "--logging-config",
+        "--logging-config",
         default = os.path.normpath(os.path.join(os.path.dirname(__file__), "logging.conf")),
         type = str,
         help = "the filename under which the logging configuration can be found, default: %(default)s")
@@ -111,8 +134,8 @@ def main():
     logging.config.fileConfig(args.logging_config, disable_existing_loggers=False)
 
     # create and start the Flask application
-    app = create_app(args.device, args.baudrate, args.server, args.user)
-    app.run(debug=args.debug, use_reloader=False)
+    app = create_app(args.device, args.baudrate, args.user)
+    app.run(host=args.host, port=args.port, debug=args.debug, use_reloader=False)
 
 
 if __name__ == "__main__":
