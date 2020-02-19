@@ -106,7 +106,7 @@ def main():
         default = 8888,
         type = int,
         action=PortAction,
-        help = "the port number of the webserver, default: %(default)s")
+        help = "the port of the web server, default: %(default)s")
 
     parser.add_argument(
         "--user",

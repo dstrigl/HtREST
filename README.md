@@ -787,7 +787,8 @@ $ python setup.py install
 
 ```
 usage: htrest [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
-              [-s SERVER] [-u USER] [-l LOGGING_CONFIG] [--debug]
+              [--host HOST] [--port PORT] [--user USER]
+              [--logging-config LOGGING_CONFIG] [--debug]
 
 Heliotherm heat pump REST API server
 
@@ -799,16 +800,17 @@ optional arguments:
   -b {9600,19200,38400,57600,115200}, --baudrate {9600,19200,38400,57600,115200}
                         baudrate of the serial connection (same as configured
                         on the heat pump), default: 115200
-  -s SERVER, --server SERVER
-                        the name and port number of the server in the form
-                        <hostname>:<port>, default: localhost:8888
-  -u USER, --user USER  the username and password for the basic access
+  --host HOST           the hostname to listen on, set to "0.0.0.0" to have
+                        the server available externally as well, default:
+                        127.0.0.1
+  --port PORT           the port of the web server, default: 8888
+  --user USER           the username and password for the basic access
                         authentication in the form "<username>:<password>",
                         default:
-  -l LOGGING_CONFIG, --logging-config LOGGING_CONFIG
+  --logging-config LOGGING_CONFIG
                         the filename under which the logging configuration can
                         be found, default:
-                        /home/pi/HtREST/htrest/logging.conf
+                        /home/dast/prog/HtREST/htrest/logging.conf
   --debug               enable Flask debug mode, default: False
 ```
 
