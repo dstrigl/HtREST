@@ -51,12 +51,14 @@ class UserAction(argparse.Action):
 class PortAction(argparse.Action):
     """ Custom action for argparse, to facilitate validation of a port number (0-65535).
     """
-    PORT_RANGE = range(0, 65536)  # range of valid port numbers
+    PORT_RANGE = range(0, 65535 + 1)  # range of valid port numbers
 
     def __call__(self, parser, namespace, values, option_string=None):
         assert type(values) is int
         if values not in self.PORT_RANGE:
-            raise argparse.ArgumentError(self, "port number must be between 0 and 65535")
+            raise argparse.ArgumentError(
+                self, "port number must be between {} and {}".format(self.PORT_RANGE[0], self.PORT_RANGE[-1])
+            )
         setattr(namespace, self.dest, values)
 
 
