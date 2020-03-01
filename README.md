@@ -818,7 +818,7 @@ optional arguments:
 ### Example
 
 ```
-htrest -d /dev/ttyUSB1 -b 9600 --host 192.168.11.123 --port 8123 --logging-config /home/pi/htrest-logging.conf
+$ htrest -d /dev/ttyUSB1 -b 9600 --host 192.168.11.123 --port 8123 --logging-config /home/pi/htrest-logging.conf
 ```
 
 
