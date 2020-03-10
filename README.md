@@ -824,7 +824,7 @@ $ htrest -d /dev/ttyUSB1 -b 9600 --host 192.168.11.123 --port 8123 --logging-con
 
 ## Wanna support me?
 
-[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://www.buymeacoffee.com/N362PLZ)
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/N362PLZ)
 
 
 ## License
