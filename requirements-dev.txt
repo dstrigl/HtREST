@@ -3,7 +3,7 @@ htheatpump==1.2.1
 Flask==1.1.1
 flask-restx==0.1.1
 Flask-BasicAuth==0.2.0
-mypy==0.761
+mypy==0.770
 pytest==5.3.5
 pytest-cov==2.8.1
 pytest-runner==5.2
