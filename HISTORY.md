@@ -1,5 +1,9 @@
 # History
 
+## 0.1.4 (2020-03-17)
+
+* Fixed wrong uploaded package on PyPi.
+
 ## 0.1.3 (2020-03-17)
 
 * Fixed missing file `logging.conf`.
