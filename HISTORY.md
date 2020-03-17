@@ -2,7 +2,7 @@
 
 ## 0.1.3 (2020-??-??)
 
-* Fixed missing file logging.conf.
+* Fixed missing file `logging.conf`.
 * Corrected usage of host and port for the web server.
 
 ## 0.1.2 (2020-02-18)
