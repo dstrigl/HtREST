@@ -1,6 +1,6 @@
 # History
 
-## 0.1.3 (2020-??-??)
+## 0.1.3 (2020-03-17)
 
 * Fixed missing file `logging.conf`.
 * Corrected usage of host and port for the web server.
