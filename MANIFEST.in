@@ -4,6 +4,7 @@ include README.md
 
 include htrest/logging.conf
 
+recursive-include requirements *.pip
 recursive-include tests *
 
 global-exclude __pycache__
