@@ -110,7 +110,7 @@ Sets the current date and time of the heat pump.
 }
 ```
 
-*Remark: If "datetime" is empty current date and time of the host will be used.*
+*Remark: If the value of "datetime" is an empty string ("") current date and time of the host will be used.*
 
 **Sample Curl:**
 
