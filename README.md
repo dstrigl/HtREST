@@ -2,6 +2,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/HtREST.svg)](https://pypi.org/project/HtREST)
 [![Python versions](https://img.shields.io/pypi/pyversions/HtREST.svg)](https://pypi.org/project/HtREST)
+[![License](https://img.shields.io/pypi/l/HtREST.svg)](https://pypi.org/project/HtREST)
 [![Build status](https://img.shields.io/travis/dstrigl/HtREST/master?logo=travis)](https://travis-ci.org/dstrigl/HtREST)
 [![Updates](https://pyup.io/repos/github/dstrigl/HtREST/shield.svg)](https://pyup.io/repos/github/dstrigl/HtREST)
 
@@ -22,6 +23,11 @@
 > for damage caused by this application, examples or mentioned information.
 >
 > **Thus, use it on your own risk!**
+
+
+### Wanna support me?
+
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/N362PLZ)
 
 
 ## API
@@ -820,11 +826,6 @@ optional arguments:
 ```
 $ htrest -d /dev/ttyUSB1 -b 9600 --host 192.168.11.123 --port 8123 --logging-config /home/pi/htrest-logging.conf
 ```
-
-
-## Wanna support me?
-
-[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/N362PLZ)
 
 
 ## License

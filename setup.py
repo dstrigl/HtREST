@@ -3,41 +3,41 @@
 
 """ The setup script """
 
+import io
+import os
 from setuptools import setup, find_packages
 from htrest import __version__
 
 
 # Get the description from the README file
-with open('README.md') as readme_file:
+with open("README.md") as readme_file:
     readme = readme_file.read()
 
 # Get the history from the HISTORY file
-with open('HISTORY.md') as history_file:
+with open("HISTORY.md") as history_file:
     history = history_file.read()
 
 
-requirements = [
-    'htheatpump==1.2.1',
-    'Flask==1.1.1',
-    'flask-restx==0.1.1',
-    'Flask-BasicAuth==0.2.0',
-    # put package requirements here
-]
+def pip(filename):
+    """ Parse pip reqs file and transform it to setuptools requirements. """
+    requirements = []
+    for line in io.open(os.path.join("requirements", "{0}.pip".format(filename))):
+        line = line.strip()
+        if not line or "://" in line or line.startswith("#"):
+            continue
+        requirements.append(line)
+    return requirements
 
-setup_requirements = [
-    'pytest-runner',
-    # put setup requirements (distutils extensions, etc.) here
-]
 
-test_requirements = [
-    'pytest',
-    # put package test requirements here
-]
+install_requires = pip("install")
+doc_require = pip("doc")
+tests_require = pip("test")
+dev_require = tests_require + pip("develop")
 
 
 setup(
     # Project name
-    name='htrest',
+    name="htrest",
 
     # Versions should comply with PEP440. For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -45,37 +45,38 @@ setup(
     version=__version__,
 
     # Project description
-    description='Heliotherm heat pump REST API',
-    long_description=readme + '\n\n' + history,
-    long_description_content_type='text/markdown',
+    description="Heliotherm heat pump REST API",
+    long_description=readme + "\n\n" + history,
+    long_description_content_type="text/markdown",
 
     # Choosen license
-    license='GNU General Public License v3',
+    license="GNU General Public License v3",
 
     # The project's main homepage
-    url='https://github.com/dstrigl/HtREST',
+    url="https://github.com/dstrigl/HtREST",
 
     # Author details
-    author='Daniel Strigl',
-    #author_email='?',
+    author="Daniel Strigl",
+    #author_email="?",
 
     # Supported platforms
-    platforms=['Linux'],
+    platforms=["Linux"],
 
-    # You can just specify the packages manually here if your project is
-    # simple. Or you can use find_packages().
-    packages=find_packages(),
+    # Project packages
+    packages=find_packages(exclude=["tests", "tests.*"]),
     include_package_data=True,
 
-    # Specification what the project minimally needs to run correctly, used by
-    # pip to install its dependencies.
-    install_requires=requirements,
+    # Project requirements (used by pip to install its dependencies)
+    install_requires=install_requires,
+    tests_require=tests_require,
+    dev_require=dev_require,
+    extras_require={"test": tests_require, "doc": doc_require, "dev": dev_require},
 
-    # prevent zip archive creation
+    # Prevent zip archive creation
     zip_safe=False,
 
-    # keywords that describes the project
-    keywords='python python3 heatpump Heliotherm rest restful api flask swagger',
+    # Keywords that describes the project
+    keywords="python python3 heatpump Heliotherm rest restful api flask swagger",
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -83,49 +84,44 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        "Development Status :: 4 - Beta",
 
         # Indicate who your project is intended for
-        'Intended Audience :: Developers',
-        'Intended Audience :: Information Technology',
-        'Intended Audience :: Science/Research',
-        'Intended Audience :: Manufacturing',
+        "Intended Audience :: Developers",
+        "Intended Audience :: Information Technology",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: Manufacturing",
 
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
 
         # Language and Platform
-        'Natural Language :: English',
-        'Operating System :: POSIX',
-        'Operating System :: POSIX :: Linux',
+        "Natural Language :: English",
+        "Operating System :: POSIX",
+        "Operating System :: POSIX :: Linux",
 
         # Additional topic classifier
-        'Topic :: Communications',
-        'Topic :: Home Automation',
-        'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Internet :: WWW/HTTP :: HTTP Servers',
-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-        'Topic :: Scientific/Engineering',
-        'Topic :: Terminals :: Serial',
+        "Topic :: Communications",
+        "Topic :: Home Automation",
+        "Topic :: Internet :: WWW/HTTP",
+        "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+        "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+        "Topic :: Scientific/Engineering",
+        "Topic :: Terminals :: Serial",
     ],
-
-    # Test suite
-    test_suite='tests',
-    tests_require=test_requirements,
-    setup_requires=setup_requirements,
 
     # Entry points specification
     entry_points={
-        'console_scripts': [
-            'htrest=htrest.__main__:main',
+        "console_scripts": [
+            "htrest=htrest.__main__:main",
         ]
     },
 )

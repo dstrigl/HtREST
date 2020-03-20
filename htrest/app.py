@@ -27,12 +27,13 @@ from htrest import settings
 
 _logger = logging.getLogger(__name__)
 
+ht_heatpump = None  # used by apis to communicate with the heat pump
+
 
 def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None):
     # try to connect to the heat pump
     try:
         from htheatpump.htheatpump import HtHeatpump
-        global ht_heatpump
         ht_heatpump = HtHeatpump(device, baudrate=baudrate)
         _logger.info("open connection to heat pump ({!s})".format(ht_heatpump))
         ht_heatpump.open_connection()

@@ -1,0 +1,5 @@
+htheatpump==1.2.1
+Werkzeug==0.16.1  # Issue: it seems that flask-restx is broken by Werkzeug 1.0.0
+Flask==1.1.1
+flask-restx==0.1.1
+Flask-BasicAuth==0.2.0
