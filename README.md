@@ -824,7 +824,18 @@ optional arguments:
 ### Example
 
 ```
-$ htrest -d /dev/ttyUSB1 -b 9600 --host 192.168.11.123 --port 8123 --logging-config /home/pi/htrest-logging.conf
+$ htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.1.80 --port 8080 --logging-config /home/pi/htrest-logging.conf
+HTHEATPUMP: load parameter definitions from: /home/pi/venv/htrest/lib/python3.7/site-packages/htheatpump-1.2.1-py3.7.egg/htheatpump/htparams.csv
+2020-03-20 07:56:41,090 INFO [htrest.app] open connection to heat pump (<htheatpump.htheatpump.HtHeatpump object at 0x7648c350>)
+2020-03-20 07:56:41,127 INFO [htrest.app] successfully connected to heat pump #123456
+2020-03-20 07:56:41,147 INFO [htrest.app] software version = 3.0.20 (273)
+2020-03-20 07:56:41,164 INFO [htrest.app] *** created Flask app <Flask 'htrest.app'> with config <Config {'ENV': 'production', ...}>
+ * Serving Flask app "htrest.app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+2020-03-20 07:56:42,176 INFO [werkzeug]  * Running on http://192.168.1.80:8080/ (Press CTRL+C to quit)
 ```
 
 
