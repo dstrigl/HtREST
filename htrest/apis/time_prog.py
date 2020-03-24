@@ -24,7 +24,8 @@ from flask import request
 from flask_restx import Namespace, Resource, fields
 from htheatpump.httimeprog import TimeProgram as HtTimeProg
 from htheatpump.httimeprog import TimeProgEntry as HtTimeProgEntry
-from htrest.app import ht_heatpump  # type: ignore
+from .utils import HtContext
+from htrest.app import ht_heatpump
 from htrest.settings import READ_ONLY as HTREST_READ_ONLY
 
 
@@ -70,10 +71,9 @@ class TimeProgs(Resource):
     @api.marshal_list_with(time_prog_model, skip_none=True)
     def get(self):
         """ Returns a list of all available time programs of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s}".format(request.url))
-        time_progs = ht_heatpump.get_time_progs()
+        with HtContext(ht_heatpump):
+            time_progs = ht_heatpump.get_time_progs()
         return [time_prog.as_json(with_entries=False) for time_prog in time_progs]
 
 
@@ -83,24 +83,22 @@ class TimeProg(Resource):
     @api.marshal_with(time_prog_with_entries_model, skip_none=True)
     def get(self, id: int):
         """ Returns the time program with the given index of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s} -- id={}".format(request.url, id))
-        time_prog = ht_heatpump.get_time_prog(id)
+        with HtContext(ht_heatpump):
+            time_prog = ht_heatpump.get_time_prog(id)
         return time_prog.as_json(with_entries=True)
 
     @api.expect(time_prog_with_entries_model, validate=True)
     @api.marshal_with(time_prog_with_entries_model)
     def put(self, id: int):
         """ Sets all time program entries of a specific time program of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s} -- id={}, payload={!s}".format(request.url, id, api.payload))
-        time_prog = ht_heatpump.get_time_prog(id, with_entries=False).as_json(with_entries=False)
-        time_prog.update({"entries": api.payload["entries"]})
-        time_prog = HtTimeProg.from_json(time_prog)
-        if not HTREST_READ_ONLY:
-            time_prog = ht_heatpump.set_time_prog(time_prog)
+        with HtContext(ht_heatpump):
+            time_prog = ht_heatpump.get_time_prog(id, with_entries=False).as_json(with_entries=False)
+            time_prog.update({"entries": api.payload["entries"]})
+            time_prog = HtTimeProg.from_json(time_prog)
+            if not HTREST_READ_ONLY:
+                time_prog = ht_heatpump.set_time_prog(time_prog)
         return time_prog.as_json(with_entries=True)
 
 
@@ -112,20 +110,18 @@ class TimeProgEntry(Resource):
     @api.marshal_with(time_prog_entry_model)
     def get(self, id: int, day: int, num: int):
         """ Returns a specific time program entry of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s} -- id={}, day={}, num={}".format(request.url, id, day, num))
-        entry = ht_heatpump.get_time_prog_entry(id, day, num)
+        with HtContext(ht_heatpump):
+            entry = ht_heatpump.get_time_prog_entry(id, day, num)
         return entry.as_json()
 
     @api.expect(time_prog_entry_model, validate=True)
     @api.marshal_with(time_prog_entry_model)
     def put(self, id: int, day: int, num: int):
         """ Sets a specific time program entry of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s} -- id={}, day={}, num={}, payload={!s}".format(request.url, id, day, num, api.payload))
         entry = HtTimeProgEntry.from_json(api.payload)
-        if not HTREST_READ_ONLY:
-            entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)
+        with HtContext(ht_heatpump):
+            if not HTREST_READ_ONLY:
+                entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)
         return entry.as_json()

@@ -22,7 +22,8 @@
 import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
-from htrest.app import ht_heatpump  # type: ignore
+from .utils import HtContext
+from htrest.app import ht_heatpump
 
 
 _logger = logging.getLogger(__name__)
@@ -55,10 +56,10 @@ class FaultList(Resource):
     @api.marshal_list_with(fault_list_entry_model)
     def get(self):
         """ Returns the fault list of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s}".format(request.url))
-        return ht_heatpump.get_fault_list()
+        with HtContext(ht_heatpump):
+            res = ht_heatpump.get_fault_list()
+        return res
 
 
 @api.route("/size")
@@ -66,10 +67,10 @@ class FaultListSize(Resource):
     @api.marshal_with(fault_list_size_model)
     def get(self):
         """ Returns the fault list size of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s}".format(request.url))
-        return {"size": ht_heatpump.get_fault_list_size()}
+        with HtContext(ht_heatpump):
+            size = ht_heatpump.get_fault_list_size()
+        return {"size": size}
 
 
 @api.route("/<int:id>")
@@ -79,12 +80,12 @@ class FaultEntry(Resource):
     @api.marshal_with(fault_list_entry_model)
     def get(self, id: int):
         """ Returns the fault list entry with the given index. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
-        if id not in range(0, ht_heatpump.get_fault_list_size()):
-            api.abort(404, "Fault list entry #{:d} not found".format(id))
         _logger.debug("*** {!s} -- id={}".format(request.url, id))
-        return ht_heatpump.get_fault_list(id)[0]
+        with HtContext(ht_heatpump):
+            if id not in range(0, ht_heatpump.get_fault_list_size()):
+                api.abort(404, "Fault list entry #{:d} not found".format(id))
+            res = ht_heatpump.get_fault_list(id)[0]
+        return res
 
 
 @api.route("/last")
@@ -92,9 +93,9 @@ class LastFault(Resource):
     @api.marshal_with(fault_list_entry_model)
     def get(self):
         """ Returns the last fault list entry of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s}".format(request.url))
-        idx, err, dt, msg = ht_heatpump.get_last_fault()
-        # e.g.: idx, err, dt, msg = (28, 19, datetime.datetime.now(), "EQ_Spreizung")
-        return {"index": idx, "error": err, "datetime": dt, "message": msg}
+        with HtContext(ht_heatpump):
+            idx, err, dt, msg = ht_heatpump.get_last_fault()
+            # e.g.: idx, err, dt, msg = (28, 19, datetime.datetime.now(), "EQ_Spreizung")
+            res = {"index": idx, "error": err, "datetime": dt, "message": msg}
+        return res

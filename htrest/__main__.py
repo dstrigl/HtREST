@@ -129,6 +129,11 @@ def main():
         action = "store_true",
         help = "enable Flask debug mode, default: %(default)s")
 
+    parser.add_argument(
+        "--read-only",
+        action = "store_true",
+        help = "does not perform any write accesses, default: %(default)s")
+
     args = parser.parse_args()
     #print(args)
 
@@ -136,8 +141,8 @@ def main():
     logging.config.fileConfig(args.logging_config, disable_existing_loggers=False)
 
     # create and start the Flask application
-    app = create_app(args.device, args.baudrate, args.user)
-    app.run(host=args.host, port=args.port, debug=args.debug, use_reloader=False)
+    app = create_app(args.device, args.baudrate, args.user, args.read_only)
+    app.run(host=args.host, port=args.port, debug=args.debug, use_reloader=False, threaded=False)
 
 
 if __name__ == "__main__":

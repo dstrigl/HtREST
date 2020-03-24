@@ -23,6 +23,38 @@ from flask_restx import fields
 from contextlib import contextmanager
 
 
+class HtContext:
+    """ Context manager for auto login/logout on the heat pump.
+
+    Example:
+
+    >>> with HtContext(ht_heatpump):
+    ...     print(ht_heatpump.get_version())
+    ...
+    >>>
+    """
+    def __init__(self, heatpump):
+        assert heatpump is not None, "'ht_heatpump' must not be None"
+        assert heatpump.is_open, "serial connection to heat pump not established"
+        self._heatpump = heatpump
+
+    @property
+    def heatpump(self):
+        """ Return the passed :class:`HtHeatpump` instance of the context manager.
+
+        :returns: The passed :class:`HtHeatpump` instance.
+        :rtype: ``HtHeatpump``
+        """
+        return self._heatpump
+
+    def __enter__(self):
+        self._heatpump.login()
+        return self
+
+    def __exit__(self, *args):
+        self._heatpump.logout()
+
+
 class ParamValueField(fields.Raw):
     __schema_type__ = ["number", "boolean"]
     __schema_example__ = "number or boolean"

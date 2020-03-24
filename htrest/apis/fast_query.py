@@ -23,8 +23,8 @@ import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from htheatpump.htparams import HtParams
-from .utils import ParamValueField, DotKeyField
-from htrest.app import ht_heatpump  # type: ignore
+from .utils import ParamValueField, DotKeyField, HtContext
+from htrest.app import ht_heatpump
 
 
 _logger = logging.getLogger(__name__)
@@ -46,10 +46,10 @@ class FastQueryList(Resource):
     @api.marshal_with(param_list_model)
     def get(self):
         """ Performs a fast query of all heat pump parameters representing a 'MP' data point. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s}".format(request.url))
-        return ht_heatpump.fast_query()
+        with HtContext(ht_heatpump):
+            res = ht_heatpump.fast_query()
+        return res
 
 
 @api.route("/<string:name>")
@@ -59,10 +59,9 @@ class FastQuery(Resource):
     @api.marshal_with(param_model)
     def get(self, name: str):
         """ Performs a fast query of a specific heat pump parameter which represents a 'MP' data point. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
+        _logger.debug("*** {!s} -- name={!r}".format(request.url, name))
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
-        _logger.debug("*** {!s} -- name={!r}".format(request.url, name))
-        value = ht_heatpump.fast_query(name)
+        with HtContext(ht_heatpump):
+            value = ht_heatpump.fast_query(name)
         return {"value": value[name]}

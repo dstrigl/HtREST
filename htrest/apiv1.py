@@ -28,7 +28,7 @@ from htrest.apis.date_time import api as ns3
 from htrest.apis.param import api as ns4
 from htrest.apis.fast_query import api as ns5
 from htrest.apis.time_prog import api as ns6
-from htrest.app import ht_heatpump  # type: ignore
+from htrest.app import ht_heatpump
 
 
 _logger = logging.getLogger(__name__)
@@ -54,11 +54,9 @@ def before_request():
     _logger.info("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
     try:
         ht_heatpump.reconnect()
-        ht_heatpump.login()
     except Exception as ex:
         _logger.error(ex)
         raise
-    # TODO call reconnect/login ONLY for registered routes!
 
 
 @blueprint.after_request
@@ -70,9 +68,7 @@ def after_request(response):
 @blueprint.teardown_request
 def teardown_request(exc):
     _logger.debug("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
-    ht_heatpump.logout()
-    # TODO call logout ONLY for registered routes!
-
+    pass
 
 @api.errorhandler
 def default_error_handler(ex):
@@ -82,5 +78,4 @@ def default_error_handler(ex):
     if isinstance(ex, KeyError) and msg.startswith('"') and msg.endswith('"'):
         msg = msg[1:-1]
     _logger.error("*** @api.errorhandler -- {}".format(msg))
-    #if not current_app.debug:
     return {"message": str(msg)}, 500

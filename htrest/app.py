@@ -30,21 +30,22 @@ _logger = logging.getLogger(__name__)
 ht_heatpump = None  # used by apis to communicate with the heat pump
 
 
-def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None):
+def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None, read_only=False):
     # try to connect to the heat pump
+    from htheatpump.htheatpump import HtHeatpump
+    global ht_heatpump
     try:
-        from htheatpump.htheatpump import HtHeatpump
-        global ht_heatpump
         ht_heatpump = HtHeatpump(device, baudrate=baudrate)
         _logger.info("open connection to heat pump ({!s})".format(ht_heatpump))
         ht_heatpump.open_connection()
         ht_heatpump.login()
         _logger.info("successfully connected to heat pump #{:d}".format(ht_heatpump.get_serial_number()))
         _logger.info("software version = {} ({:d})".format(*ht_heatpump.get_version()))
-        ht_heatpump.logout()
     except Exception as ex:
         _logger.error(ex)
         raise
+    finally:
+        ht_heatpump.logout()
 
     # create the Flask app
     app = Flask(__name__)
@@ -65,6 +66,8 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None):
     def before_first_request():
         _logger.debug("*** @app.before_first_request -- {}".format(__file__))
         pass
+
+    settings.READ_ONLY = read_only
 
     from htrest.apiv1 import blueprint as apiv1
     app.register_blueprint(apiv1)

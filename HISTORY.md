@@ -2,7 +2,8 @@
 
 ## 0.1.5 (2020-??-??)
 
-* Changed package requirements structure; some changes in setup.py, setup.cfg, tox.ini, etc.
+* Fixed unsynchronized access to `HtHeatpump`, which results in a serial communication error.
+* Changed package requirements structure; some changes in `setup.py`, `setup.cfg`, `tox.ini`, etc.
 
 ## 0.1.4 (2020-03-17)
 

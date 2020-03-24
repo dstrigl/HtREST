@@ -23,7 +23,8 @@ import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from htheatpump.htparams import HtParams
-from htrest.app import ht_heatpump  # type: ignore
+from .utils import HtContext
+from htrest.app import ht_heatpump
 
 
 _logger = logging.getLogger(__name__)
@@ -45,13 +46,12 @@ class Device(Resource):
     @api.marshal_with(device_model)
     def get(self):
         """ Returns the properties of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s}".format(request.url))
-        serial_number = ht_heatpump.get_serial_number()
-        software_version, _ = ht_heatpump.get_version()
-        res = {"serial_number": serial_number, "software_version": software_version}
-        if "Liegenschaft" in HtParams:
-            property_id = ht_heatpump.get_param("Liegenschaft")
-            res.update({"property_id": property_id})
+        with HtContext(ht_heatpump):
+            serial_number = ht_heatpump.get_serial_number()
+            software_version, _ = ht_heatpump.get_version()
+            res = {"serial_number": serial_number, "software_version": software_version}
+            if "Liegenschaft" in HtParams:
+                property_id = ht_heatpump.get_param("Liegenschaft")
+                res.update({"property_id": property_id})
         return res

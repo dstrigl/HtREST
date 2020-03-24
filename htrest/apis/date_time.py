@@ -23,7 +23,8 @@ import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from datetime import datetime
-from htrest.app import ht_heatpump  # type: ignore
+from .utils import HtContext
+from htrest.app import ht_heatpump
 from htrest.settings import READ_ONLY as HTREST_READ_ONLY
 
 
@@ -42,10 +43,9 @@ class DateTime(Resource):
     @api.marshal_with(date_time_model)
     def get(self):
         """ Returns the current date and time of the heat pump. """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s}".format(request.url))
-        dt, _ = ht_heatpump.get_date_time()
+        with HtContext(ht_heatpump):
+            dt, _ = ht_heatpump.get_date_time()
         return {"datetime": dt}
 
     @api.expect(date_time_model, validate=True)
@@ -54,14 +54,13 @@ class DateTime(Resource):
         """ Sets the current date and time of the heat pump.
         Note: If 'datetime' is empty current date and time of the host will be used.
         """
-        assert ht_heatpump is not None, "'ht_heatpump' must not be None"
-        assert ht_heatpump.is_open, "serial connection to heat pump not established"
         _logger.debug("*** {!s} -- payload={!s}".format(request.url, api.payload))
         dt = api.payload["datetime"]
         if not dt:  # if 'dt' is empty (or None), use the current system time!
             dt = datetime.now()
         else:
             dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
-        if not HTREST_READ_ONLY:
-            dt, _ = ht_heatpump.set_date_time(dt)
+        with HtContext(ht_heatpump):
+            if not HTREST_READ_ONLY:
+                dt, _ = ht_heatpump.set_date_time(dt)
         return {"datetime": dt}
