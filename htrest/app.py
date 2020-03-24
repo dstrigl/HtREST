@@ -23,16 +23,16 @@ import logging
 from flask import Flask
 from flask_basicauth import BasicAuth
 from htrest import settings
+from htheatpump.htheatpump import HtHeatpump
 
 
 _logger = logging.getLogger(__name__)
 
-ht_heatpump = None  # used by apis to communicate with the heat pump
+ht_heatpump = None  # type: HtHeatpump
 
 
 def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None, read_only=False):
     # try to connect to the heat pump
-    from htheatpump.htheatpump import HtHeatpump
     global ht_heatpump
     try:
         ht_heatpump = HtHeatpump(device, baudrate=baudrate)
