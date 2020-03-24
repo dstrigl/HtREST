@@ -70,6 +70,7 @@ def teardown_request(exc):
     _logger.debug("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
     pass
 
+
 @api.errorhandler
 def default_error_handler(ex):
     msg = str(ex)
