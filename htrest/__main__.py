@@ -135,7 +135,7 @@ def main():
         help = "does not perform any write accesses, default: %(default)s")
 
     args = parser.parse_args()
-    #print(args)
+    print(args)
 
     # load logging config from file
     logging.config.fileConfig(args.logging_config, disable_existing_loggers=False)
