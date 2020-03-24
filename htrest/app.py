@@ -64,7 +64,7 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None, read_only=Fals
 
     @app.before_first_request
     def before_first_request():
-        _logger.debug("*** @app.before_first_request -- {}".format(__file__))
+        #_logger.debug("*** @app.before_first_request -- {}".format(__file__))
         pass
 
     settings.READ_ONLY = read_only

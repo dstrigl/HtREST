@@ -51,7 +51,7 @@ api.add_namespace(ns6)
 
 @blueprint.before_request
 def before_request():
-    _logger.info("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
+    _logger.debug("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
     try:
         ht_heatpump.reconnect()
     except Exception as ex:
@@ -61,13 +61,13 @@ def before_request():
 
 @blueprint.after_request
 def after_request(response):
-    _logger.debug("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
+    #_logger.debug("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
     return response
 
 
 @blueprint.teardown_request
 def teardown_request(exc):
-    _logger.debug("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
+    #_logger.debug("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
     pass
 
 
