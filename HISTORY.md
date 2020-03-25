@@ -2,7 +2,7 @@
 
 ## 0.1.5 (2020-??-??)
 
-* Black Python code reformatting.
+* Python code reformatting using *Black*.
 * Added possibility so that boolean values can be treated as integers (arg `--bool-as-int`).
 * Fixed unsynchronized access to `HtHeatpump`, which results in a serial communication error.
 * Changed package requirements structure; some changes in `setup.py`, `setup.cfg`, `tox.ini`, etc.
