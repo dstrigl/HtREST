@@ -29,16 +29,35 @@ from htrest.app import ht_heatpump
 
 _logger = logging.getLogger(__name__)
 
-api = Namespace("device", description="Delivers information about the connected heat pump.")
+api = Namespace(
+    "device", description="Delivers information about the connected heat pump."
+)
 
-device_model = api.model("device_model", {
-    "property_id":      fields.Integer(min=0, description="property number of the heat pump",
-                                       required=False, readonly=True, example=123456),
-    "serial_number":    fields.Integer(min=0, description="serial number of the heat pump",
-                                       required=True, readonly=True, example=123456),
-    "software_version": fields.String(description="software version of the heat pump",
-                                      required=True, readonly=True, example="3.0.20"),
-})
+device_model = api.model(
+    "device_model",
+    {
+        "property_id": fields.Integer(
+            min=0,
+            description="property number of the heat pump",
+            required=False,
+            readonly=True,
+            example=123456,
+        ),
+        "serial_number": fields.Integer(
+            min=0,
+            description="serial number of the heat pump",
+            required=True,
+            readonly=True,
+            example=123456,
+        ),
+        "software_version": fields.String(
+            description="software version of the heat pump",
+            required=True,
+            readonly=True,
+            example="3.0.20",
+        ),
+    },
+)
 
 
 @api.route("/")

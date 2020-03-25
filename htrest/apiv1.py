@@ -35,12 +35,13 @@ _logger = logging.getLogger(__name__)
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
 
-api = Api(blueprint,
-          title="HtREST",
-          version="1.0",
-          description="Heliotherm heat pump REST API",
-          # All API metadatas
-          )
+api = Api(
+    blueprint,
+    title="HtREST",
+    version="1.0",
+    description="Heliotherm heat pump REST API",
+    # All API metadatas
+)
 api.add_namespace(ns1)
 api.add_namespace(ns2)
 api.add_namespace(ns3)
@@ -51,7 +52,9 @@ api.add_namespace(ns6)
 
 @blueprint.before_request
 def before_request():
-    _logger.debug("*** @blueprint.before_request -- {} -- {!s}".format(__file__, request))
+    _logger.debug(
+        "*** @blueprint.before_request -- {} -- {!s}".format(__file__, request)
+    )
     try:
         ht_heatpump.reconnect()
     except Exception as ex:
@@ -61,13 +64,13 @@ def before_request():
 
 @blueprint.after_request
 def after_request(response):
-    #_logger.debug("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
+    # _logger.debug("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
     return response
 
 
 @blueprint.teardown_request
 def teardown_request(exc):
-    #_logger.debug("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
+    # _logger.debug("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
     pass
 
 

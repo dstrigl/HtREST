@@ -30,15 +30,14 @@ from htrest.app import ht_heatpump
 _logger = logging.getLogger(__name__)
 
 
-api = Namespace("fastquery", description="Fast query of heat pump parameters representing a 'MP' data point.")
+api = Namespace(
+    "fastquery",
+    description="Fast query of heat pump parameters representing a 'MP' data point.",
+)
 
 wildcard = fields.Wildcard(DotKeyField)
-param_list_model = api.model("param_list_model", {
-    "*": wildcard
-})
-param_model = api.model("param_model", {
-    "value": ParamValueField
-})
+param_list_model = api.model("param_list_model", {"*": wildcard})
+param_model = api.model("param_model", {"value": ParamValueField})
 
 
 @api.route("/")

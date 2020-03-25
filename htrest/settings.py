@@ -28,4 +28,4 @@ RESTX_ERROR_404_HELP = False
 RESTX_BUNDLE_ERRORS = True
 
 BOOL_AS_INT = False  # boolean values are treated as integers (with false equivalent to 0 and true equivalent to 1)
-READ_ONLY = False    # no write accesses to the heat pump; if you want to be sure, that nothing will be manipulated
+READ_ONLY = False  # no write accesses to the heat pump; if you want to be sure, that nothing will be manipulated

@@ -31,39 +31,91 @@ from htrest import settings
 
 _logger = logging.getLogger(__name__)
 
-api = Namespace("timeprog", description="Operations related to the time programs of the heat pump.")
+api = Namespace(
+    "timeprog", description="Operations related to the time programs of the heat pump."
+)
 
-time_prog_model = api.model("time_prog_model", {
-    "index": fields.Integer(min=0, description="index of the time program",
-                            required=False, readonly=True, example=0),
-    "name" : fields.String(description="name of the time program",
-                           required=False, readonly=True, example="Warmwasser"),
-    "ead"  : fields.Integer(min=0, description="number of entries a day of the time program",
-                            required=False, readonly=True, example=7),
-    "nos"  : fields.Integer(min=0, description="number of states of the time program",
-                            required=False, readonly=True, example=3),
-    "ste"  : fields.Integer(min=0, description="step-size in minutes of the time program",
-                            required=False, readonly=True, example=15),
-    "nod"  : fields.Integer(min=0, description="number of days of the time program",
-                            required=False, readonly=True, example=7),
-})
+time_prog_model = api.model(
+    "time_prog_model",
+    {
+        "index": fields.Integer(
+            min=0,
+            description="index of the time program",
+            required=False,
+            readonly=True,
+            example=0,
+        ),
+        "name": fields.String(
+            description="name of the time program",
+            required=False,
+            readonly=True,
+            example="Warmwasser",
+        ),
+        "ead": fields.Integer(
+            min=0,
+            description="number of entries a day of the time program",
+            required=False,
+            readonly=True,
+            example=7,
+        ),
+        "nos": fields.Integer(
+            min=0,
+            description="number of states of the time program",
+            required=False,
+            readonly=True,
+            example=3,
+        ),
+        "ste": fields.Integer(
+            min=0,
+            description="step-size in minutes of the time program",
+            required=False,
+            readonly=True,
+            example=15,
+        ),
+        "nod": fields.Integer(
+            min=0,
+            description="number of days of the time program",
+            required=False,
+            readonly=True,
+            example=7,
+        ),
+    },
+)
 
-time_prog_entry_model = api.model("time_prog_entry_model", {
-    "state": fields.Integer(min=0, description="state of the time program entry",
-                            required=True, example=1),
-    "start": fields.String(description="start-time of the time program entry",
-                           required=True, example="09:45"),
-    "end"  : fields.String(description="end-time of the time program entry",
-                           required=True, example="11:15"),
-})
+time_prog_entry_model = api.model(
+    "time_prog_entry_model",
+    {
+        "state": fields.Integer(
+            min=0,
+            description="state of the time program entry",
+            required=True,
+            example=1,
+        ),
+        "start": fields.String(
+            description="start-time of the time program entry",
+            required=True,
+            example="09:45",
+        ),
+        "end": fields.String(
+            description="end-time of the time program entry",
+            required=True,
+            example="11:15",
+        ),
+    },
+)
 
-time_prog_with_entries_model = api.clone("time_prog_with_entries_model", time_prog_model, {
-    "entries": fields.List(
-        fields.List(
-            fields.Nested(time_prog_entry_model, required=True),
-            required=True),
-        required=True),
-})
+time_prog_with_entries_model = api.clone(
+    "time_prog_with_entries_model",
+    time_prog_model,
+    {
+        "entries": fields.List(
+            fields.List(
+                fields.Nested(time_prog_entry_model, required=True), required=True
+            ),
+            required=True,
+        ),
+    },
+)
 
 
 @api.route("/")
@@ -92,9 +144,13 @@ class TimeProg(Resource):
     @api.marshal_with(time_prog_with_entries_model)
     def put(self, id: int):
         """ Sets all time program entries of a specific time program of the heat pump. """
-        _logger.debug("*** {!s} -- id={}, payload={!s}".format(request.url, id, api.payload))
+        _logger.debug(
+            "*** {!s} -- id={}, payload={!s}".format(request.url, id, api.payload)
+        )
         with HtContext(ht_heatpump):
-            time_prog = ht_heatpump.get_time_prog(id, with_entries=False).as_json(with_entries=False)
+            time_prog = ht_heatpump.get_time_prog(id, with_entries=False).as_json(
+                with_entries=False
+            )
             time_prog.update({"entries": api.payload["entries"]})
             time_prog = HtTimeProg.from_json(time_prog)
             if not settings.READ_ONLY:
@@ -104,13 +160,17 @@ class TimeProg(Resource):
 
 @api.route("/<int:id>/<int:day>/<int:num>")
 @api.param("id", "The time program index")
-@api.param("day", "The day of the time program entry (inside the specified time program)")
+@api.param(
+    "day", "The day of the time program entry (inside the specified time program)"
+)
 @api.param("num", "The number of the time program entry (of the specified day)")
 class TimeProgEntry(Resource):
     @api.marshal_with(time_prog_entry_model)
     def get(self, id: int, day: int, num: int):
         """ Returns a specific time program entry of the heat pump. """
-        _logger.debug("*** {!s} -- id={}, day={}, num={}".format(request.url, id, day, num))
+        _logger.debug(
+            "*** {!s} -- id={}, day={}, num={}".format(request.url, id, day, num)
+        )
         with HtContext(ht_heatpump):
             entry = ht_heatpump.get_time_prog_entry(id, day, num)
         return entry.as_json()
@@ -119,7 +179,11 @@ class TimeProgEntry(Resource):
     @api.marshal_with(time_prog_entry_model)
     def put(self, id: int, day: int, num: int):
         """ Sets a specific time program entry of the heat pump. """
-        _logger.debug("*** {!s} -- id={}, day={}, num={}, payload={!s}".format(request.url, id, day, num, api.payload))
+        _logger.debug(
+            "*** {!s} -- id={}, day={}, num={}, payload={!s}".format(
+                request.url, id, day, num, api.payload
+            )
+        )
         entry = HtTimeProgEntry.from_json(api.payload)
         with HtContext(ht_heatpump):
             if not settings.READ_ONLY:

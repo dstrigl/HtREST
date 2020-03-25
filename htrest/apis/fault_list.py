@@ -28,7 +28,9 @@ from htrest.app import ht_heatpump
 
 _logger = logging.getLogger(__name__)
 
-api = Namespace("faultlist", description="Operations related to the heat pump fault list.")
+api = Namespace(
+    "faultlist", description="Operations related to the heat pump fault list."
+)
 
 # Single fault list entry of the heat pump, e.g.:
 #
@@ -38,17 +40,47 @@ api = Namespace("faultlist", description="Operations related to the heat pump fa
 #     "message" : "EQ_Spreizung",          # error message
 #     }
 #
-fault_list_entry_model = api.model("fault_list_entry_model", {
-    "index":    fields.Integer(min=0, description="fault list index", required=True, readonly=True, example=28),
-    "error":    fields.Integer(min=0, description="error code", required=True, readonly=True, example=19),
-    "datetime": fields.DateTime(dt_format="iso8601", description="date and time of the error",
-                                required=True, readonly=True, example="2014-09-14T02:08:56"),
-    "message":  fields.String(description="error message", required=True, readonly=True, example="EQ_Spreizung"),
-})
+fault_list_entry_model = api.model(
+    "fault_list_entry_model",
+    {
+        "index": fields.Integer(
+            min=0,
+            description="fault list index",
+            required=True,
+            readonly=True,
+            example=28,
+        ),
+        "error": fields.Integer(
+            min=0, description="error code", required=True, readonly=True, example=19
+        ),
+        "datetime": fields.DateTime(
+            dt_format="iso8601",
+            description="date and time of the error",
+            required=True,
+            readonly=True,
+            example="2014-09-14T02:08:56",
+        ),
+        "message": fields.String(
+            description="error message",
+            required=True,
+            readonly=True,
+            example="EQ_Spreizung",
+        ),
+    },
+)
 
-fault_list_size_model = api.model("fault_list_size_model", {
-    "size": fields.Integer(min=0, description="fault list size", required=True, readonly=True, example=62),
-})
+fault_list_size_model = api.model(
+    "fault_list_size_model",
+    {
+        "size": fields.Integer(
+            min=0,
+            description="fault list size",
+            required=True,
+            readonly=True,
+            example=62,
+        ),
+    },
+)
 
 
 @api.route("/")

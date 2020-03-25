@@ -34,12 +34,8 @@ _logger = logging.getLogger(__name__)
 api = Namespace("param", description="Operations related to the heat pump parameters.")
 
 wildcard = fields.Wildcard(DotKeyField)
-param_list_model = api.model("param_list_model", {
-    "*": wildcard
-})
-param_model = api.model("param_model", {
-    "value": ParamValueField
-})
+param_list_model = api.model("param_list_model", {"*": wildcard})
+param_model = api.model("param_model", {"value": ParamValueField})
 
 
 def bool_as_int(name, value):
@@ -76,9 +72,12 @@ class ParamList(Resource):
         _logger.debug("*** {!s} -- payload={!s}".format(request.url, api.payload))
         unknown = [name for name in api.payload.keys() if name not in HtParams]
         if unknown:
-            api.abort(404, "Parameter(s) {} not found".format(
-                ", ".join(map(lambda name: "{!r}".format(name), unknown))
-            ))
+            api.abort(
+                404,
+                "Parameter(s) {} not found".format(
+                    ", ".join(map(lambda name: "{!r}".format(name), unknown))
+                ),
+            )
         with HtContext(ht_heatpump):
             res = {}
             for name, value in api.payload.items():
@@ -109,7 +108,9 @@ class Param(Resource):
     @api.marshal_with(param_model)
     def put(self, name: str):
         """ Sets the current value of a specific heat pump parameter. """
-        _logger.debug("*** {!s} -- name={!r}, payload={!s}".format(request.url, name, api.payload))
+        _logger.debug(
+            "*** {!s} -- name={!r}, payload={!s}".format(request.url, name, api.payload)
+        )
         value = api.payload["value"]
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))

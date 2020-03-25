@@ -31,7 +31,13 @@ _logger = logging.getLogger(__name__)
 ht_heatpump = None  # type: HtHeatpump
 
 
-def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None, bool_as_int=False, read_only=False):
+def create_app(
+    device="/dev/ttyUSB0",
+    baudrate=115200,
+    user=None,
+    bool_as_int=False,
+    read_only=False,
+):
     # try to connect to the heat pump
     global ht_heatpump
     try:
@@ -39,7 +45,11 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None, bool_as_int=Fa
         _logger.info("open connection to heat pump ({!s})".format(ht_heatpump))
         ht_heatpump.open_connection()
         ht_heatpump.login()
-        _logger.info("successfully connected to heat pump #{:d}".format(ht_heatpump.get_serial_number()))
+        _logger.info(
+            "successfully connected to heat pump #{:d}".format(
+                ht_heatpump.get_serial_number()
+            )
+        )
         _logger.info("software version = {} ({:d})".format(*ht_heatpump.get_version()))
     except Exception as ex:
         _logger.error(ex)
@@ -64,13 +74,14 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None, bool_as_int=Fa
 
     @app.before_first_request
     def before_first_request():
-        #_logger.debug("*** @app.before_first_request -- {}".format(__file__))
+        # _logger.debug("*** @app.before_first_request -- {}".format(__file__))
         pass
 
     settings.BOOL_AS_INT = bool_as_int
     settings.READ_ONLY = read_only
 
     from htrest.apiv1 import blueprint as apiv1
+
     app.register_blueprint(apiv1)
 
     return app

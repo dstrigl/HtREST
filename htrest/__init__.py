@@ -18,5 +18,6 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import htrest.version as __version
+
 __version__ = __version.version.short()
 __author__ = "Daniel Strigl"

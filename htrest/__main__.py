@@ -37,13 +37,17 @@ from htrest.app import create_app
 class UserAction(argparse.Action):
     """ Custom action for argparse, to facilitate validation of a user statement in form of "<username>:<password>".
     """
+
     PATTERN = re.compile(r"^([^:]+):([^:]+)$")  # regex for "<username>:<password>"
 
     def __call__(self, parser, namespace, values, option_string=None):
         assert type(values) is str
         if values and not self.PATTERN.match(values):
             raise argparse.ArgumentError(
-                self, "'{}' is not a valid user statement in form of '<username>:<password>'".format(values)
+                self,
+                "'{}' is not a valid user statement in form of '<username>:<password>'".format(
+                    values
+                ),
             )
         setattr(namespace, self.dest, values)
 
@@ -51,24 +55,31 @@ class UserAction(argparse.Action):
 class PortAction(argparse.Action):
     """ Custom action for argparse, to facilitate validation of a port number (0-65535).
     """
+
     PORT_RANGE = range(0, 65535 + 1)  # range of valid port numbers
 
     def __call__(self, parser, namespace, values, option_string=None):
         assert type(values) is int
         if values not in self.PORT_RANGE:
             raise argparse.ArgumentError(
-                self, "port number must be between {} and {}".format(self.PORT_RANGE[0], self.PORT_RANGE[-1])
+                self,
+                "port number must be between {} and {}".format(
+                    self.PORT_RANGE[0], self.PORT_RANGE[-1]
+                ),
             )
         setattr(namespace, self.dest, values)
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description = textwrap.dedent('''\
+        description=textwrap.dedent(
+            """\
             Heliotherm heat pump REST API server
-            '''),
-        formatter_class = argparse.RawDescriptionHelpFormatter,
-        epilog = textwrap.dedent('''\
+            """
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=textwrap.dedent(
+            """\
             DISCLAIMER
             ----------
 
@@ -80,65 +91,81 @@ def main():
               for damage caused by this program or mentioned information.
 
               Thus, use it on your own risk!
-            ''') + "\r\n")
+            """
+        )
+        + "\r\n",
+    )
 
     parser.add_argument(
-        "-d", "--device",
-        default = "/dev/ttyUSB0",
-        type = str,
-        help = "the serial device on which the heat pump is connected, default: %(default)s")
+        "-d",
+        "--device",
+        default="/dev/ttyUSB0",
+        type=str,
+        help="the serial device on which the heat pump is connected, default: %(default)s",
+    )
 
     parser.add_argument(
-        "-b", "--baudrate",
-        default = 115200,
-        type = int,
+        "-b",
+        "--baudrate",
+        default=115200,
+        type=int,
         # the supported baudrates of the Heliotherm heat pump (HP08S10W-WEB):
-        choices = [9600, 19200, 38400, 57600, 115200],
-        help = "baudrate of the serial connection (same as configured on the heat pump), default: %(default)s")
+        choices=[9600, 19200, 38400, 57600, 115200],
+        help="baudrate of the serial connection (same as configured on the heat pump), default: %(default)s",
+    )
 
     parser.add_argument(
         "--host",
-        default = "127.0.0.1",
-        type = str,
-        help = "the hostname to listen on, set to \"0.0.0.0\" to have the server available externally as well,"
-               " default: %(default)s")
+        default="127.0.0.1",
+        type=str,
+        help='the hostname to listen on, set to "0.0.0.0" to have the server available externally as well,'
+        " default: %(default)s",
+    )
 
     parser.add_argument(
         "--port",
-        default = 8888,
-        type = int,
+        default=8888,
+        type=int,
         action=PortAction,
-        help = "the port of the web server, default: %(default)s")
+        help="the port of the web server, default: %(default)s",
+    )
 
     parser.add_argument(
         "--user",
-        default = "",
-        type = str,
-        action = UserAction,
-        help = "the username and password for the basic access authentication in the form \"<username>:<password>\","
-               " default: %(default)s")
+        default="",
+        type=str,
+        action=UserAction,
+        help='the username and password for the basic access authentication in the form "<username>:<password>",'
+        " default: %(default)s",
+    )
 
     parser.add_argument(
         "--bool-as-int",
-        action = "store_true",
-        help = "boolean values are treated as integers (with false equivalent to 0 and true equivalent to 1),"
-               " default: %(default)s")
+        action="store_true",
+        help="boolean values are treated as integers (with false equivalent to 0 and true equivalent to 1),"
+        " default: %(default)s",
+    )
 
     parser.add_argument(
         "--logging-config",
-        default = os.path.normpath(os.path.join(os.path.dirname(__file__), "logging.conf")),
-        type = str,
-        help = "the filename under which the logging configuration can be found, default: %(default)s")
+        default=os.path.normpath(
+            os.path.join(os.path.dirname(__file__), "logging.conf")
+        ),
+        type=str,
+        help="the filename under which the logging configuration can be found, default: %(default)s",
+    )
 
     parser.add_argument(
         "--debug",
-        action = "store_true",
-        help = "enable Flask debug mode, default: %(default)s")
+        action="store_true",
+        help="enable Flask debug mode, default: %(default)s",
+    )
 
     parser.add_argument(
         "--read-only",
-        action = "store_true",
-        help = "does not perform any write accesses, default: %(default)s")
+        action="store_true",
+        help="does not perform any write accesses, default: %(default)s",
+    )
 
     args = parser.parse_args()
     print(args)
@@ -147,8 +174,16 @@ def main():
     logging.config.fileConfig(args.logging_config, disable_existing_loggers=False)
 
     # create and start the Flask application
-    app = create_app(args.device, args.baudrate, args.user, args.bool_as_int, args.read_only)
-    app.run(host=args.host, port=args.port, debug=args.debug, use_reloader=False, threaded=False)
+    app = create_app(
+        args.device, args.baudrate, args.user, args.bool_as_int, args.read_only
+    )
+    app.run(
+        host=args.host,
+        port=args.port,
+        debug=args.debug,
+        use_reloader=False,
+        threaded=False,
+    )
 
 
 if __name__ == "__main__":
