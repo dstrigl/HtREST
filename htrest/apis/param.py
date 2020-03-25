@@ -22,10 +22,10 @@
 import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
-from htheatpump.htparams import HtParams
+from htheatpump.htparams import HtDataTypes, HtParams
 from .utils import ParamValueField, DotKeyField, HtContext
 from htrest.app import ht_heatpump
-from htrest.settings import READ_ONLY as HTREST_READ_ONLY
+from htrest import settings
 
 
 _logger = logging.getLogger(__name__)
@@ -42,6 +42,18 @@ param_model = api.model("param_model", {
 })
 
 
+def bool_as_int(name, value):
+    if settings.BOOL_AS_INT and HtParams[name].data_type == HtDataTypes.BOOL:
+        value = 1 if value else 0
+    return value
+
+
+def int_as_bool(name, value):
+    if settings.BOOL_AS_INT and HtParams[name].data_type == HtDataTypes.BOOL:
+        value = True if value else False
+    return value
+
+
 @api.route("/")
 class ParamList(Resource):
     @api.marshal_with(param_list_model)
@@ -52,6 +64,7 @@ class ParamList(Resource):
             res = {}
             for name in HtParams.keys():
                 value = ht_heatpump.get_param(name)
+                value = bool_as_int(name, value)
                 res.update({name: value})
         return res
 
@@ -69,8 +82,10 @@ class ParamList(Resource):
         with HtContext(ht_heatpump):
             res = {}
             for name, value in api.payload.items():
-                if not HTREST_READ_ONLY:
+                value = int_as_bool(name, value)
+                if not settings.READ_ONLY:
                     value = ht_heatpump.set_param(name, value)
+                value = bool_as_int(name, value)
                 res.update({name: value})
         return res
 
@@ -87,6 +102,7 @@ class Param(Resource):
             api.abort(404, "Parameter '{}' not found".format(name))
         with HtContext(ht_heatpump):
             value = ht_heatpump.get_param(name)
+            value = bool_as_int(name, value)
         return {"value": value}
 
     @api.expect(param_model)
@@ -98,6 +114,8 @@ class Param(Resource):
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
         with HtContext(ht_heatpump):
-            if not HTREST_READ_ONLY:
+            value = int_as_bool(name, value)
+            if not settings.READ_ONLY:
                 value = ht_heatpump.set_param(name, value)
+            value = bool_as_int(name, value)
         return {"value": value}

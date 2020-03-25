@@ -119,6 +119,12 @@ def main():
                " default: %(default)s")
 
     parser.add_argument(
+        "--bool-as-int",
+        action = "store_true",
+        help = "boolean values are treated as integers (with false equivalent to 0 and true equivalent to 1),"
+               " default: %(default)s")
+
+    parser.add_argument(
         "--logging-config",
         default = os.path.normpath(os.path.join(os.path.dirname(__file__), "logging.conf")),
         type = str,
@@ -141,7 +147,7 @@ def main():
     logging.config.fileConfig(args.logging_config, disable_existing_loggers=False)
 
     # create and start the Flask application
-    app = create_app(args.device, args.baudrate, args.user, args.read_only)
+    app = create_app(args.device, args.baudrate, args.user, args.bool_as_int, args.read_only)
     app.run(host=args.host, port=args.port, debug=args.debug, use_reloader=False, threaded=False)
 
 

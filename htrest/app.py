@@ -31,7 +31,7 @@ _logger = logging.getLogger(__name__)
 ht_heatpump = None  # type: HtHeatpump
 
 
-def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None, read_only=False):
+def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None, bool_as_int=False, read_only=False):
     # try to connect to the heat pump
     global ht_heatpump
     try:
@@ -67,6 +67,7 @@ def create_app(device="/dev/ttyUSB0", baudrate=115200, user=None, read_only=Fals
         #_logger.debug("*** @app.before_first_request -- {}".format(__file__))
         pass
 
+    settings.BOOL_AS_INT = bool_as_int
     settings.READ_ONLY = read_only
 
     from htrest.apiv1 import blueprint as apiv1

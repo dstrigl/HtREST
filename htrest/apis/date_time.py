@@ -25,7 +25,7 @@ from flask_restx import Namespace, Resource, fields
 from datetime import datetime
 from .utils import HtContext
 from htrest.app import ht_heatpump
-from htrest.settings import READ_ONLY as HTREST_READ_ONLY
+from htrest import settings
 
 
 _logger = logging.getLogger(__name__)
@@ -61,6 +61,6 @@ class DateTime(Resource):
         else:
             dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
         with HtContext(ht_heatpump):
-            if not HTREST_READ_ONLY:
+            if not settings.READ_ONLY:
                 dt, _ = ht_heatpump.set_date_time(dt)
         return {"datetime": dt}
