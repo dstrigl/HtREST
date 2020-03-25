@@ -65,7 +65,7 @@ class Device(Resource):
     @api.marshal_with(device_model)
     def get(self):
         """ Returns the properties of the heat pump. """
-        _logger.info("*** {!s}".format(request.url))
+        _logger.info("*** [GET] {!s}".format(request.url))
         with HtContext(ht_heatpump):
             serial_number = ht_heatpump.get_serial_number()
             software_version, _ = ht_heatpump.get_version()

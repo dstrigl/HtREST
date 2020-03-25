@@ -45,7 +45,7 @@ class FastQueryList(Resource):
     @api.marshal_with(param_list_model)
     def get(self):
         """ Performs a fast query of all heat pump parameters representing a 'MP' data point. """
-        _logger.info("*** {!s}".format(request.url))
+        _logger.info("*** [GET] {!s}".format(request.url))
         with HtContext(ht_heatpump):
             res = ht_heatpump.fast_query()
         return res
@@ -58,7 +58,7 @@ class FastQuery(Resource):
     @api.marshal_with(param_model)
     def get(self, name: str):
         """ Performs a fast query of a specific heat pump parameter which represents a 'MP' data point. """
-        _logger.info("*** {!s} -- name={!r}".format(request.url, name))
+        _logger.info("*** [GET] {!s} -- name={!r}".format(request.url, name))
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
         with HtContext(ht_heatpump):
