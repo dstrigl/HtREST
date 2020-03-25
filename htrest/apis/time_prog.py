@@ -123,7 +123,7 @@ class TimeProgs(Resource):
     @api.marshal_list_with(time_prog_model, skip_none=True)
     def get(self):
         """ Returns a list of all available time programs of the heat pump. """
-        _logger.debug("*** {!s}".format(request.url))
+        _logger.info("*** {!s}".format(request.url))
         with HtContext(ht_heatpump):
             time_progs = ht_heatpump.get_time_progs()
         return [time_prog.as_json(with_entries=False) for time_prog in time_progs]
@@ -135,7 +135,7 @@ class TimeProg(Resource):
     @api.marshal_with(time_prog_with_entries_model, skip_none=True)
     def get(self, id: int):
         """ Returns the time program with the given index of the heat pump. """
-        _logger.debug("*** {!s} -- id={}".format(request.url, id))
+        _logger.info("*** {!s} -- id={}".format(request.url, id))
         with HtContext(ht_heatpump):
             time_prog = ht_heatpump.get_time_prog(id)
         return time_prog.as_json(with_entries=True)
@@ -144,7 +144,7 @@ class TimeProg(Resource):
     @api.marshal_with(time_prog_with_entries_model)
     def put(self, id: int):
         """ Sets all time program entries of a specific time program of the heat pump. """
-        _logger.debug(
+        _logger.info(
             "*** {!s} -- id={}, payload={!s}".format(request.url, id, api.payload)
         )
         with HtContext(ht_heatpump):
@@ -168,7 +168,7 @@ class TimeProgEntry(Resource):
     @api.marshal_with(time_prog_entry_model)
     def get(self, id: int, day: int, num: int):
         """ Returns a specific time program entry of the heat pump. """
-        _logger.debug(
+        _logger.info(
             "*** {!s} -- id={}, day={}, num={}".format(request.url, id, day, num)
         )
         with HtContext(ht_heatpump):
@@ -179,7 +179,7 @@ class TimeProgEntry(Resource):
     @api.marshal_with(time_prog_entry_model)
     def put(self, id: int, day: int, num: int):
         """ Sets a specific time program entry of the heat pump. """
-        _logger.debug(
+        _logger.info(
             "*** {!s} -- id={}, day={}, num={}, payload={!s}".format(
                 request.url, id, day, num, api.payload
             )

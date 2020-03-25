@@ -55,7 +55,7 @@ class ParamList(Resource):
     @api.marshal_with(param_list_model)
     def get(self):
         """ Returns the list of heat pump parameters with their current value. """
-        _logger.debug("*** {!s}".format(request.url))
+        _logger.info("*** {!s}".format(request.url))
         with HtContext(ht_heatpump):
             res = {}
             for name in HtParams.keys():
@@ -69,7 +69,7 @@ class ParamList(Resource):
     @api.response(404, "Parameter(s) not found")
     def put(self):
         """ Sets the current value of several heat pump parameters. """
-        _logger.debug("*** {!s} -- payload={!s}".format(request.url, api.payload))
+        _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))
         unknown = [name for name in api.payload.keys() if name not in HtParams]
         if unknown:
             api.abort(
@@ -96,7 +96,7 @@ class Param(Resource):
     @api.marshal_with(param_model)
     def get(self, name: str):
         """ Returns the current value of a specific heat pump parameter. """
-        _logger.debug("*** {!s} -- name={!r}".format(request.url, name))
+        _logger.info("*** {!s} -- name={!r}".format(request.url, name))
         if name not in HtParams:
             api.abort(404, "Parameter '{}' not found".format(name))
         with HtContext(ht_heatpump):
@@ -108,7 +108,7 @@ class Param(Resource):
     @api.marshal_with(param_model)
     def put(self, name: str):
         """ Sets the current value of a specific heat pump parameter. """
-        _logger.debug(
+        _logger.info(
             "*** {!s} -- name={!r}, payload={!s}".format(request.url, name, api.payload)
         )
         value = api.payload["value"]

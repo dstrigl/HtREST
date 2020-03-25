@@ -52,7 +52,7 @@ class DateTime(Resource):
     @api.marshal_with(date_time_model)
     def get(self):
         """ Returns the current date and time of the heat pump. """
-        _logger.debug("*** {!s}".format(request.url))
+        _logger.info("*** {!s}".format(request.url))
         with HtContext(ht_heatpump):
             dt, _ = ht_heatpump.get_date_time()
         return {"datetime": dt}
@@ -63,7 +63,7 @@ class DateTime(Resource):
         """ Sets the current date and time of the heat pump.
         Note: If 'datetime' is empty current date and time of the host will be used.
         """
-        _logger.debug("*** {!s} -- payload={!s}".format(request.url, api.payload))
+        _logger.info("*** {!s} -- payload={!s}".format(request.url, api.payload))
         dt = api.payload["datetime"]
         if not dt:  # if 'dt' is empty (or None), use the current system time!
             dt = datetime.now()
