@@ -2,7 +2,7 @@
 
 ## 0.1.5 (2020-??-??)
 
-* Adapted logging statements and log level.
+* Adapted logging statements and default log levels.
 * Python code reformatting using *Black*.
 * Added possibility so that boolean values can be treated as integers (arg `--bool-as-int`).
 * Fixed unsynchronized access to `HtHeatpump`, which results in a serial communication error.
