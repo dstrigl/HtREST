@@ -69,7 +69,11 @@ class ParamList(Resource):
     @api.response(404, "Parameter(s) not found")
     def put(self):
         """ Sets the current value of several heat pump parameters. """
-        _logger.info("*** [PUT] {!s} -- payload={!s}".format(request.url, api.payload))
+        _logger.info(
+            "*** [PUT{}] {!s} -- payload={!s}".format(
+                " (read-only)" if settings.READ_ONLY else "", request.url, api.payload
+            )
+        )
         unknown = [name for name in api.payload.keys() if name not in HtParams]
         if unknown:
             api.abort(
@@ -109,7 +113,12 @@ class Param(Resource):
     def put(self, name: str):
         """ Sets the current value of a specific heat pump parameter. """
         _logger.info(
-            "*** [PUT] {!s} -- name={!r}, payload={!s}".format(request.url, name, api.payload)
+            "*** [PUT{}] {!s} -- name={!r}, payload={!s}".format(
+                " (read-only)" if settings.READ_ONLY else "",
+                request.url,
+                name,
+                api.payload,
+            )
         )
         value = api.payload["value"]
         if name not in HtParams:

@@ -145,7 +145,12 @@ class TimeProg(Resource):
     def put(self, id: int):
         """ Sets all time program entries of a specific time program of the heat pump. """
         _logger.info(
-            "*** [PUT] {!s} -- id={}, payload={!s}".format(request.url, id, api.payload)
+            "*** [PUT{}] {!s} -- id={}, payload={!s}".format(
+                " (read-only)" if settings.READ_ONLY else "",
+                request.url,
+                id,
+                api.payload,
+            )
         )
         with HtContext(ht_heatpump):
             time_prog = ht_heatpump.get_time_prog(id, with_entries=False).as_json(
@@ -180,8 +185,13 @@ class TimeProgEntry(Resource):
     def put(self, id: int, day: int, num: int):
         """ Sets a specific time program entry of the heat pump. """
         _logger.info(
-            "*** [PUT] {!s} -- id={}, day={}, num={}, payload={!s}".format(
-                request.url, id, day, num, api.payload
+            "*** [PUT{}] {!s} -- id={}, day={}, num={}, payload={!s}".format(
+                " (read-only)" if settings.READ_ONLY else "",
+                request.url,
+                id,
+                day,
+                num,
+                api.payload,
             )
         )
         entry = HtTimeProgEntry.from_json(api.payload)

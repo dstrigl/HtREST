@@ -63,7 +63,11 @@ class DateTime(Resource):
         """ Sets the current date and time of the heat pump.
         Note: If 'datetime' is empty current date and time of the host will be used.
         """
-        _logger.info("*** [PUT] {!s} -- payload={!s}".format(request.url, api.payload))
+        _logger.info(
+            "*** [PUT{}] {!s} -- payload={!s}".format(
+                " (read-only)" if settings.READ_ONLY else "", request.url, api.payload
+            )
+        )
         dt = api.payload["datetime"]
         if not dt:  # if 'dt' is empty (or None), use the current system time!
             dt = datetime.now()
