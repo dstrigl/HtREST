@@ -35,7 +35,7 @@
 The following table describes the HTTP/REST API exposed by this server application for the
 [Heliotherm](http://www.heliotherm.com/) heat pump.
 
-| URI                                             | GET   | POST  | description                                                                                 |
+| URI                                             | GET   | PUT   | description                                                                                 |
 | :---------------------------------------------- | :---: | :---: | :------------------------------------------------------------------------------------------ |
 | `/api/v1/device`                                |   X   |       | Delivers information about the connected heat pump.                                         |
 | `/api/v1/datetime`                              |   X   |   X   | Returns or sets the current date and time of the heat pump.                                 |
