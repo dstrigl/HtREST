@@ -142,8 +142,7 @@ def main():
     parser.add_argument(
         "--bool-as-int",
         action="store_true",
-        help="boolean values are treated as integers (with false equivalent to 0 and true equivalent to 1),"
-        " default: %(default)s",
+        help="boolean values are treated as integers (with false equivalent to 0 and true equivalent to 1)",
     )
 
     parser.add_argument(
@@ -156,15 +155,11 @@ def main():
     )
 
     parser.add_argument(
-        "--debug",
-        action="store_true",
-        help="enable Flask debug mode, default: %(default)s",
+        "--debug", action="store_true", help="enable Flask debug mode",
     )
 
     parser.add_argument(
-        "--read-only",
-        action="store_true",
-        help="does not perform any write accesses, default: %(default)s",
+        "--read-only", action="store_true", help="does not perform any write accesses",
     )
 
     args = parser.parse_args()
