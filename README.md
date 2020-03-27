@@ -793,8 +793,8 @@ $ python setup.py install
 
 ```
 usage: htrest [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
-              [--host HOST] [--port PORT] [--user USER]
-              [--logging-config LOGGING_CONFIG] [--debug]
+              [--host HOST] [--port PORT] [--user USER] [--bool-as-int]
+              [--logging-config LOGGING_CONFIG] [--debug] [--read-only]
 
 Heliotherm heat pump REST API server
 
@@ -813,29 +813,33 @@ optional arguments:
   --user USER           the username and password for the basic access
                         authentication in the form "<username>:<password>",
                         default:
+  --bool-as-int         boolean values are treated as integers (with false
+                        equivalent to 0 and true equivalent to 1)
   --logging-config LOGGING_CONFIG
                         the filename under which the logging configuration can
                         be found, default:
-                        /home/dast/prog/HtREST/htrest/logging.conf
-  --debug               enable Flask debug mode, default: False
+                        /home/pi/prog/HtREST/htrest/logging.conf
+  --debug               enable Flask debug mode
+  --read-only           does not perform any write accesses
 ```
 
 
 ### Example
 
 ```
-$ htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.1.80 --port 8080 --logging-config /home/pi/htrest-logging.conf
+$ htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.1.80 --port 8080 --read-only
 HTHEATPUMP: load parameter definitions from: /home/pi/venv/htrest/lib/python3.7/site-packages/htheatpump-1.2.1-py3.7.egg/htheatpump/htparams.csv
-2020-03-20 07:56:41,090 INFO [htrest.app] open connection to heat pump (<htheatpump.htheatpump.HtHeatpump object at 0x7648c350>)
-2020-03-20 07:56:41,127 INFO [htrest.app] successfully connected to heat pump #123456
-2020-03-20 07:56:41,147 INFO [htrest.app] software version = 3.0.20 (273)
-2020-03-20 07:56:41,164 INFO [htrest.app] *** created Flask app <Flask 'htrest.app'> with config <Config {'ENV': 'production', ...}>
+Namespace(baudrate=115200, bool_as_int=False, debug=False, device='/dev/ttyUSB0', host='192.168.11.99', logging_config='/home/pi/prog/HtREST/htrest/logging.conf', port=8080, read_only=True, user='')
+2020-03-27 12:46:30,555 INFO [htrest.app] open connection to heat pump (<htheatpump.htheatpump.HtHeatpump object at 0xb6528030>)
+2020-03-27 12:46:30,597 INFO [htrest.app] successfully connected to heat pump #123456
+2020-03-27 12:46:30,629 INFO [htrest.app] software version = 3.0.20 (273)
+2020-03-27 12:46:30,675 INFO [htrest.app] *** created Flask app <Flask 'htrest.app'> with config <Config {'ENV': 'production', 'DEBUG': False, 'TESTING': False, ... }>
  * Serving Flask app "htrest.app" (lazy loading)
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: off
-2020-03-20 07:56:42,176 INFO [werkzeug]  * Running on http://192.168.1.80:8080/ (Press CTRL+C to quit)
+...
 ```
 
 
