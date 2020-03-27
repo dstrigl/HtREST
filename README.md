@@ -829,7 +829,7 @@ optional arguments:
 ```
 $ htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.1.80 --port 8080 --read-only
 HTHEATPUMP: load parameter definitions from: /home/pi/venv/htrest/lib/python3.7/site-packages/htheatpump-1.2.1-py3.7.egg/htheatpump/htparams.csv
-Namespace(baudrate=115200, bool_as_int=False, debug=False, device='/dev/ttyUSB0', host='192.168.11.99', logging_config='/home/pi/prog/HtREST/htrest/logging.conf', port=8080, read_only=True, user='')
+Namespace(baudrate=115200, bool_as_int=False, debug=False, device='/dev/ttyUSB0', host='192.168.1.80', logging_config='/home/pi/prog/HtREST/htrest/logging.conf', port=8080, read_only=True, user='')
 2020-03-27 12:46:30,555 INFO [htrest.app] open connection to heat pump (<htheatpump.htheatpump.HtHeatpump object at 0xb6528030>)
 2020-03-27 12:46:30,597 INFO [htrest.app] successfully connected to heat pump #123456
 2020-03-27 12:46:30,629 INFO [htrest.app] software version = 3.0.20 (273)
