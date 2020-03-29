@@ -1,6 +1,6 @@
 # History
 
-## 0.1.5 (2020-??-??)
+## 0.1.5 (2020-03-29)
 
 * Adapted logging statements and default log levels.
 * Python code reformatting using *Black*.
