@@ -87,5 +87,6 @@ def create_app(
 
     app.register_blueprint(apiv1)
     # print(apiv1.url_prefix)
+    print(app.url_map)
 
     return app
