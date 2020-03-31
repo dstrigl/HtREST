@@ -20,7 +20,7 @@
 """ Heliotherm heat pump REST API server APIv1. """
 
 import logging
-from flask import Blueprint, request
+from flask import Blueprint  # , request
 from flask_restx import Api
 from htrest.apis.device import api as ns1
 from htrest.apis.fault_list import api as ns2
