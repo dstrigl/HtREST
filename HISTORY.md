@@ -2,6 +2,7 @@
 
 ## 0.1.6 (2020-??-??)
 
+* Added possibility to disable all parameter verification actions (arg `--no-param-verification`).
 * Changed behaviour: No reconnect of the serial connection will be performed for each request,
   because each `login()` call during a request will automatically try a reconnect on failure.
 * Clean-up of `setup.py` and `MANIFEST.in`.

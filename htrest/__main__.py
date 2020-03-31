@@ -162,6 +162,12 @@ def main():
         "--read-only", action="store_true", help="does not perform any write accesses",
     )
 
+    parser.add_argument(
+        "--no-param-verification",
+        action="store_true",
+        help="disable all parameter verification actions",
+    )
+
     args = parser.parse_args()
     print(args)
 
@@ -170,7 +176,12 @@ def main():
 
     # create and start the Flask application
     app = create_app(
-        args.device, args.baudrate, args.user, args.bool_as_int, args.read_only
+        args.device,
+        args.baudrate,
+        args.user,
+        args.bool_as_int,
+        args.read_only,
+        args.no_param_verification,
     )
     app.run(
         host=args.host,

@@ -23,7 +23,7 @@ import logging
 from flask import Flask
 from flask_basicauth import BasicAuth
 from htrest import settings
-from htheatpump.htheatpump import HtHeatpump
+from htheatpump.htheatpump import HtHeatpump, VerifyAction
 
 
 _logger = logging.getLogger(__name__)
@@ -37,11 +37,14 @@ def create_app(
     user=None,
     bool_as_int=False,
     read_only=False,
+    no_param_verification=False,
 ):
     # try to connect to the heat pump
     global ht_heatpump
     try:
         ht_heatpump = HtHeatpump(device, baudrate=baudrate)
+        if no_param_verification:
+            ht_heatpump.verify_param_action = VerifyAction.NONE()
         _logger.info("open connection to heat pump ({!s})".format(ht_heatpump))
         ht_heatpump.open_connection()
         ht_heatpump.login()
