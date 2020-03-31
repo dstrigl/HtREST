@@ -1,7 +1,8 @@
 # History
 
-## 0.1.6 (2020-??-??)
+## 0.1.6 (2020-03-31)
 
+* Updated to `htheatpump v1.2.3`, which now includes several helper scripts (e.g. `htcomplparams`).
 * Added possibility to disable all parameter verification actions (arg `--no-param-verification`).
 * Changed behaviour: No reconnect of the serial connection will be performed for each request,
   because each `login()` call during a request will automatically try a reconnect on failure.
