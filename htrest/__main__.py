@@ -159,7 +159,9 @@ def main():
     )
 
     parser.add_argument(
-        "--read-only", action="store_true", help="does not perform any write accesses",
+        "--read-only",
+        action="store_true",
+        help="disable write access to the heat pump",
     )
 
     parser.add_argument(
