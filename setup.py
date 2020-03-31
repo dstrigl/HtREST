@@ -56,7 +56,7 @@ setup(
     # Supported platforms
     platforms=["Linux"],
     # Project packages
-    packages=find_packages(exclude=["tests", "tests.*"]),
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     include_package_data=True,
     # Project requirements (used by pip to install its dependencies)
     install_requires=install_requires,
