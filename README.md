@@ -795,6 +795,7 @@ $ python setup.py install
 usage: htrest [-h] [-d DEVICE] [-b {9600,19200,38400,57600,115200}]
               [--host HOST] [--port PORT] [--user USER] [--bool-as-int]
               [--logging-config LOGGING_CONFIG] [--debug] [--read-only]
+              [--no-param-verification]
 
 Heliotherm heat pump REST API server
 
@@ -820,7 +821,9 @@ optional arguments:
                         be found, default:
                         /home/pi/prog/HtREST/htrest/logging.conf
   --debug               enable Flask debug mode
-  --read-only           does not perform any write accesses
+  --read-only           disable write access to the heat pump
+  --no-param-verification
+                        disable all parameter verification actions
 ```
 
 
@@ -828,17 +831,19 @@ optional arguments:
 
 ```
 $ htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.1.80 --port 8080 --read-only
-HTHEATPUMP: load parameter definitions from: /home/pi/venv/htrest/lib/python3.7/site-packages/htheatpump-1.2.1-py3.7.egg/htheatpump/htparams.csv
-Namespace(baudrate=115200, bool_as_int=False, debug=False, device='/dev/ttyUSB0', host='192.168.1.80', logging_config='/home/pi/prog/HtREST/htrest/logging.conf', port=8080, read_only=True, user='')
-2020-03-27 12:46:30,555 INFO [htrest.app] open connection to heat pump (<htheatpump.htheatpump.HtHeatpump object at 0xb6528030>)
-2020-03-27 12:46:30,597 INFO [htrest.app] successfully connected to heat pump #123456
-2020-03-27 12:46:30,629 INFO [htrest.app] software version = 3.0.20 (273)
-2020-03-27 12:46:30,675 INFO [htrest.app] *** created Flask app <Flask 'htrest.app'> with config <Config {'ENV': 'production', 'DEBUG': False, 'TESTING': False, ... }>
+HTHEATPUMP: load parameter definitions from: /home/pi/venv/htrest/lib/python3.7/site-packages/htheatpump-1.2.2-py3.7.egg/htheatpump/htparams.csv
+Namespace(baudrate=115200, bool_as_int=False, debug=False, device='/dev/ttyUSB0', host='192.168.1.80', logging_config='/home/pi/prog/HtREST/htrest/logging.conf', no_param_verification=False, port=8080, read_only=True, user='')
+2020-03-31 12:58:07,351 INFO [htrest.app] open connection to heat pump (<htheatpump.htheatpump.HtHeatpump object at 0xb59b0850>)
+2020-03-31 12:58:07,391 INFO [htrest.app] successfully connected to heat pump #123456
+2020-03-31 12:58:07,422 INFO [htrest.app] software version = 3.0.20 (273)
+2020-03-31 12:58:07,464 INFO [htrest.app] *** created Flask app <Flask 'htrest.app'> with config <Config {'ENV': 'production', 'DEBUG': False, 'TESTING': False, 'PROPAGATE_EXCEPTIONS': None, 'PRESERVE_CONTEXT_ON_EXCEPTION': None, 'SECRET_KEY': None, 'PERMANENT_SESSION_LIFETIME': datetime.timedelta(days=31), 'USE_X_SENDFILE': False, 'SERVER_NAME': None, 'APPLICATION_ROOT': '/', 'SESSION_COOKIE_NAME': 'session', 'SESSION_COOKIE_DOMAIN': None, 'SESSION_COOKIE_PATH': None, 'SESSION_COOKIE_HTTPONLY': True, 'SESSION_COOKIE_SECURE': False, 'SESSION_COOKIE_SAMESITE': None, 'SESSION_REFRESH_EACH_REQUEST': True, 'MAX_CONTENT_LENGTH': None, 'SEND_FILE_MAX_AGE_DEFAULT': datetime.timedelta(seconds=43200), 'TRAP_BAD_REQUEST_ERRORS': None, 'TRAP_HTTP_EXCEPTIONS': False, 'EXPLAIN_TEMPLATE_LOADING': False, 'PREFERRED_URL_SCHEME': 'http', 'JSON_AS_ASCII': True, 'JSON_SORT_KEYS': True, 'JSONIFY_PRETTYPRINT_REGULAR': False, 'JSONIFY_MIMETYPE': 'application/json', 'TEMPLATES_AUTO_RELOAD': None, 'MAX_COOKIE_SIZE': 4093, 'SWAGGER_UI_DOC_EXPANSION': 'list', 'RESTX_VALIDATE': True, 'RESTX_MASK_SWAGGER': False, 'ERROR_404_HELP': False, 'BUNDLE_ERRORS': True}>
  * Serving Flask app "htrest.app" (lazy loading)
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: off
+2020-03-31 12:58:12,047 INFO [htrest.apis.param] *** [GET] http://192.168.1.80:8080/api/v1/param/HKR%20Soll_Raum -- name='HKR Soll_Raum'
+2020-03-31 12:58:12,174 INFO [htrest.apis.param] *** [GET] http://192.168.1.80:8080/api/v1/param/Betriebsart -- name='Betriebsart'
 ...
 ```
 

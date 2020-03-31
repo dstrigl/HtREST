@@ -86,5 +86,6 @@ def create_app(
     from htrest.apiv1 import blueprint as apiv1
 
     app.register_blueprint(apiv1)
+    # print(apiv1.url_prefix)
 
     return app
