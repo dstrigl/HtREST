@@ -28,7 +28,6 @@ from htrest.apis.date_time import api as ns3
 from htrest.apis.param import api as ns4
 from htrest.apis.fast_query import api as ns5
 from htrest.apis.time_prog import api as ns6
-from htrest.app import ht_heatpump
 
 
 _logger = logging.getLogger(__name__)
@@ -52,14 +51,18 @@ api.add_namespace(ns6)
 
 @blueprint.before_request
 def before_request():
-    _logger.debug(
-        "*** @blueprint.before_request -- {} -- {!s}".format(__file__, request)
-    )
-    try:
-        ht_heatpump.reconnect()
-    except Exception as ex:
-        _logger.error(ex)
-        raise
+    # _logger.debug(
+    #    "*** @blueprint.before_request -- {} -- {!s}".format(__file__, request)
+    # )
+    #
+    # Not necessary, since login() will automatically try a reconnect on failure:
+    #
+    # try:
+    #    ht_heatpump.reconnect()
+    # except Exception as ex:
+    #    _logger.error(ex)
+    #    raise
+    pass
 
 
 @blueprint.after_request

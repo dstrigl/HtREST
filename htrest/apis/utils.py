@@ -49,7 +49,7 @@ class HtContext:
         return self._heatpump
 
     def __enter__(self):
-        self._heatpump.login()
+        self._heatpump.login()  # Hint: login() will also try a reconnect on failure
         return self
 
     def __exit__(self, *args):
