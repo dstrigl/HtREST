@@ -1,5 +1,9 @@
 # History
 
+## 0.1.7 (2020-04-01)
+
+* Fixed wrong uploaded package on PyPi.
+
 ## 0.1.6 (2020-03-31)
 
 * Updated to `htheatpump v1.2.3`, which now includes several helper scripts (e.g. `htcomplparams`).
