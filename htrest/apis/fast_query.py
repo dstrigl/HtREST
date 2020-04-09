@@ -23,11 +23,11 @@ import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from htheatpump.htparams import HtParams
-from .utils import ParamValueField, DotKeyField, HtContext
-from htrest.app import ht_heatpump
+from ..app import ht_heatpump
+from .utils import ParamValueField, DotKeyField, HtContext, bool_as_int
 
 
-_logger = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
 
 
 api = Namespace(
@@ -41,13 +41,36 @@ param_model = api.model("param_model", {"value": ParamValueField})
 
 
 @api.route("/")
+@api.response(404, "Parameter(s) not found")
+@api.response(400, "Invalid parameter(s), doesn't represent a 'MP' data point")
 class FastQueryList(Resource):
     @api.marshal_with(param_list_model)
     def get(self):
-        """ Performs a fast query of all heat pump parameters representing a 'MP' data point. """
-        _logger.info("*** [GET] {!s}".format(request.url))
+        """ Performs a fast query of a subset or all heat pump parameters representing a 'MP' data point. """
+        _LOGGER.info("*** [GET] %s", request.url)
+        params = list(request.args.keys())
+        unknown = [name for name in params if name not in HtParams]
+        if unknown:
+            api.abort(
+                404,
+                "Parameter(s) {} not found".format(
+                    ", ".join(map(lambda name: "{!r}".format(name), unknown))
+                ),
+            )
+        invalid = [name for name in params if HtParams[name].dp_type != "MP"]
+        if invalid:
+            api.abort(
+                400,
+                "Parameter(s) {} doesn't represent a 'MP' data point".format(
+                    ", ".join(map(lambda name: "{!r}".format(name), invalid))
+                ),
+            )
+        if not params:
+            params = (name for name, param in HtParams.items() if param.dp_type == "MP")
         with HtContext(ht_heatpump):
-            res = ht_heatpump.fast_query()
+            res = ht_heatpump.fast_query(*params)
+        for name, value in res.items():
+            res[name] = bool_as_int(name, value)
         return res
 
 
@@ -58,9 +81,9 @@ class FastQuery(Resource):
     @api.marshal_with(param_model)
     def get(self, name: str):
         """ Performs a fast query of a specific heat pump parameter which represents a 'MP' data point. """
-        _logger.info("*** [GET] {!s} -- name={!r}".format(request.url, name))
+        _LOGGER.info("*** [GET] %s -- name='%s'", request.url, name)
         if name not in HtParams:
-            api.abort(404, "Parameter '{}' not found".format(name))
+            api.abort(404, "Parameter {!r} not found".format(name))
         with HtContext(ht_heatpump):
             value = ht_heatpump.fast_query(name)
-        return {"value": value[name]}
+        return {"value": bool_as_int(name, value[name])}

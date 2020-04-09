@@ -22,11 +22,11 @@
 import logging
 from flask import Flask
 from flask_basicauth import BasicAuth
-from htrest import settings
 from htheatpump.htheatpump import HtHeatpump, VerifyAction
+from . import settings
 
 
-_logger = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
 
 ht_heatpump = None  # type: HtHeatpump
 
@@ -45,17 +45,15 @@ def create_app(
         ht_heatpump = HtHeatpump(device, baudrate=baudrate)
         if no_param_verification:
             ht_heatpump.verify_param_action = VerifyAction.NONE()
-        _logger.info("open connection to heat pump ({!s})".format(ht_heatpump))
+        _LOGGER.info("open connection to heat pump (%s)", ht_heatpump)
         ht_heatpump.open_connection()
         ht_heatpump.login()
-        _logger.info(
-            "successfully connected to heat pump #{:d}".format(
-                ht_heatpump.get_serial_number()
-            )
+        _LOGGER.info(
+            "successfully connected to heat pump #%d", ht_heatpump.get_serial_number()
         )
-        _logger.info("software version = {} ({:d})".format(*ht_heatpump.get_version()))
+        _LOGGER.info("software version = %s (%d)", *ht_heatpump.get_version())
     except Exception as ex:
-        _logger.error(ex)
+        _LOGGER.error(ex)
         raise
     finally:
         ht_heatpump.logout()
@@ -73,11 +71,11 @@ def create_app(
         app.config["BASIC_AUTH_PASSWORD"] = password
         app.config["BASIC_AUTH_FORCE"] = True
         basic_auth = BasicAuth(app)  # noqa: F841
-    _logger.info("*** created Flask app {!s} with config {!s}".format(app, app.config))
+    _LOGGER.info("*** created Flask app %s with config %s", app, app.config)
 
     @app.before_first_request
     def before_first_request():
-        # _logger.debug("*** @app.before_first_request -- {}".format(__file__))
+        # _LOGGER.debug("*** @app.before_first_request -- %s", __file__)
         pass
 
     settings.BOOL_AS_INT = bool_as_int

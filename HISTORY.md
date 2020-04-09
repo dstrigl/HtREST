@@ -1,5 +1,15 @@
 # History
 
+## 0.1.8 (2020-??-??)
+
+* Changed default port of the HtREST application to `8777`.
+* Resource `/api/v1/param` and `/api/v1/fastquery` are now supports the possibility to request
+  for a specific subset of parameters.
+* Resource `/api/v1/fastquery` now also supports the possibility to treat boolean values as
+  integers (arg `--bool-as-int`).
+* Changed log statements to the form with the preferred and well-known `%s` (and `%d`, `%f`, etc.)
+  string formatting indicators (due to performance reasons).
+
 ## 0.1.7 (2020-04-01)
 
 * Fixed wrong uploaded package on PyPi.

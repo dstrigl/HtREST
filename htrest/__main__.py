@@ -23,7 +23,7 @@
 
     .. code-block:: shell
 
-       $ python3 -m htrest -d /dev/ttyUSB0 -b 19200 -s 192.168.1.80:8888 -u john:p@ssw0rd
+       $ python3 -m htrest -d /dev/ttyUSB0 -b 19200 --host 192.168.1.80 --port 8080 --user john:p@ssw0rd
 """
 
 import os
@@ -31,7 +31,7 @@ import re
 import argparse
 import textwrap
 import logging.config
-from htrest.app import create_app
+from .app import create_app
 
 
 class UserAction(argparse.Action):
@@ -45,7 +45,7 @@ class UserAction(argparse.Action):
         if values and not self.PATTERN.match(values):
             raise argparse.ArgumentError(
                 self,
-                "'{}' is not a valid user statement in form of '<username>:<password>'".format(
+                "{!r} is not a valid user statement in form of '<username>:<password>'".format(
                     values
                 ),
             )
@@ -124,7 +124,7 @@ def main():
 
     parser.add_argument(
         "--port",
-        default=8888,
+        default=8777,
         type=int,
         action=PortAction,
         help="the port of the web server, default: %(default)s",

@@ -23,12 +23,12 @@ import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from datetime import datetime
+from ..app import ht_heatpump
+from .. import settings
 from .utils import HtContext
-from htrest.app import ht_heatpump
-from htrest import settings
 
 
-_logger = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
 
 api = Namespace(
     "datetime", description="Operations related to the date and time of the heat pump."
@@ -52,7 +52,7 @@ class DateTime(Resource):
     @api.marshal_with(date_time_model)
     def get(self):
         """ Returns the current date and time of the heat pump. """
-        _logger.info("*** [GET] {!s}".format(request.url))
+        _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             dt, _ = ht_heatpump.get_date_time()
         return {"datetime": dt}
@@ -63,10 +63,11 @@ class DateTime(Resource):
         """ Sets the current date and time of the heat pump.
         Note: If 'datetime' is empty current date and time of the host will be used.
         """
-        _logger.info(
-            "*** [PUT{}] {!s} -- payload={!s}".format(
-                " (read-only)" if settings.READ_ONLY else "", request.url, api.payload
-            )
+        _LOGGER.info(
+            "*** [PUT%s] %s -- payload=%s",
+            " (read-only)" if settings.READ_ONLY else "",
+            request.url,
+            api.payload,
         )
         dt = api.payload["datetime"]
         if not dt:  # if 'dt' is empty (or None), use the current system time!

@@ -23,11 +23,11 @@ import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from htheatpump.htparams import HtParams
+from ..app import ht_heatpump
 from .utils import HtContext
-from htrest.app import ht_heatpump
 
 
-_logger = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
 
 api = Namespace(
     "device", description="Delivers information about the connected heat pump."
@@ -65,7 +65,7 @@ class Device(Resource):
     @api.marshal_with(device_model)
     def get(self):
         """ Returns the properties of the heat pump. """
-        _logger.info("*** [GET] {!s}".format(request.url))
+        _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             serial_number = ht_heatpump.get_serial_number()
             software_version, _ = ht_heatpump.get_version()

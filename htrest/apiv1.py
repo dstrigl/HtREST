@@ -22,15 +22,15 @@
 import logging
 from flask import Blueprint  # , request
 from flask_restx import Api
-from htrest.apis.device import api as ns1
-from htrest.apis.fault_list import api as ns2
-from htrest.apis.date_time import api as ns3
-from htrest.apis.param import api as ns4
-from htrest.apis.fast_query import api as ns5
-from htrest.apis.time_prog import api as ns6
+from .apis.device import api as ns1
+from .apis.fault_list import api as ns2
+from .apis.date_time import api as ns3
+from .apis.param import api as ns4
+from .apis.fast_query import api as ns5
+from .apis.time_prog import api as ns6
 
 
-_logger = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
 
@@ -51,29 +51,27 @@ api.add_namespace(ns6)
 
 @blueprint.before_request
 def before_request():
-    # _logger.debug(
-    #    "*** @blueprint.before_request -- {} -- {!s}".format(__file__, request)
-    # )
+    # _LOGGER.debug("*** @blueprint.before_request -- %s -- %s", __file__, request)
     #
     # Not necessary, since login() will automatically try a reconnect on failure:
     #
     # try:
     #    ht_heatpump.reconnect()
     # except Exception as ex:
-    #    _logger.error(ex)
+    #    _LOGGER.error(ex)
     #    raise
     pass
 
 
 @blueprint.after_request
 def after_request(response):
-    # _logger.debug("*** @blueprint.after_request -- {} -- {!s}".format(__file__, response))
+    # _LOGGER.debug("*** @blueprint.after_request -- %s -- %s", __file__, response)
     return response
 
 
 @blueprint.teardown_request
 def teardown_request(exc):
-    # _logger.debug("*** @blueprint.teardown_request -- {} -- {!s}".format(__file__, exc))
+    # _LOGGER.debug("*** @blueprint.teardown_request -- %s -- %s", __file__, exc)
     pass
 
 
@@ -84,5 +82,5 @@ def default_error_handler(ex):
     #   see: https://stackoverflow.com/questions/24998968/why-does-strkeyerror-add-extra-quotes
     if isinstance(ex, KeyError) and msg.startswith('"') and msg.endswith('"'):
         msg = msg[1:-1]
-    _logger.error("*** @api.errorhandler -- {}".format(msg))
+    _LOGGER.error("*** @api.errorhandler -- %s", msg)
     return {"message": str(msg)}, 500

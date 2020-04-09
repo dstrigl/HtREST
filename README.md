@@ -59,13 +59,13 @@ Delivers information about the connected heat pump.
 **Sample Curl:**
 
 ```
-curl -X GET "http://localhost:8888/api/v1/device/" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/device/" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/device/
+http://localhost:8777/api/v1/device/
 ```
 
 **Sample Response:**
@@ -86,13 +86,13 @@ Returns the current date and time of the heat pump.
 **Sample Curl:**
 
 ```
-curl -X GET "http://localhost:8888/api/v1/datetime/" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/datetime/" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/datetime/
+http://localhost:8777/api/v1/datetime/
 ```
 
 **Sample Response:**
@@ -121,13 +121,13 @@ Sets the current date and time of the heat pump.
 **Sample Curl:**
 
 ```
-curl -X PUT "http://localhost:8888/api/v1/datetime/" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
+curl -X PUT "http://localhost:8777/api/v1/datetime/" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"datetime\": \"2020-01-29T13:12:07\"}"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/datetime/
+http://localhost:8777/api/v1/datetime/
 ```
 
 **Sample Response:**
@@ -146,13 +146,13 @@ Returns the fault list of the heat pump.
 **Sample Curl:**
 
 ```
-curl -X GET "http://localhost:8888/api/v1/faultlist/" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/faultlist/" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/faultlist/
+http://localhost:8777/api/v1/faultlist/
 ```
 
 **Sample Response:**
@@ -192,13 +192,13 @@ http://localhost:8888/api/v1/faultlist/
 Returns the fault list size of the heat pump.
 
 ```
-curl -X GET "http://localhost:8888/api/v1/faultlist/size" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/faultlist/size" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/faultlist/size
+http://localhost:8777/api/v1/faultlist/size
 ```
 
 **Sample Response:**
@@ -221,13 +221,13 @@ Returns the fault list entry with the given index.
 **Sample Curl:**
 
 ```
-curl -X GET "http://localhost:8888/api/v1/faultlist/3" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/faultlist/3" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/faultlist/3
+http://localhost:8777/api/v1/faultlist/3
 ```
 
 **Sample Response:**
@@ -247,13 +247,13 @@ http://localhost:8888/api/v1/faultlist/3
 Returns the last fault list entry of the heat pump.
 
 ```
-curl -X GET "http://localhost:8888/api/v1/faultlist/last" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/faultlist/last" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/faultlist/last
+http://localhost:8777/api/v1/faultlist/last
 ```
 
 **Sample Response:**
@@ -275,13 +275,13 @@ Returns a list of all available time programs of the heat pump.
 **Sample Curl:**
 
 ```
-curl -X GET "http://localhost:8888/api/v1/timeprog/" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/timeprog/" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/timeprog/
+http://localhost:8777/api/v1/timeprog/
 ```
 
 **Sample Response:**
@@ -329,13 +329,13 @@ Returns the time program with the given index of the heat pump.
 **Sample Curl:**
 
 ```
-curl -X GET "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/timeprog/1" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/timeprog/1
+http://localhost:8777/api/v1/timeprog/1
 ```
 
 **Sample Response:**
@@ -426,13 +426,13 @@ Sets all time program entries of a specific time program of the heat pump.
 **Sample Curl:**
 
 ```
-curl -X PUT "http://localhost:8888/api/v1/timeprog/1" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"index\": 1,  \"name\": \"Zirkulationspumpe\",  ... }"
+curl -X PUT "http://localhost:8777/api/v1/timeprog/1" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"index\": 1,  \"name\": \"Zirkulationspumpe\",  ... }"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/timeprog/1
+http://localhost:8777/api/v1/timeprog/1
 ```
 
 **Sample Response:**
@@ -487,13 +487,13 @@ Returns a specific time program entry of the heat pump.
 **Sample Curl:**
 
 ```
-curl -X GET "http://localhost:8888/api/v1/timeprog/1/1/1" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/timeprog/1/1/1" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/timeprog/1/1/1
+http://localhost:8777/api/v1/timeprog/1/1/1
 ```
 
 **Sample Response:**
@@ -530,13 +530,13 @@ Sets a specific time program entry of the heat pump.
 **Sample Curl:**
 
 ```
-curl -X PUT "http://localhost:8888/api/v1/timeprog/1/1/1" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"state\": 1,  \"start\": \"06:00\",  \"end\": \"08:00\"}"
+curl -X PUT "http://localhost:8777/api/v1/timeprog/1/1/1" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"state\": 1,  \"start\": \"06:00\",  \"end\": \"08:00\"}"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/timeprog/1/1/1
+http://localhost:8777/api/v1/timeprog/1/1/1
 ```
 
 **Sample Response:**
@@ -552,18 +552,28 @@ http://localhost:8888/api/v1/timeprog/1/1/1
 
 ### GET /api/v1/param
 
-Returns the current value of all known heat pump parameters.
+Returns the current value of a subset or all known heat pump parameters.
 
 **Sample Curl:**
 
+Complete list of all known heat pump parameters:
 ```
-curl -X GET "http://localhost:8888/api/v1/param/" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/param/" -H "accept: application/json"
+```
+Subset of the known heat pump parameters:
+```
+curl -X GET "http://localhost:8777/api/v1/param/?HKR%20Soll_Raum&Temp.%20Aussen&Stoerung" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
+Complete list of all known heat pump parameters:
 ```
-http://localhost:8888/api/v1/param/
+http://localhost:8777/api/v1/param/
+```
+Subset of the known heat pump parameters:
+```
+http://localhost:8777/api/v1/param/?HKR%20Soll_Raum&Temp.%20Aussen&Stoerung
 ```
 
 **Sample Response:**
@@ -607,13 +617,13 @@ Sets the current value of several heat pump parameters.
 **Sample Curl:**
 
 ```
-curl -X PUT "http://localhost:8888/api/v1/param/" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"Betriebsart\": 1,  \"HKR Soll_Raum\": 21.5,  ... }"
+curl -X PUT "http://localhost:8777/api/v1/param/" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"Betriebsart\": 1,  \"HKR Soll_Raum\": 21.5,  ... }"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/param/
+http://localhost:8777/api/v1/param/
 ```
 
 **Sample Response:**
@@ -644,13 +654,13 @@ Returns the current value of a specific heat pump parameter.
 **Sample Curl:**
 
 ```
-curl -X GET "http://localhost:8888/api/v1/param/Temp.%20Aussen" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/param/Temp.%20Aussen" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/param/Temp.%20Aussen
+http://localhost:8777/api/v1/param/Temp.%20Aussen
 ```
 
 **Sample Response:**
@@ -684,13 +694,13 @@ Sets the current value of a specific heat pump parameter.
 **Sample Curl:**
 
 ```
-curl -X PUT "http://localhost:8888/api/v1/param/HKR%20Soll_Raum" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"value\": 22.5}"
+curl -X PUT "http://localhost:8777/api/v1/param/HKR%20Soll_Raum" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"value\": 22.5}"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/param/HKR%20Soll_Raum
+http://localhost:8777/api/v1/param/HKR%20Soll_Raum
 ```
 
 **Sample Response:**
@@ -707,18 +717,28 @@ http://localhost:8888/api/v1/param/HKR%20Soll_Raum
 
 ### GET /api/v1/fastquery
 
-Performs a fast query of all heat pump parameters representing a "MP" data point.
+Performs a fast query of a subset or all heat pump parameters representing a "MP" data point.
 
 **Sample Curl:**
 
+Complete list of all known heat pump parameters representing a "MP" data point:
 ```
-curl -X GET "http://localhost:8888/api/v1/fastquery/" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/fastquery/" -H "accept: application/json"
+```
+Subset of the known heat pump parameters representing a "MP" data point:
+```
+curl -X GET "http://localhost:8777/api/v1/fastquery/?Stoerung&Temp.%20Vorlauf&Warmwasservorrang" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
+Complete list of all known heat pump parameters representing a "MP" data point:
 ```
-http://localhost:8888/api/v1/fastquery/
+http://localhost:8777/api/v1/fastquery/
+```
+Subset of the known heat pump parameters representing a "MP" data point:
+```
+http://localhost:8777/api/v1/fastquery/?Stoerung&Temp.%20Vorlauf&Warmwasservorrang
 ```
 
 **Sample Response:**
@@ -751,13 +771,13 @@ Performs a fast query of a specific heat pump parameter which represents a "MP" 
 **Sample Curl:**
 
 ```
-curl -X GET "http://localhost:8888/api/v1/fastquery/Verdichter" -H "accept: application/json"
+curl -X GET "http://localhost:8777/api/v1/fastquery/Verdichter" -H "accept: application/json"
 ```
 
 **Sample Request URL:**
 
 ```
-http://localhost:8888/api/v1/fastquery/Verdichter
+http://localhost:8777/api/v1/fastquery/Verdichter
 ```
 
 **Sample Response:**
@@ -810,7 +830,7 @@ optional arguments:
   --host HOST           the hostname to listen on, set to "0.0.0.0" to have
                         the server available externally as well, default:
                         127.0.0.1
-  --port PORT           the port of the web server, default: 8888
+  --port PORT           the port of the web server, default: 8777
   --user USER           the username and password for the basic access
                         authentication in the form "<username>:<password>",
                         default:

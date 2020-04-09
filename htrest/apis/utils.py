@@ -21,6 +21,8 @@
 
 from flask_restx import fields
 from contextlib import contextmanager
+from htheatpump.htparams import HtDataTypes, HtParams
+from .. import settings
 
 
 class HtContext:
@@ -115,3 +117,17 @@ class DotKeyField(ParamValueField):
         self.attribute = None
         yield attribute
         self.attribute = attribute
+
+
+def bool_as_int(name, value):
+    """ Convert a boolean value to an integer, if desired (:const:`False` = 0, :const:`True` = 1). """
+    if settings.BOOL_AS_INT and HtParams[name].data_type == HtDataTypes.BOOL:
+        value = 1 if value else 0
+    return value
+
+
+def int_as_bool(name, value):
+    """ Convert an integer value to a boolean, if desired (``0`` = :const:`False`, anything else :const:`True`). """
+    if settings.BOOL_AS_INT and HtParams[name].data_type == HtDataTypes.BOOL:
+        value = True if value else False
+    return value

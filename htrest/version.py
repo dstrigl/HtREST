@@ -68,6 +68,6 @@ class Version:
         return "[{}, version {}]".format(self.package, self.short())
 
 
-version = Version("HtREST", 0, 1, 7)
+version = Version("HtREST", 0, 1, 8)
 """ Version definition of the :mod:`HtREST` module. """
 # version.__name__ = "HtREST"

@@ -22,11 +22,11 @@
 import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
+from ..app import ht_heatpump
 from .utils import HtContext
-from htrest.app import ht_heatpump
 
 
-_logger = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
 
 api = Namespace(
     "faultlist", description="Operations related to the heat pump fault list."
@@ -88,7 +88,7 @@ class FaultList(Resource):
     @api.marshal_list_with(fault_list_entry_model)
     def get(self):
         """ Returns the fault list of the heat pump. """
-        _logger.info("*** [GET] {!s}".format(request.url))
+        _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             res = ht_heatpump.get_fault_list()
         return res
@@ -99,7 +99,7 @@ class FaultListSize(Resource):
     @api.marshal_with(fault_list_size_model)
     def get(self):
         """ Returns the fault list size of the heat pump. """
-        _logger.info("*** [GET] {!s}".format(request.url))
+        _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             size = ht_heatpump.get_fault_list_size()
         return {"size": size}
@@ -112,7 +112,7 @@ class FaultEntry(Resource):
     @api.marshal_with(fault_list_entry_model)
     def get(self, id: int):
         """ Returns the fault list entry with the given index. """
-        _logger.info("*** [GET] {!s} -- id={}".format(request.url, id))
+        _LOGGER.info("*** [GET] %s -- id=%d", request.url, id)
         with HtContext(ht_heatpump):
             if id not in range(0, ht_heatpump.get_fault_list_size()):
                 api.abort(404, "Fault list entry #{:d} not found".format(id))
@@ -125,7 +125,7 @@ class LastFault(Resource):
     @api.marshal_with(fault_list_entry_model)
     def get(self):
         """ Returns the last fault list entry of the heat pump. """
-        _logger.info("*** [GET] {!s}".format(request.url))
+        _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             idx, err, dt, msg = ht_heatpump.get_last_fault()
             # e.g.: idx, err, dt, msg = (28, 19, datetime.datetime.now(), "EQ_Spreizung")

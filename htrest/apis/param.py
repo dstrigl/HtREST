@@ -22,13 +22,13 @@
 import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
-from htheatpump.htparams import HtDataTypes, HtParams
-from .utils import ParamValueField, DotKeyField, HtContext
-from htrest.app import ht_heatpump
-from htrest import settings
+from htheatpump.htparams import HtParams
+from ..app import ht_heatpump
+from .. import settings
+from .utils import ParamValueField, DotKeyField, HtContext, bool_as_int, int_as_bool
 
 
-_logger = logging.getLogger(__name__)
+_LOGGER = logging.getLogger(__name__)
 
 
 api = Namespace("param", description="Operations related to the heat pump parameters.")
@@ -38,30 +38,29 @@ param_list_model = api.model("param_list_model", {"*": wildcard})
 param_model = api.model("param_model", {"value": ParamValueField})
 
 
-def bool_as_int(name, value):
-    if settings.BOOL_AS_INT and HtParams[name].data_type == HtDataTypes.BOOL:
-        value = 1 if value else 0
-    return value
-
-
-def int_as_bool(name, value):
-    if settings.BOOL_AS_INT and HtParams[name].data_type == HtDataTypes.BOOL:
-        value = True if value else False
-    return value
-
-
 @api.route("/")
 class ParamList(Resource):
     @api.marshal_with(param_list_model)
+    @api.response(404, "Parameter(s) not found")
     def get(self):
-        """ Returns the list of heat pump parameters with their current value. """
-        _logger.info("*** [GET] {!s}".format(request.url))
+        """ Returns a subset or complete list of the known heat pump parameters with their current value. """
+        _LOGGER.info("*** [GET] %s", request.url)
+        params = list(request.args.keys())
+        unknown = [name for name in params if name not in HtParams]
+        if unknown:
+            api.abort(
+                404,
+                "Parameter(s) {} not found".format(
+                    ", ".join(map(lambda name: "{!r}".format(name), unknown))
+                ),
+            )
+        if not params:
+            params = HtParams.keys()
         with HtContext(ht_heatpump):
             res = {}
-            for name in HtParams.keys():
+            for name in params:
                 value = ht_heatpump.get_param(name)
-                value = bool_as_int(name, value)
-                res.update({name: value})
+                res.update({name: bool_as_int(name, value)})
         return res
 
     @api.expect(param_list_model)
@@ -69,10 +68,11 @@ class ParamList(Resource):
     @api.response(404, "Parameter(s) not found")
     def put(self):
         """ Sets the current value of several heat pump parameters. """
-        _logger.info(
-            "*** [PUT{}] {!s} -- payload={!s}".format(
-                " (read-only)" if settings.READ_ONLY else "", request.url, api.payload
-            )
+        _LOGGER.info(
+            "*** [PUT%s] %s -- payload=%s",
+            " (read-only)" if settings.READ_ONLY else "",
+            request.url,
+            api.payload,
         )
         unknown = [name for name in api.payload.keys() if name not in HtParams]
         if unknown:
@@ -88,8 +88,7 @@ class ParamList(Resource):
                 value = int_as_bool(name, value)
                 if not settings.READ_ONLY:
                     value = ht_heatpump.set_param(name, value)
-                value = bool_as_int(name, value)
-                res.update({name: value})
+                res.update({name: bool_as_int(name, value)})
         return res
 
 
@@ -100,32 +99,29 @@ class Param(Resource):
     @api.marshal_with(param_model)
     def get(self, name: str):
         """ Returns the current value of a specific heat pump parameter. """
-        _logger.info("*** [GET] {!s} -- name={!r}".format(request.url, name))
+        _LOGGER.info("*** [GET] %s -- name='%s'", request.url, name)
         if name not in HtParams:
-            api.abort(404, "Parameter '{}' not found".format(name))
+            api.abort(404, "Parameter {!r} not found".format(name))
         with HtContext(ht_heatpump):
             value = ht_heatpump.get_param(name)
-            value = bool_as_int(name, value)
-        return {"value": value}
+        return {"value": bool_as_int(name, value)}
 
     @api.expect(param_model)
     @api.marshal_with(param_model)
     def put(self, name: str):
         """ Sets the current value of a specific heat pump parameter. """
-        _logger.info(
-            "*** [PUT{}] {!s} -- name={!r}, payload={!s}".format(
-                " (read-only)" if settings.READ_ONLY else "",
-                request.url,
-                name,
-                api.payload,
-            )
+        _LOGGER.info(
+            "*** [PUT%s] %s -- name='%s', payload=%s",
+            " (read-only)" if settings.READ_ONLY else "",
+            request.url,
+            name,
+            api.payload,
         )
-        value = api.payload["value"]
         if name not in HtParams:
-            api.abort(404, "Parameter '{}' not found".format(name))
+            api.abort(404, "Parameter {!r} not found".format(name))
+        value = api.payload["value"]
         with HtContext(ht_heatpump):
             value = int_as_bool(name, value)
             if not settings.READ_ONLY:
                 value = ht_heatpump.set_param(name, value)
-            value = bool_as_int(name, value)
-        return {"value": value}
+        return {"value": bool_as_int(name, value)}
