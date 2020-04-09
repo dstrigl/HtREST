@@ -35,21 +35,21 @@
 The following table describes the HTTP/REST API exposed by this server application for the
 [Heliotherm](http://www.heliotherm.com/) heat pump.
 
-| URI                                             | GET   | PUT   | description                                                                                 |
-| :---------------------------------------------- | :---: | :---: | :------------------------------------------------------------------------------------------ |
-| `/api/v1/device`                                |   X   |       | Delivers information about the connected heat pump.                                         |
-| `/api/v1/datetime`                              |   X   |   X   | Returns or sets the current date and time of the heat pump.                                 |
-| `/api/v1/faultlist`                             |   X   |       | Returns the fault list of the heat pump.                                                    |
-| `/api/v1/faultlist/size`                        |   X   |       | Returns the fault list size of the heat pump.                                               |
-| `/api/v1/faultlist/<int:id>`                    |   X   |       | Returns the fault list entry with the given index.                                          |
-| `/api/v1/faultlist/last`                        |   X   |       | Returns the last fault list entry of the heat pump.                                         |
-| `/api/v1/timeprog`                              |   X   |       | Returns a list of all available time programs of the heat pump.                             |
-| `/api/v1/timeprog/<int:id>`                     |   X   |   X   | Returns or sets the time program with the given index of the heat pump.                     |
-| `/api/v1/timeprog/<int:id>/<int:day>/<int:num>` |   X   |   X   | Returns or sets a specific time program entry of the heat pump.                             |
-| `/api/v1/param`                                 |   X   |   X   | Returns or sets the current value of several heat pump parameters.                          |
-| `/api/v1/param/<string:name>`                   |   X   |   X   | Returns or sets the current value of a specific heat pump parameter.                        |
-| `/api/v1/fastquery`                             |   X   |       | Performs a fast query of all heat pump parameters representing a 'MP' data point.           |
-| `/api/v1/fastquery/<string:name>`               |   X   |       | Performs a fast query of a specific heat pump parameter which represents a 'MP' data point. |
+| URI                                             | GET   | PUT   | description                                                                                   |
+| :---------------------------------------------- | :---: | :---: | :-------------------------------------------------------------------------------------------- |
+| `/api/v1/device`                                |   X   |       | Delivers information about the connected heat pump.                                           |
+| `/api/v1/datetime`                              |   X   |   X   | Returns or sets the current date and time of the heat pump.                                   |
+| `/api/v1/faultlist`                             |   X   |       | Returns the fault list of the heat pump.                                                      |
+| `/api/v1/faultlist/size`                        |   X   |       | Returns the fault list size of the heat pump.                                                 |
+| `/api/v1/faultlist/<int:id>`                    |   X   |       | Returns the fault list entry with the given index.                                            |
+| `/api/v1/faultlist/last`                        |   X   |       | Returns the last fault list entry of the heat pump.                                           |
+| `/api/v1/timeprog`                              |   X   |       | Returns a list of all available time programs of the heat pump.                               |
+| `/api/v1/timeprog/<int:id>`                     |   X   |   X   | Returns or sets the time program with the given index of the heat pump.                       |
+| `/api/v1/timeprog/<int:id>/<int:day>/<int:num>` |   X   |   X   | Returns or sets a specific time program entry of the heat pump.                               |
+| `/api/v1/param`                                 |   X   |   X   | Returns or sets the current value of several heat pump parameters.                            |
+| `/api/v1/param/<string:name>`                   |   X   |   X   | Returns or sets the current value of a specific heat pump parameter.                          |
+| `/api/v1/fastquery`                             |   X   |       | Performs a fast query of a subset or all heat pump parameters representing a 'MP' data point. |
+| `/api/v1/fastquery/<string:name>`               |   X   |       | Performs a fast query of a specific heat pump parameter which represents a 'MP' data point.   |
 
 
 ### GET /api/v1/device
