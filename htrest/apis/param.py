@@ -61,6 +61,7 @@ class ParamList(Resource):
             for name in params:
                 value = ht_heatpump.get_param(name)
                 res.update({name: bool_as_int(name, value)})
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
     @api.expect(param_list_model)
@@ -89,6 +90,12 @@ class ParamList(Resource):
                 if not settings.READ_ONLY:
                     value = ht_heatpump.set_param(name, value)
                 res.update({name: bool_as_int(name, value)})
+        _LOGGER.debug(
+            "*** [PUT%s] %s -> %s",
+            " (read-only)" if settings.READ_ONLY else "",
+            request.url,
+            res,
+        )
         return res
 
 
@@ -104,7 +111,9 @@ class Param(Resource):
             api.abort(404, "Parameter {!r} not found".format(name))
         with HtContext(ht_heatpump):
             value = ht_heatpump.get_param(name)
-        return {"value": bool_as_int(name, value)}
+        res = {"value": bool_as_int(name, value)}
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
+        return res
 
     @api.expect(param_model)
     @api.marshal_with(param_model)
@@ -124,4 +133,11 @@ class Param(Resource):
             value = int_as_bool(name, value)
             if not settings.READ_ONLY:
                 value = ht_heatpump.set_param(name, value)
-        return {"value": bool_as_int(name, value)}
+        res = {"value": bool_as_int(name, value)}
+        _LOGGER.debug(
+            "*** [PUT%s] %s -> %s",
+            " (read-only)" if settings.READ_ONLY else "",
+            request.url,
+            res,
+        )
+        return res

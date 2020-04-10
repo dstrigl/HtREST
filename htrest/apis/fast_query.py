@@ -71,6 +71,7 @@ class FastQueryList(Resource):
             res = ht_heatpump.fast_query(*params)
         for name, value in res.items():
             res[name] = bool_as_int(name, value)
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
 
@@ -86,4 +87,6 @@ class FastQuery(Resource):
             api.abort(404, "Parameter {!r} not found".format(name))
         with HtContext(ht_heatpump):
             value = ht_heatpump.fast_query(name)
-        return {"value": bool_as_int(name, value[name])}
+        res = {"value": bool_as_int(name, value[name])}
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
+        return res

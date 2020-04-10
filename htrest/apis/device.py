@@ -73,4 +73,5 @@ class Device(Resource):
             if "Liegenschaft" in HtParams:
                 property_id = ht_heatpump.get_param("Liegenschaft")
                 res.update({"property_id": property_id})
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res

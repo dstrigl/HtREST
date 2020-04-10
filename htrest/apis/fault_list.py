@@ -91,6 +91,7 @@ class FaultList(Resource):
         _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             res = ht_heatpump.get_fault_list()
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
 
@@ -102,7 +103,9 @@ class FaultListSize(Resource):
         _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             size = ht_heatpump.get_fault_list_size()
-        return {"size": size}
+        res = {"size": size}
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
+        return res
 
 
 @api.route("/<int:id>")
@@ -117,6 +120,7 @@ class FaultEntry(Resource):
             if id not in range(0, ht_heatpump.get_fault_list_size()):
                 api.abort(404, "Fault list entry #{:d} not found".format(id))
             res = ht_heatpump.get_fault_list(id)[0]
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
 
@@ -130,4 +134,5 @@ class LastFault(Resource):
             idx, err, dt, msg = ht_heatpump.get_last_fault()
             # e.g.: idx, err, dt, msg = (28, 19, datetime.datetime.now(), "EQ_Spreizung")
             res = {"index": idx, "error": err, "datetime": dt, "message": msg}
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res

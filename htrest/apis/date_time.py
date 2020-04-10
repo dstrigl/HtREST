@@ -55,7 +55,9 @@ class DateTime(Resource):
         _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             dt, _ = ht_heatpump.get_date_time()
-        return {"datetime": dt}
+        res = {"datetime": dt}
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
+        return res
 
     @api.expect(date_time_model, validate=True)
     @api.marshal_with(date_time_model)
@@ -77,4 +79,11 @@ class DateTime(Resource):
         with HtContext(ht_heatpump):
             if not settings.READ_ONLY:
                 dt, _ = ht_heatpump.set_date_time(dt)
-        return {"datetime": dt}
+        res = {"datetime": dt}
+        _LOGGER.debug(
+            "*** [PUT%s] %s -> %s",
+            " (read-only)" if settings.READ_ONLY else "",
+            request.url,
+            res,
+        )
+        return res

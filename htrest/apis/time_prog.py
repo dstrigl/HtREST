@@ -126,7 +126,9 @@ class TimeProgs(Resource):
         _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             time_progs = ht_heatpump.get_time_progs()
-        return [time_prog.as_json(with_entries=False) for time_prog in time_progs]
+        res = [time_prog.as_json(with_entries=False) for time_prog in time_progs]
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
+        return res
 
 
 @api.route("/<int:id>")
@@ -138,7 +140,9 @@ class TimeProg(Resource):
         _LOGGER.info("*** [GET] %s -- id=%d", request.url, id)
         with HtContext(ht_heatpump):
             time_prog = ht_heatpump.get_time_prog(id)
-        return time_prog.as_json(with_entries=True)
+        res = time_prog.as_json(with_entries=True)
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
+        return res
 
     @api.expect(time_prog_with_entries_model, validate=True)
     @api.marshal_with(time_prog_with_entries_model)
@@ -159,7 +163,14 @@ class TimeProg(Resource):
             time_prog = HtTimeProg.from_json(time_prog)
             if not settings.READ_ONLY:
                 time_prog = ht_heatpump.set_time_prog(time_prog)
-        return time_prog.as_json(with_entries=True)
+        res = time_prog.as_json(with_entries=True)
+        _LOGGER.debug(
+            "*** [PUT%s] %s -> %s",
+            " (read-only)" if settings.READ_ONLY else "",
+            request.url,
+            res,
+        )
+        return res
 
 
 @api.route("/<int:id>/<int:day>/<int:num>")
@@ -175,7 +186,9 @@ class TimeProgEntry(Resource):
         _LOGGER.info("*** [GET] %s -- id=%d, day=%d, num=%d", request.url, id, day, num)
         with HtContext(ht_heatpump):
             entry = ht_heatpump.get_time_prog_entry(id, day, num)
-        return entry.as_json()
+        res = entry.as_json()
+        _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
+        return res
 
     @api.expect(time_prog_entry_model, validate=True)
     @api.marshal_with(time_prog_entry_model)
@@ -194,4 +207,11 @@ class TimeProgEntry(Resource):
         with HtContext(ht_heatpump):
             if not settings.READ_ONLY:
                 entry = ht_heatpump.set_time_prog_entry(id, day, num, entry)
-        return entry.as_json()
+        res = entry.as_json()
+        _LOGGER.debug(
+            "*** [PUT%s] %s -> %s",
+            " (read-only)" if settings.READ_ONLY else "",
+            request.url,
+            res,
+        )
+        return res
