@@ -21,7 +21,7 @@
 
 from flask_restx import fields
 from contextlib import contextmanager
-from htheatpump.htparams import HtDataTypes, HtParams
+from htheatpump import HtDataTypes, HtParams
 from .. import settings
 
 

@@ -22,7 +22,7 @@
 import logging
 from flask import Flask
 from flask_basicauth import BasicAuth
-from htheatpump.htheatpump import HtHeatpump, VerifyAction
+from htheatpump import HtHeatpump, VerifyAction
 from . import settings
 
 

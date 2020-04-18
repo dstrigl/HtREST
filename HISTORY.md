@@ -2,6 +2,9 @@
 
 ## 0.1.8 (2020-??-??)
 
+* Added support for Python 3.8.
+* Bumped `htheatpump` from `1.2.3` to `1.1.4`.
+* Some minor cleanup and improvements.
 * Changed default port of the HtREST application to `8777`.
 * Resource `/api/v1/param` and `/api/v1/fastquery` are now supports the possibility to request
   for a specific subset of parameters.

@@ -22,7 +22,7 @@
 import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
-from htheatpump.htparams import HtParams
+from htheatpump import HtParams
 from ..app import ht_heatpump
 from .. import settings
 from .utils import ParamValueField, DotKeyField, HtContext, bool_as_int, int_as_bool

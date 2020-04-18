@@ -32,6 +32,7 @@ import argparse
 import textwrap
 import logging.config
 from .app import create_app
+from .__version__ import __version__
 
 
 class UserAction(argparse.Action):
@@ -171,6 +172,7 @@ def main():
     )
 
     args = parser.parse_args()
+    print("Start Heliotherm heat pump REST API server v{}.".format(__version__))
     print(args)
 
     # load logging config from file

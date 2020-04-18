@@ -7,7 +7,7 @@
 [![Updates](https://pyup.io/repos/github/dstrigl/HtREST/shield.svg)](https://pyup.io/repos/github/dstrigl/HtREST)
 
 
-[Heliotherm](http://www.heliotherm.com/) heat pump HTTP/REST API server for Python 3.5, 3.6 and 3.7.
+[Heliotherm](http://www.heliotherm.com/) heat pump HTTP/REST API server for Python 3.5, 3.6, 3.7 and 3.8.
 
 * GitHub repo: https://github.com/dstrigl/HtREST
 * Free software: [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html)
@@ -849,6 +849,7 @@ optional arguments:
 
 ### Example
 
+!!!TODO!!!
 ```
 $ htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.1.80 --port 8080 --read-only
 HTHEATPUMP: load parameter definitions from: /home/pi/venv/htrest/lib/python3.7/site-packages/htheatpump-1.2.2-py3.7.egg/htheatpump/htparams.csv

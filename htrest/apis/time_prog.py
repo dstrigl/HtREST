@@ -22,8 +22,7 @@
 import logging
 from flask import request
 from flask_restx import Namespace, Resource, fields
-from htheatpump.httimeprog import TimeProgram as HtTimeProg
-from htheatpump.httimeprog import TimeProgEntry as HtTimeProgEntry
+from htheatpump import TimeProgram as HtTimeProg, TimeProgEntry as HtTimeProgEntry
 from ..app import ht_heatpump
 from .. import settings
 from .utils import HtContext

@@ -1,10 +1,10 @@
 include HISTORY.md
-include LICENSE
 include README.md
-include .coveragerc
+include LICENSE
+
 include .editorconfig
-include Makefile
 include tox.ini
+include htrest.service
 
 recursive-include htrest *
 recursive-include requirements *.pip

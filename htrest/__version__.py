@@ -17,12 +17,4 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" Tests for code in htrest.version. """
-
-from htrest.version import Version
-
-
-def test_VersionClass():
-    version = Version("package-name", 1, 2, 3)
-    assert version.short() == "1.2.3"
-    assert str(version) == "[package-name, version 1.2.3]"
+__version__ = "0.1.8"
