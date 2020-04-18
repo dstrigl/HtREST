@@ -849,22 +849,40 @@ optional arguments:
 
 ### Example
 
-!!!TODO!!!
 ```
-$ htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.1.80 --port 8080 --read-only
-HTHEATPUMP: load parameter definitions from: /home/pi/venv/htrest/lib/python3.7/site-packages/htheatpump-1.2.2-py3.7.egg/htheatpump/htparams.csv
-Namespace(baudrate=115200, bool_as_int=False, debug=False, device='/dev/ttyUSB0', host='192.168.1.80', logging_config='/home/pi/prog/HtREST/htrest/logging.conf', no_param_verification=False, port=8080, read_only=True, user='')
-2020-03-31 12:58:07,351 INFO [htrest.app] open connection to heat pump (<htheatpump.htheatpump.HtHeatpump object at 0xb59b0850>)
-2020-03-31 12:58:07,391 INFO [htrest.app] successfully connected to heat pump #123456
-2020-03-31 12:58:07,422 INFO [htrest.app] software version = 3.0.20 (273)
-2020-03-31 12:58:07,464 INFO [htrest.app] *** created Flask app <Flask 'htrest.app'> with config <Config {'ENV': 'production', 'DEBUG': False, 'TESTING': False, 'PROPAGATE_EXCEPTIONS': None, 'PRESERVE_CONTEXT_ON_EXCEPTION': None, 'SECRET_KEY': None, 'PERMANENT_SESSION_LIFETIME': datetime.timedelta(days=31), 'USE_X_SENDFILE': False, 'SERVER_NAME': None, 'APPLICATION_ROOT': '/', 'SESSION_COOKIE_NAME': 'session', 'SESSION_COOKIE_DOMAIN': None, 'SESSION_COOKIE_PATH': None, 'SESSION_COOKIE_HTTPONLY': True, 'SESSION_COOKIE_SECURE': False, 'SESSION_COOKIE_SAMESITE': None, 'SESSION_REFRESH_EACH_REQUEST': True, 'MAX_CONTENT_LENGTH': None, 'SEND_FILE_MAX_AGE_DEFAULT': datetime.timedelta(seconds=43200), 'TRAP_BAD_REQUEST_ERRORS': None, 'TRAP_HTTP_EXCEPTIONS': False, 'EXPLAIN_TEMPLATE_LOADING': False, 'PREFERRED_URL_SCHEME': 'http', 'JSON_AS_ASCII': True, 'JSON_SORT_KEYS': True, 'JSONIFY_PRETTYPRINT_REGULAR': False, 'JSONIFY_MIMETYPE': 'application/json', 'TEMPLATES_AUTO_RELOAD': None, 'MAX_COOKIE_SIZE': 4093, 'SWAGGER_UI_DOC_EXPANSION': 'list', 'RESTX_VALIDATE': True, 'RESTX_MASK_SWAGGER': False, 'ERROR_404_HELP': False, 'BUNDLE_ERRORS': True}>
+$ htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.11.99 --port 8777 --read-only
+HTHEATPUMP: load parameter definitions from: /home/pi/venv/htrest/lib/python3.7/site-packages/htheatpump-1.2.4-py3.7.egg/htheatpump/htparams.csv
+Start Heliotherm heat pump REST API server v0.1.8.
+Namespace(baudrate=115200, bool_as_int=False, debug=False, device='/dev/ttyUSB0', host='192.168.11.99', logging_config='/home/pi/prog/HtREST/htrest/logging.conf', no_param_verification=False, port=8777, read_only=True, user='')
+2020-04-18 12:36:15,834 INFO [htrest.app] open connection to heat pump (<htheatpump.htheatpump.HtHeatpump object at 0xb5dd61f0>)
+2020-04-18 12:36:15,873 INFO [htrest.app] successfully connected to heat pump #123456
+2020-04-18 12:36:15,904 INFO [htrest.app] software version = 3.0.20 (273)
+2020-04-18 12:36:15,950 INFO [htrest.app] *** created Flask app <Flask 'htrest.app'> with config <Config {'ENV': 'production', 'DEBUG': False, 'TESTING': False, 'PROPAGATE_EXCEPTIONS': None, 'PRESERVE_CONTEXT_ON_EXCEPTION': None, 'SECRET_KEY': None, 'PERMANENT_SESSION_LIFETIME': datetime.timedelta(days=31), 'USE_X_SENDFILE': False, 'SERVER_NAME': None, 'APPLICATION_ROOT': '/', 'SESSION_COOKIE_NAME': 'session', 'SESSION_COOKIE_DOMAIN': None, 'SESSION_COOKIE_PATH': None, 'SESSION_COOKIE_HTTPONLY': True, 'SESSION_COOKIE_SECURE': False, 'SESSION_COOKIE_SAMESITE': None, 'SESSION_REFRESH_EACH_REQUEST': True, 'MAX_CONTENT_LENGTH': None, 'SEND_FILE_MAX_AGE_DEFAULT': datetime.timedelta(seconds=43200), 'TRAP_BAD_REQUEST_ERRORS': None, 'TRAP_HTTP_EXCEPTIONS': False, 'EXPLAIN_TEMPLATE_LOADING': False, 'PREFERRED_URL_SCHEME': 'http', 'JSON_AS_ASCII': True, 'JSON_SORT_KEYS': True, 'JSONIFY_PRETTYPRINT_REGULAR': False, 'JSONIFY_MIMETYPE': 'application/json', 'TEMPLATES_AUTO_RELOAD': None, 'MAX_COOKIE_SIZE': 4093, 'SWAGGER_UI_DOC_EXPANSION': 'list', 'RESTX_VALIDATE': True, 'RESTX_MASK_SWAGGER': False, 'ERROR_404_HELP': False, 'BUNDLE_ERRORS': True}>
+Map([<Rule '/api/v1/faultlist/size' (OPTIONS, HEAD, GET) -> api.faultlist_fault_list_size>,
+ <Rule '/api/v1/faultlist/last' (OPTIONS, HEAD, GET) -> api.faultlist_last_fault>,
+ <Rule '/api/v1/swagger.json' (OPTIONS, HEAD, GET) -> api.specs>,
+ <Rule '/api/v1/faultlist/' (OPTIONS, HEAD, GET) -> api.faultlist_fault_list>,
+ <Rule '/api/v1/fastquery/' (OPTIONS, HEAD, GET) -> api.fastquery_fast_query_list>,
+ <Rule '/api/v1/datetime/' (PUT, OPTIONS, HEAD, GET) -> api.datetime_date_time>,
+ <Rule '/api/v1/timeprog/' (OPTIONS, HEAD, GET) -> api.timeprog_time_progs>,
+ <Rule '/api/v1/device/' (OPTIONS, HEAD, GET) -> api.device_device>,
+ <Rule '/api/v1/param/' (PUT, OPTIONS, HEAD, GET) -> api.param_param_list>,
+ <Rule '/api/v1/' (OPTIONS, HEAD, GET) -> api.doc>,
+ <Rule '/api/v1/' (OPTIONS, HEAD, GET) -> api.root>,
+ <Rule '/api/v1/faultlist/<id>' (OPTIONS, HEAD, GET) -> api.faultlist_fault_entry>,
+ <Rule '/api/v1/fastquery/<name>' (OPTIONS, HEAD, GET) -> api.fastquery_fast_query>,
+ <Rule '/api/v1/timeprog/<id>/<day>/<num>' (PUT, OPTIONS, HEAD, GET) -> api.timeprog_time_prog_entry>,
+ <Rule '/api/v1/timeprog/<id>' (PUT, OPTIONS, HEAD, GET) -> api.timeprog_time_prog>,
+ <Rule '/api/v1/param/<name>' (PUT, OPTIONS, HEAD, GET) -> api.param_param>,
+ <Rule '/swaggerui/<filename>' (OPTIONS, HEAD, GET) -> restx_doc.static>,
+ <Rule '/static/<filename>' (OPTIONS, HEAD, GET) -> static>])
  * Serving Flask app "htrest.app" (lazy loading)
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: off
-2020-03-31 12:58:12,047 INFO [htrest.apis.param] *** [GET] http://192.168.1.80:8080/api/v1/param/HKR%20Soll_Raum -- name='HKR Soll_Raum'
-2020-03-31 12:58:12,174 INFO [htrest.apis.param] *** [GET] http://192.168.1.80:8080/api/v1/param/Betriebsart -- name='Betriebsart'
+2020-03-31 12:58:12,047 INFO [htrest.apis.param] *** [GET] http://192.168.11.99:8777/api/v1/param/HKR%20Soll_Raum -- name='HKR Soll_Raum'
+2020-03-31 12:58:12,174 INFO [htrest.apis.param] *** [GET] http://192.168.11.99:8777/api/v1/param/Betriebsart -- name='Betriebsart'
 ...
 ```
 
