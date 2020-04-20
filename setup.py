@@ -117,5 +117,5 @@ setup(
         "Topic :: Terminals :: Serial",
     ],
     # Entry points specification
-    entry_points={"console_scripts": ["htrest=htrest.__main__:main",]},
+    entry_points={"console_scripts": ["htrest=htrest.__main__:main"]},
 )

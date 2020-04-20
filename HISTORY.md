@@ -1,5 +1,9 @@
 # History
 
+## 0.1.9 (2020-04-20)
+
+* Fixed *flake8* errors.
+
 ## 0.1.8 (2020-04-20)
 
 * Added support for Python 3.8.

@@ -3,6 +3,7 @@ include README.md
 include LICENSE
 
 include .editorconfig
+include .flake8
 include tox.ini
 include htrest.service
 
