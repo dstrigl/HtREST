@@ -1,6 +1,6 @@
 # History
 
-## 0.1.8 (2020-??-??)
+## 0.1.8 (2020-04-20)
 
 * Added support for Python 3.8.
 * Bumped `htheatpump` from `1.2.3` to `1.1.4`.
