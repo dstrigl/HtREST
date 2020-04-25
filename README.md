@@ -887,6 +887,11 @@ Map([<Rule '/api/v1/faultlist/size' (OPTIONS, HEAD, GET) -> api.faultlist_fault_
 ```
 
 
+## Credits
+
+* Project dependencies scanned by [PyUp.io](https://pyup.io).
+
+
 ## License
 
 Distributed under the terms of the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html).
