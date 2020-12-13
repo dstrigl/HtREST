@@ -1,5 +1,9 @@
 # History
 
+## 0.1.10 (202?-??-??)
+
+* Dropped support for Python 3.5.
+
 ## 0.1.9 (2020-04-20)
 
 * Fixed *flake8* errors.
