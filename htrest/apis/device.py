@@ -20,12 +20,13 @@
 """ REST API which delivers information about the connected heat pump. """
 
 import logging
+
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from htheatpump import HtParams
+
 from ..app import ht_heatpump
 from .utils import HtContext
-
 
 _LOGGER = logging.getLogger(__name__)
 

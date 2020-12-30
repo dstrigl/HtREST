@@ -20,13 +20,14 @@
 """ REST API for operations related to the heat pump parameters. """
 
 import logging
+
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from htheatpump import HtParams
-from ..app import ht_heatpump
-from .. import settings
-from .utils import ParamValueField, DotKeyField, HtContext, bool_as_int, int_as_bool
 
+from .. import settings
+from ..app import ht_heatpump
+from .utils import DotKeyField, HtContext, ParamValueField, bool_as_int, int_as_bool
 
 _LOGGER = logging.getLogger(__name__)
 

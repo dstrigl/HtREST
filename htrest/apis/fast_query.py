@@ -20,12 +20,13 @@
 """ REST API for fast query of heat pump parameters representing a 'MP' data point. """
 
 import logging
+
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from htheatpump import HtParams
-from ..app import ht_heatpump
-from .utils import ParamValueField, DotKeyField, HtContext, bool_as_int
 
+from ..app import ht_heatpump
+from .utils import DotKeyField, HtContext, ParamValueField, bool_as_int
 
 _LOGGER = logging.getLogger(__name__)
 

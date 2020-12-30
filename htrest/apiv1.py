@@ -20,15 +20,16 @@
 """ Heliotherm heat pump REST API server APIv1. """
 
 import logging
+
 from flask import Blueprint  # , request
 from flask_restx import Api
-from .apis.device import api as ns1
-from .apis.fault_list import api as ns2
-from .apis.date_time import api as ns3
-from .apis.param import api as ns4
-from .apis.fast_query import api as ns5
-from .apis.time_prog import api as ns6
 
+from .apis.date_time import api as ns3
+from .apis.device import api as ns1
+from .apis.fast_query import api as ns5
+from .apis.fault_list import api as ns2
+from .apis.param import api as ns4
+from .apis.time_prog import api as ns6
 
 _LOGGER = logging.getLogger(__name__)
 

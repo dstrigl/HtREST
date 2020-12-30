@@ -20,13 +20,14 @@
 """ REST API for operations related to the date and time of the heat pump. """
 
 import logging
+from datetime import datetime
+
 from flask import request
 from flask_restx import Namespace, Resource, fields
-from datetime import datetime
-from ..app import ht_heatpump
-from .. import settings
-from .utils import HtContext
 
+from .. import settings
+from ..app import ht_heatpump
+from .utils import HtContext
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -62,7 +63,7 @@ class DateTime(Resource):
     @api.expect(date_time_model, validate=True)
     @api.marshal_with(date_time_model)
     def put(self):
-        """ Sets the current date and time of the heat pump.
+        """Sets the current date and time of the heat pump.
         Note: If 'datetime' is empty current date and time of the host will be used.
         """
         _LOGGER.info(

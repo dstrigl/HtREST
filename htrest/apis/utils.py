@@ -19,14 +19,16 @@
 
 """ Miscellaneous helper functions and classes for the REST API. """
 
-from flask_restx import fields
 from contextlib import contextmanager
+
+from flask_restx import fields
 from htheatpump import HtDataTypes, HtParams
+
 from .. import settings
 
 
 class HtContext:
-    """ Context manager for auto login/logout on the heat pump.
+    """Context manager for auto login/logout on the heat pump.
 
     Example:
 
@@ -43,7 +45,7 @@ class HtContext:
 
     @property
     def heatpump(self):
-        """ Return the passed :class:`HtHeatpump` instance of the context manager.
+        """Return the passed :class:`HtHeatpump` instance of the context manager.
 
         :returns: The passed :class:`HtHeatpump` instance.
         :rtype: ``HtHeatpump``
@@ -74,7 +76,7 @@ class ParamValueField(fields.Raw):
 #   https://github.com/noirbizarre/flask-restplus/pull/604
 #
 class DotKeyField(ParamValueField):
-    """ Allows use of flask_restx fields with '.' in key names. By default, '.'
+    """Allows use of flask_restx fields with '.' in key names. By default, '.'
     is used as a separator for accessing nested properties. Mixin prevents this,
     allowing fields to use '.' in the key names.
 
@@ -109,7 +111,7 @@ class DotKeyField(ParamValueField):
 
     @contextmanager
     def toggle_attribute(self):
-        """ Context manager to temporarily set ``self.attribute`` to :const:`None`.
+        """Context manager to temporarily set ``self.attribute`` to :const:`None`.
 
         Yields ``self.attribute`` before setting to :const:`None`.
         """

@@ -20,11 +20,12 @@
 """ Heliotherm heat pump REST API Flask application. """
 
 import logging
+
 from flask import Flask
 from flask_basicauth import BasicAuth
 from htheatpump import HtHeatpump, VerifyAction
-from . import settings
 
+from . import settings
 
 _LOGGER = logging.getLogger(__name__)
 

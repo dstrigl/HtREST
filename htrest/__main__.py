@@ -26,18 +26,18 @@
        $ python3 -m htrest -d /dev/ttyUSB0 -b 19200 --host 192.168.1.80 --port 8080 --user john:p@ssw0rd
 """
 
+import argparse
+import logging.config
 import os
 import re
-import argparse
 import textwrap
-import logging.config
-from .app import create_app
+
 from .__version__ import __version__
+from .app import create_app
 
 
 class UserAction(argparse.Action):
-    """ Custom action for argparse, to facilitate validation of a user statement in form of "<username>:<password>".
-    """
+    """Custom action for argparse, to facilitate validation of a user statement in form of "<username>:<password>"."""
 
     PATTERN = re.compile(r"^([^:]+):([^:]+)$")  # regex for "<username>:<password>"
 
@@ -54,8 +54,7 @@ class UserAction(argparse.Action):
 
 
 class PortAction(argparse.Action):
-    """ Custom action for argparse, to facilitate validation of a port number (0-65535).
-    """
+    """Custom action for argparse, to facilitate validation of a port number (0-65535)."""
 
     PORT_RANGE = range(0, 65535 + 1)  # range of valid port numbers
 
@@ -156,7 +155,9 @@ def main():
     )
 
     parser.add_argument(
-        "--debug", action="store_true", help="enable Flask debug mode",
+        "--debug",
+        action="store_true",
+        help="enable Flask debug mode",
     )
 
     parser.add_argument(

@@ -20,11 +20,12 @@
 """ REST API for operations related to the heat pump fault list. """
 
 import logging
+
 from flask import request
 from flask_restx import Namespace, Resource, fields
+
 from ..app import ht_heatpump
 from .utils import HtContext
-
 
 _LOGGER = logging.getLogger(__name__)
 
