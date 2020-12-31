@@ -7,7 +7,7 @@
 [![Updates](https://pyup.io/repos/github/dstrigl/HtREST/shield.svg)](https://pyup.io/repos/github/dstrigl/HtREST)
 
 
-[Heliotherm](http://www.heliotherm.com/) heat pump HTTP/REST API server for Python 3.6, 3.7 and 3.8.
+[Heliotherm](http://www.heliotherm.com/) heat pump HTTP/REST API server for Python 3.7 and 3.8.
 
 * GitHub repo: https://github.com/dstrigl/HtREST
 * Free software: [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html)
