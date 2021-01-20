@@ -1,7 +1,8 @@
 # History
 
-## 0.1.10 (202?-??-??)
+## 0.1.10 (2021-??-??)
 
+* Replaced Travis CI by GitHub Actions.
 * Updated copyright statements.
 * Python code reformatting using *Black* and *isort*.
 * Bumped `htheatpump` from `1.2.4` to `1.3.0`.

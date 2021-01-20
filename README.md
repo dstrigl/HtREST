@@ -3,7 +3,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/HtREST.svg)](https://pypi.org/project/HtREST)
 [![Python versions](https://img.shields.io/pypi/pyversions/HtREST.svg)](https://pypi.org/project/HtREST)
 [![License](https://img.shields.io/pypi/l/HtREST.svg)](https://pypi.org/project/HtREST)
-[![Build status](https://img.shields.io/travis/dstrigl/HtREST/master?logo=travis)](https://travis-ci.org/dstrigl/HtREST)
+[![Build status](https://github.com/dstrigl/HtREST/workflows/CI/badge.svg)](https://github.com/dstrigl/HtREST/actions?query=workflow%3ACI)
 [![Updates](https://pyup.io/repos/github/dstrigl/HtREST/shield.svg)](https://pyup.io/repos/github/dstrigl/HtREST)
 
 
