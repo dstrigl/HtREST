@@ -30,6 +30,13 @@
 [![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/N362PLZ)
 
 
+## Setup
+
+The following diagram shows the schematic view of a sample setup with a [Loxone Miniserver](https://shop.loxone.com/deat/miniservers.html):
+
+![Loxone setup](loxone-setup.png)
+
+
 ## API
 
 The following table describes the HTTP/REST API exposed by this server application for the
