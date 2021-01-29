@@ -32,9 +32,12 @@
 
 ## Setup
 
-The following diagram shows the schematic view of a sample setup with a [Loxone Miniserver](https://shop.loxone.com/deat/miniservers.html):
+The following diagram shows a possible setup in order to work with one of the different smart home systems, like [Loxone](https://www.loxone.com), [Home Assistant](https://www.home-assistant.io/), [ioBroker](https://www.iobroker.net/) or [FHEM](https://www.fhem.de/).
 
-![Loxone setup](loxone-setup.png)
+![Setup](setup.png)
+
+Of course, for all smart home systems which are runnable on a Raspberry Pi (like [Home Assistant](https://www.home-assistant.io/), [ioBroker](https://www.iobroker.net/) or [FHEM](https://www.fhem.de/)), the HtREST service and the smart home system can be hosted on the same Raspberry Pi.
+The connection can than be easily established via the [localhost](https://en.wikipedia.org/wiki/Localhost) address `127.0.0.1`.
 
 
 ## API
