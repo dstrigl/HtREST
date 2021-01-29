@@ -1,6 +1,7 @@
 include HISTORY.md
 include README.md
 include LICENSE
+include *.png
 
 include .editorconfig
 include .flake8
