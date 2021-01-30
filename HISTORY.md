@@ -1,7 +1,8 @@
 # History
 
-## 0.1.10 (2021-??-??)
+## 0.1.10 (2021-01-30)
 
+* Updated README.
 * Replaced Travis CI by GitHub Actions.
 * Updated copyright statements.
 * Python code reformatting using *Black* and *isort*.
