@@ -1,4 +1,4 @@
-mypy==0.920
+mypy==0.921
 coverage==6.2
 pytest==6.2.5
 pytest-mypy==0.8.1
