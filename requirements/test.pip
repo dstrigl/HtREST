@@ -1,5 +1,5 @@
 mypy==0.931
-coverage==6.2
+coverage==6.3
 pytest==6.2.5
 pytest-mypy==0.8.1
 pytest-cov==3.0.0
