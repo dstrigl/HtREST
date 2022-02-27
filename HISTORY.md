@@ -1,5 +1,18 @@
 # History
 
+## 0.1.11 (2022-02-27)
+
+* Bumped `htheatpump` from `1.3.1` to `1.3.2`.
+* Bumped `Flask` from `1.1.2` to `2.0.3`.
+* Bumped `flask-restx` from `0.2.0` to `0.5.1`.
+* Bumped `flake8` from `3.8.4` to `4.0.1`.
+* Bumped `tox` from `3.21.3` to `3.24.5`.
+* Bumped `mypy` from `0.800` to `0.931`.
+* Bumped `coverage` from `5.4` to `6.3.2`.
+* Bumped `pytest` from `6.2.2` to `7.0.1`.
+* Bumped `pytest-mypy` from `0.8.0` to `0.9.1`.
+* Bumped `pytest-cov` from `2.11.1` to `3.0.0`.
+
 ## 0.1.10 (2021-01-30)
 
 * Updated README.
