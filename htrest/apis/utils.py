@@ -68,6 +68,14 @@ class ParamValueField(fields.Raw):
         super().__init__(required=True, description="parameter value")
 
 
+class NullableParamValueField(fields.Raw):
+    __schema_type__ = ["number", "boolean", "null"]
+    __schema_example__ = "nullable number or boolean"
+
+    def __init__(self):
+        super().__init__(required=True, description="nullable parameter value")
+
+
 # Support 'dot' notation in model/field keys:
 # -------------------------------------------
 # Workaround by SteadBytes (https://github.com/SteadBytes):
