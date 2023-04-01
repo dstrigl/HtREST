@@ -30,6 +30,7 @@ from .apis.fast_query import api as ns5
 from .apis.fault_list import api as ns2
 from .apis.param import api as ns4
 from .apis.time_prog import api as ns6
+from .apis.overwrite import api as ns7
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -48,6 +49,7 @@ api.add_namespace(ns3)
 api.add_namespace(ns4)
 api.add_namespace(ns5)
 api.add_namespace(ns6)
+api.add_namespace(ns7)
 
 
 @blueprint.before_request
