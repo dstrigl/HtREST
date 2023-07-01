@@ -21,10 +21,9 @@
 
 import logging
 
-from flask import request
+from flask import g, request
 from flask_restx import Namespace, Resource, fields
 
-from ..app import ht_heatpump
 from .utils import HtContext
 
 _LOGGER = logging.getLogger(__name__)
@@ -88,10 +87,10 @@ fault_list_size_model = api.model(
 class FaultList(Resource):
     @api.marshal_list_with(fault_list_entry_model)
     def get(self):
-        """ Returns the fault list of the heat pump. """
+        """Returns the fault list of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(ht_heatpump):
-            res = ht_heatpump.get_fault_list()
+        with HtContext(g.ht_heatpump):
+            res = g.ht_heatpump.get_fault_list()
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
@@ -100,10 +99,10 @@ class FaultList(Resource):
 class FaultListSize(Resource):
     @api.marshal_with(fault_list_size_model)
     def get(self):
-        """ Returns the fault list size of the heat pump. """
+        """Returns the fault list size of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(ht_heatpump):
-            size = ht_heatpump.get_fault_list_size()
+        with HtContext(g.ht_heatpump):
+            size = g.ht_heatpump.get_fault_list_size()
         res = {"size": size}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -115,12 +114,12 @@ class FaultListSize(Resource):
 class FaultEntry(Resource):
     @api.marshal_with(fault_list_entry_model)
     def get(self, id: int):
-        """ Returns the fault list entry with the given index. """
+        """Returns the fault list entry with the given index."""
         _LOGGER.info("*** [GET] %s -- id=%d", request.url, id)
-        with HtContext(ht_heatpump):
-            if id not in range(0, ht_heatpump.get_fault_list_size()):
+        with HtContext(g.ht_heatpump):
+            if id not in range(0, g.ht_heatpump.get_fault_list_size()):
                 api.abort(404, "Fault list entry #{:d} not found".format(id))
-            res = ht_heatpump.get_fault_list(id)[0]
+            res = g.ht_heatpump.get_fault_list(id)[0]
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
@@ -129,10 +128,10 @@ class FaultEntry(Resource):
 class LastFault(Resource):
     @api.marshal_with(fault_list_entry_model)
     def get(self):
-        """ Returns the last fault list entry of the heat pump. """
+        """Returns the last fault list entry of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(ht_heatpump):
-            idx, err, dt, msg = ht_heatpump.get_last_fault()
+        with HtContext(g.ht_heatpump):
+            idx, err, dt, msg = g.ht_heatpump.get_last_fault()
             # e.g.: idx, err, dt, msg = (28, 19, datetime.datetime.now(), "EQ_Spreizung")
             res = {"index": idx, "error": err, "datetime": dt, "message": msg}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)

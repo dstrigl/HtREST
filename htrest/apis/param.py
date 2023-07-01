@@ -21,12 +21,11 @@
 
 import logging
 
-from flask import request
+from flask import g, request
 from flask_restx import Namespace, Resource, fields
 from htheatpump import HtParams
 
 from .. import settings
-from ..app import ht_heatpump
 from .utils import DotKeyField, HtContext, ParamValueField, bool_as_int, int_as_bool
 
 _LOGGER = logging.getLogger(__name__)
@@ -57,10 +56,10 @@ class ParamList(Resource):
             )
         if not params:
             params = list(HtParams.keys())
-        with HtContext(ht_heatpump):
+        with HtContext(g.ht_heatpump):
             res = {}
             for name in params:
-                value = ht_heatpump.get_param(name)
+                value = g.ht_heatpump.get_param(name)
                 res.update({name: bool_as_int(name, value)})
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -84,12 +83,12 @@ class ParamList(Resource):
                     ", ".join(repr(name) for name in unknown)
                 ),
             )
-        with HtContext(ht_heatpump):
+        with HtContext(g.ht_heatpump):
             res = {}
             for name, value in api.payload.items():
                 value = int_as_bool(name, value)
                 if not settings.READ_ONLY:
-                    value = ht_heatpump.set_param(name, value)
+                    value = g.ht_heatpump.set_param(name, value)
                 res.update({name: bool_as_int(name, value)})
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",
@@ -110,8 +109,8 @@ class Param(Resource):
         _LOGGER.info("*** [GET] %s -- name='%s'", request.url, name)
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))
-        with HtContext(ht_heatpump):
-            value = ht_heatpump.get_param(name)
+        with HtContext(g.ht_heatpump):
+            value = g.ht_heatpump.get_param(name)
         res = {"value": bool_as_int(name, value)}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -130,10 +129,10 @@ class Param(Resource):
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))
         value = api.payload["value"]
-        with HtContext(ht_heatpump):
+        with HtContext(g.ht_heatpump):
             value = int_as_bool(name, value)
             if not settings.READ_ONLY:
-                value = ht_heatpump.set_param(name, value)
+                value = g.ht_heatpump.set_param(name, value)
         res = {"value": bool_as_int(name, value)}
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",

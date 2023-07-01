@@ -57,7 +57,7 @@ def before_request():
     # Not necessary, since login() will automatically try a reconnect on failure:
     #
     # try:
-    #    ht_heatpump.reconnect()
+    #    ht_heatpump.reconnect()  # TODO
     # except Exception as ex:
     #    _LOGGER.error(ex)
     #    raise

@@ -22,15 +22,13 @@
 import logging
 from typing import Optional
 
-from flask import Flask
+from flask import Flask, g
 from flask_basicauth import BasicAuth
 from htheatpump import HtHeatpump, VerifyAction
 
 from . import settings
 
 _LOGGER = logging.getLogger(__name__)
-
-ht_heatpump: HtHeatpump
 
 
 def create_app(
@@ -42,12 +40,11 @@ def create_app(
     no_param_verification: bool = False,
 ):
     # try to connect to the heat pump
-    global ht_heatpump
+    ht_heatpump = HtHeatpump(device, baudrate=baudrate)
+    if no_param_verification:
+        ht_heatpump.verify_param_action = VerifyAction.NONE()
+    _LOGGER.info("open connection to heat pump (%s)", ht_heatpump)
     try:
-        ht_heatpump = HtHeatpump(device, baudrate=baudrate)
-        if no_param_verification:
-            ht_heatpump.verify_param_action = VerifyAction.NONE()
-        _LOGGER.info("open connection to heat pump (%s)", ht_heatpump)
         ht_heatpump.open_connection()
         ht_heatpump.login()
         _LOGGER.info(
@@ -87,17 +84,24 @@ def create_app(
     @app.teardown_appcontext
     def teardown_appcontext(exc):
         # _LOGGER.debug("*** @app.teardown_appcontext -- %s -- %s", __file__, exc)
-        print("*** @app.teardown_appcontext -- {} -- {}".format(__file__, str(exc)))  # TODO
-        pass
+        print(
+            "*** @app.teardown_appcontext -- {} -- {}".format(__file__, str(exc))
+        )  # TODO
+        # ht_hp: HtHeatpump = getattr(g, "ht_heatpump", None)
+        # if ht_hp is not None:
+        #     ht_hp.logout()
+        #     ht_hp.close_connection()
 
     settings.BOOL_AS_INT = bool_as_int
     settings.READ_ONLY = read_only
 
     with app.app_context():
+        g.ht_heatpump = ht_heatpump
+
         from htrest.apiv1 import blueprint as apiv1
 
         app.register_blueprint(apiv1)
-        # print(apiv1.url_prefix)
+        print(apiv1.url_prefix)
         print(app.url_map)
 
         return app
