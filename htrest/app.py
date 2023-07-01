@@ -22,7 +22,7 @@
 import logging
 from typing import Optional
 
-from flask import Flask, g
+from flask import Flask, current_app
 from flask_basicauth import BasicAuth
 from htheatpump import HtHeatpump, VerifyAction
 
@@ -72,6 +72,8 @@ def create_app(
         basic_auth = BasicAuth(app)  # noqa: F841
     _LOGGER.info("*** created Flask app %s with config %s", app, app.config)
 
+    current_app.ht_heatpump = ht_heatpump  # TODO
+
     # deprecated:: 2.2
     #   Will be removed in Flask 2.3. Run setup code when creating
     #   the application instead.
@@ -87,17 +89,11 @@ def create_app(
         print(
             "*** @app.teardown_appcontext -- {} -- {}".format(__file__, str(exc))
         )  # TODO
-        # ht_hp: HtHeatpump = getattr(g, "ht_heatpump", None)
-        # if ht_hp is not None:
-        #     ht_hp.logout()
-        #     ht_hp.close_connection()
 
     settings.BOOL_AS_INT = bool_as_int
     settings.READ_ONLY = read_only
 
     with app.app_context():
-        g.ht_heatpump = ht_heatpump
-
         from htrest.apiv1 import blueprint as apiv1
 
         app.register_blueprint(apiv1)

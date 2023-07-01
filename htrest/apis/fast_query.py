@@ -21,7 +21,7 @@
 
 import logging
 
-from flask import g, request
+from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
 from htheatpump import HtParams
 
@@ -67,8 +67,8 @@ class FastQueryList(Resource):
             )
         if not params:
             params = [name for name, param in HtParams.items() if param.dp_type == "MP"]
-        with HtContext(g.ht_heatpump):
-            res = g.ht_heatpump.fast_query(*params)
+        with HtContext(current_app.ht_heatpump):
+            res = current_app.ht_heatpump.fast_query(*params)
         for name, value in res.items():
             res[name] = bool_as_int(name, value)
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
@@ -85,8 +85,8 @@ class FastQuery(Resource):
         _LOGGER.info("*** [GET] %s -- name='%s'", request.url, name)
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))
-        with HtContext(g.ht_heatpump):
-            value = g.ht_heatpump.fast_query(name)
+        with HtContext(current_app.ht_heatpump):
+            value = current_app.ht_heatpump.fast_query(name)
         res = {"value": bool_as_int(name, value[name])}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res

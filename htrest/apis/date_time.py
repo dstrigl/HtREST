@@ -22,7 +22,7 @@
 import logging
 from datetime import datetime
 
-from flask import g, request
+from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
 
 from .. import settings
@@ -53,8 +53,8 @@ class DateTime(Resource):
     def get(self):
         """Returns the current date and time of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(g.ht_heatpump):
-            dt, _ = g.ht_heatpump.get_date_time()
+        with HtContext(current_app.ht_heatpump):
+            dt, _ = current_app.ht_heatpump.get_date_time()
         res = {"datetime": dt}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -76,9 +76,9 @@ class DateTime(Resource):
             dt = datetime.now()
         else:
             dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
-        with HtContext(g.ht_heatpump):
+        with HtContext(current_app.ht_heatpump):
             if not settings.READ_ONLY:
-                dt, _ = g.ht_heatpump.set_date_time(dt)
+                dt, _ = current_app.ht_heatpump.set_date_time(dt)
         res = {"datetime": dt}
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",

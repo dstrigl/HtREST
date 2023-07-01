@@ -21,7 +21,7 @@
 
 import logging
 
-from flask import g, request
+from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
 from htheatpump import HtParams
 
@@ -66,12 +66,12 @@ class Device(Resource):
     def get(self):
         """Returns the properties of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(g.ht_heatpump):
-            serial_number = g.ht_heatpump.get_serial_number()
-            software_version, _ = g.ht_heatpump.get_version()
+        with HtContext(current_app.ht_heatpump):
+            serial_number = current_app.ht_heatpump.get_serial_number()
+            software_version, _ = current_app.ht_heatpump.get_version()
             res = {"serial_number": serial_number, "software_version": software_version}
             if "Liegenschaft" in HtParams:
-                property_id = g.ht_heatpump.get_param("Liegenschaft")
+                property_id = current_app.ht_heatpump.get_param("Liegenschaft")
                 res.update({"property_id": property_id})
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res

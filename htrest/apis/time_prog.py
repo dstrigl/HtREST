@@ -21,7 +21,7 @@
 
 import logging
 
-from flask import g, request
+from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
 from htheatpump import TimeProgEntry as HtTimeProgEntry
 from htheatpump import TimeProgram as HtTimeProg
@@ -124,8 +124,8 @@ class TimeProgs(Resource):
     def get(self):
         """Returns a list of all available time programs of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(g.ht_heatpump):
-            time_progs = g.ht_heatpump.get_time_progs()
+        with HtContext(current_app.ht_heatpump):
+            time_progs = current_app.ht_heatpump.get_time_progs()
         res = [time_prog.as_json(with_entries=False) for time_prog in time_progs]
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -138,8 +138,8 @@ class TimeProg(Resource):
     def get(self, id: int):
         """Returns the time program with the given index of the heat pump."""
         _LOGGER.info("*** [GET] %s -- id=%d", request.url, id)
-        with HtContext(g.ht_heatpump):
-            time_prog = g.ht_heatpump.get_time_prog(id)
+        with HtContext(current_app.ht_heatpump):
+            time_prog = current_app.ht_heatpump.get_time_prog(id)
         res = time_prog.as_json(with_entries=True)
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -155,14 +155,14 @@ class TimeProg(Resource):
             id,
             api.payload,
         )
-        with HtContext(g.ht_heatpump):
-            time_prog = g.ht_heatpump.get_time_prog(id, with_entries=False).as_json(
-                with_entries=False
-            )
+        with HtContext(current_app.ht_heatpump):
+            time_prog = current_app.ht_heatpump.get_time_prog(
+                id, with_entries=False
+            ).as_json(with_entries=False)
             time_prog.update({"entries": api.payload["entries"]})
             time_prog = HtTimeProg.from_json(time_prog)
             if not settings.READ_ONLY:
-                time_prog = g.ht_heatpump.set_time_prog(time_prog)
+                time_prog = current_app.ht_heatpump.set_time_prog(time_prog)
         res = time_prog.as_json(with_entries=True)
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",
@@ -184,8 +184,8 @@ class TimeProgEntry(Resource):
     def get(self, id: int, day: int, num: int):
         """Returns a specific time program entry of the heat pump."""
         _LOGGER.info("*** [GET] %s -- id=%d, day=%d, num=%d", request.url, id, day, num)
-        with HtContext(g.ht_heatpump):
-            entry = g.ht_heatpump.get_time_prog_entry(id, day, num)
+        with HtContext(current_app.ht_heatpump):
+            entry = current_app.ht_heatpump.get_time_prog_entry(id, day, num)
         res = entry.as_json()
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -204,9 +204,9 @@ class TimeProgEntry(Resource):
             api.payload,
         )
         entry = HtTimeProgEntry.from_json(api.payload)
-        with HtContext(g.ht_heatpump):
+        with HtContext(current_app.ht_heatpump):
             if not settings.READ_ONLY:
-                entry = g.ht_heatpump.set_time_prog_entry(id, day, num, entry)
+                entry = current_app.ht_heatpump.set_time_prog_entry(id, day, num, entry)
         res = entry.as_json()
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",

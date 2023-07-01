@@ -21,7 +21,7 @@
 
 import logging
 
-from flask import g, request
+from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
 
 from .utils import HtContext
@@ -89,8 +89,8 @@ class FaultList(Resource):
     def get(self):
         """Returns the fault list of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(g.ht_heatpump):
-            res = g.ht_heatpump.get_fault_list()
+        with HtContext(current_app.ht_heatpump):
+            res = current_app.ht_heatpump.get_fault_list()
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
@@ -101,8 +101,8 @@ class FaultListSize(Resource):
     def get(self):
         """Returns the fault list size of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(g.ht_heatpump):
-            size = g.ht_heatpump.get_fault_list_size()
+        with HtContext(current_app.ht_heatpump):
+            size = current_app.ht_heatpump.get_fault_list_size()
         res = {"size": size}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -116,10 +116,10 @@ class FaultEntry(Resource):
     def get(self, id: int):
         """Returns the fault list entry with the given index."""
         _LOGGER.info("*** [GET] %s -- id=%d", request.url, id)
-        with HtContext(g.ht_heatpump):
-            if id not in range(0, g.ht_heatpump.get_fault_list_size()):
+        with HtContext(current_app.ht_heatpump):
+            if id not in range(0, current_app.ht_heatpump.get_fault_list_size()):
                 api.abort(404, "Fault list entry #{:d} not found".format(id))
-            res = g.ht_heatpump.get_fault_list(id)[0]
+            res = current_app.ht_heatpump.get_fault_list(id)[0]
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
@@ -130,8 +130,8 @@ class LastFault(Resource):
     def get(self):
         """Returns the last fault list entry of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(g.ht_heatpump):
-            idx, err, dt, msg = g.ht_heatpump.get_last_fault()
+        with HtContext(current_app.ht_heatpump):
+            idx, err, dt, msg = current_app.ht_heatpump.get_last_fault()
             # e.g.: idx, err, dt, msg = (28, 19, datetime.datetime.now(), "EQ_Spreizung")
             res = {"index": idx, "error": err, "datetime": dt, "message": msg}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
