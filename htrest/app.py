@@ -72,8 +72,6 @@ def create_app(
         basic_auth = BasicAuth(app)  # noqa: F841
     _LOGGER.info("*** created Flask app %s with config %s", app, app.config)
 
-    current_app.ht_heatpump = ht_heatpump  # TODO
-
     # deprecated:: 2.2
     #   Will be removed in Flask 2.3. Run setup code when creating
     #   the application instead.
@@ -94,6 +92,8 @@ def create_app(
     settings.READ_ONLY = read_only
 
     with app.app_context():
+        current_app.ht_heatpump = ht_heatpump  # TODO
+
         from htrest.apiv1 import blueprint as apiv1
 
         app.register_blueprint(apiv1)
