@@ -123,7 +123,7 @@ time_prog_with_entries_model = api.clone(
 class TimeProgs(Resource):
     @api.marshal_list_with(time_prog_model, skip_none=True)
     def get(self):
-        """ Returns a list of all available time programs of the heat pump. """
+        """Returns a list of all available time programs of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
         with HtContext(ht_heatpump):
             time_progs = ht_heatpump.get_time_progs()
@@ -137,7 +137,7 @@ class TimeProgs(Resource):
 class TimeProg(Resource):
     @api.marshal_with(time_prog_with_entries_model, skip_none=True)
     def get(self, id: int):
-        """ Returns the time program with the given index of the heat pump. """
+        """Returns the time program with the given index of the heat pump."""
         _LOGGER.info("*** [GET] %s -- id=%d", request.url, id)
         with HtContext(ht_heatpump):
             time_prog = ht_heatpump.get_time_prog(id)
@@ -148,7 +148,7 @@ class TimeProg(Resource):
     @api.expect(time_prog_with_entries_model, validate=True)
     @api.marshal_with(time_prog_with_entries_model)
     def put(self, id: int):
-        """ Sets all time program entries of a specific time program of the heat pump. """
+        """Sets all time program entries of a specific time program of the heat pump."""
         _LOGGER.info(
             "*** [PUT%s] %s -- id=%d, payload=%s",
             " (read-only)" if settings.READ_ONLY else "",
@@ -183,7 +183,7 @@ class TimeProg(Resource):
 class TimeProgEntry(Resource):
     @api.marshal_with(time_prog_entry_model)
     def get(self, id: int, day: int, num: int):
-        """ Returns a specific time program entry of the heat pump. """
+        """Returns a specific time program entry of the heat pump."""
         _LOGGER.info("*** [GET] %s -- id=%d, day=%d, num=%d", request.url, id, day, num)
         with HtContext(ht_heatpump):
             entry = ht_heatpump.get_time_prog_entry(id, day, num)
@@ -194,7 +194,7 @@ class TimeProgEntry(Resource):
     @api.expect(time_prog_entry_model, validate=True)
     @api.marshal_with(time_prog_entry_model)
     def put(self, id: int, day: int, num: int):
-        """ Sets a specific time program entry of the heat pump. """
+        """Sets a specific time program entry of the heat pump."""
         _LOGGER.info(
             "*** [PUT%s] %s -- id=%d, day=%d, num=%d, payload=%s",
             " (read-only)" if settings.READ_ONLY else "",

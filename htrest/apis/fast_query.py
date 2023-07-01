@@ -47,7 +47,7 @@ param_model = api.model("param_model", {"value": ParamValueField})
 class FastQueryList(Resource):
     @api.marshal_with(param_list_model)
     def get(self):
-        """ Performs a fast query of a subset or all heat pump parameters representing a 'MP' data point. """
+        """Performs a fast query of a subset or all heat pump parameters representing a 'MP' data point."""
         _LOGGER.info("*** [GET] %s", request.url)
         params = list(request.args.keys())
         unknown = [name for name in params if name not in HtParams]
@@ -55,7 +55,7 @@ class FastQueryList(Resource):
             api.abort(
                 404,
                 "Parameter(s) {} not found".format(
-                    ", ".join(map(lambda name: "{!r}".format(name), unknown))
+                    ", ".join(repr(name) for name in unknown)
                 ),
             )
         invalid = [name for name in params if HtParams[name].dp_type != "MP"]
@@ -63,11 +63,11 @@ class FastQueryList(Resource):
             api.abort(
                 400,
                 "Parameter(s) {} doesn't represent a 'MP' data point".format(
-                    ", ".join(map(lambda name: "{!r}".format(name), invalid))
+                    ", ".join(repr(name) for name in invalid)
                 ),
             )
         if not params:
-            params = (name for name, param in HtParams.items() if param.dp_type == "MP")
+            params = [name for name, param in HtParams.items() if param.dp_type == "MP"]
         with HtContext(ht_heatpump):
             res = ht_heatpump.fast_query(*params)
         for name, value in res.items():
@@ -82,7 +82,7 @@ class FastQueryList(Resource):
 class FastQuery(Resource):
     @api.marshal_with(param_model)
     def get(self, name: str):
-        """ Performs a fast query of a specific heat pump parameter which represents a 'MP' data point. """
+        """Performs a fast query of a specific heat pump parameter which represents a 'MP' data point."""
         _LOGGER.info("*** [GET] %s -- name='%s'", request.url, name)
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))

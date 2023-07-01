@@ -77,7 +77,7 @@ def teardown_request(exc):
 
 
 @api.errorhandler
-def default_error_handler(ex):
+def default_error_handler(ex: Exception):
     msg = str(ex)
     # remove leading and trailing '"' in case of a KeyError
     #   see: https://stackoverflow.com/questions/24998968/why-does-strkeyerror-add-extra-quotes

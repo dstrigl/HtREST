@@ -44,7 +44,7 @@ class ParamList(Resource):
     @api.marshal_with(param_list_model)
     @api.response(404, "Parameter(s) not found")
     def get(self):
-        """ Returns a subset or complete list of the known heat pump parameters with their current value. """
+        """Returns a subset or complete list of the known heat pump parameters with their current value."""
         _LOGGER.info("*** [GET] %s", request.url)
         params = list(request.args.keys())
         unknown = [name for name in params if name not in HtParams]
@@ -52,11 +52,11 @@ class ParamList(Resource):
             api.abort(
                 404,
                 "Parameter(s) {} not found".format(
-                    ", ".join(map(lambda name: "{!r}".format(name), unknown))
+                    ", ".join(repr(name) for name in unknown)
                 ),
             )
         if not params:
-            params = HtParams.keys()
+            params = list(HtParams.keys())
         with HtContext(ht_heatpump):
             res = {}
             for name in params:
@@ -69,7 +69,7 @@ class ParamList(Resource):
     @api.marshal_with(param_list_model)
     @api.response(404, "Parameter(s) not found")
     def put(self):
-        """ Sets the current value of several heat pump parameters. """
+        """Sets the current value of several heat pump parameters."""
         _LOGGER.info(
             "*** [PUT%s] %s -- payload=%s",
             " (read-only)" if settings.READ_ONLY else "",
@@ -81,7 +81,7 @@ class ParamList(Resource):
             api.abort(
                 404,
                 "Parameter(s) {} not found".format(
-                    ", ".join(map(lambda name: "{!r}".format(name), unknown))
+                    ", ".join(repr(name) for name in unknown)
                 ),
             )
         with HtContext(ht_heatpump):
@@ -106,7 +106,7 @@ class ParamList(Resource):
 class Param(Resource):
     @api.marshal_with(param_model)
     def get(self, name: str):
-        """ Returns the current value of a specific heat pump parameter. """
+        """Returns the current value of a specific heat pump parameter."""
         _LOGGER.info("*** [GET] %s -- name='%s'", request.url, name)
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))
@@ -119,7 +119,7 @@ class Param(Resource):
     @api.expect(param_model)
     @api.marshal_with(param_model)
     def put(self, name: str):
-        """ Sets the current value of a specific heat pump parameter. """
+        """Sets the current value of a specific heat pump parameter."""
         _LOGGER.info(
             "*** [PUT%s] %s -- name='%s', payload=%s",
             " (read-only)" if settings.READ_ONLY else "",

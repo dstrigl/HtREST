@@ -20,6 +20,7 @@
 """ Heliotherm heat pump REST API Flask application. """
 
 import logging
+from typing import Optional
 
 from flask import Flask
 from flask_basicauth import BasicAuth
@@ -29,16 +30,16 @@ from . import settings
 
 _LOGGER = logging.getLogger(__name__)
 
-ht_heatpump = None  # type: HtHeatpump
+ht_heatpump: HtHeatpump
 
 
 def create_app(
-    device="/dev/ttyUSB0",
-    baudrate=115200,
-    user=None,
-    bool_as_int=False,
-    read_only=False,
-    no_param_verification=False,
+    device: str = "/dev/ttyUSB0",
+    baudrate: int = 115200,
+    user: Optional[str] = None,
+    bool_as_int: bool = False,
+    read_only: bool = False,
+    no_param_verification: bool = False,
 ):
     # try to connect to the heat pump
     global ht_heatpump
@@ -74,18 +75,29 @@ def create_app(
         basic_auth = BasicAuth(app)  # noqa: F841
     _LOGGER.info("*** created Flask app %s with config %s", app, app.config)
 
-    @app.before_first_request
-    def before_first_request():
-        # _LOGGER.debug("*** @app.before_first_request -- %s", __file__)
+    # deprecated:: 2.2
+    #   Will be removed in Flask 2.3. Run setup code when creating
+    #   the application instead.
+    #
+    # @app.before_first_request
+    # def before_first_request():
+    #    # _LOGGER.debug("*** @app.before_first_request -- %s", __file__)
+    #    pass
+
+    @app.teardown_appcontext
+    def teardown_appcontext(exc):
+        # _LOGGER.debug("*** @app.teardown_appcontext -- %s -- %s", __file__, exc)
+        print("*** @app.teardown_appcontext -- {} -- {}".format(__file__, str(exc)))  # TODO
         pass
 
     settings.BOOL_AS_INT = bool_as_int
     settings.READ_ONLY = read_only
 
-    from htrest.apiv1 import blueprint as apiv1
+    with app.app_context():
+        from htrest.apiv1 import blueprint as apiv1
 
-    app.register_blueprint(apiv1)
-    # print(apiv1.url_prefix)
-    print(app.url_map)
+        app.register_blueprint(apiv1)
+        # print(apiv1.url_prefix)
+        print(app.url_map)
 
-    return app
+        return app
