@@ -58,7 +58,7 @@ def create_app(
 
     def on_exit_app(ht_hp: HtHeatpump):
         _LOGGER.debug("*** @on_exit_app -- %s -- %s", __file__, ht_hp)
-        ht_hp.logout()
+        # ht_hp.logout()
         ht_hp.close_connection()
 
     atexit.register(on_exit_app, ht_hp=ht_heatpump)
