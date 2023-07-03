@@ -31,6 +31,7 @@ import logging.config
 import os
 import re
 import textwrap
+from typing import Final
 
 from .__version__ import __version__
 from .app import create_app
@@ -39,16 +40,14 @@ from .app import create_app
 class UserAction(argparse.Action):
     """Custom action for argparse, to facilitate validation of a user statement in form of "<username>:<password>"."""
 
-    PATTERN = re.compile(r"^([^:]+):([^:]+)$")  # regex for "<username>:<password>"
+    PATTERN: Final = re.compile(r"^([^:]+):([^:]+)$")  # regex for "<username>:<password>"
 
     def __call__(self, parser, namespace, values, option_string=None):
-        assert type(values) is str
+        assert isinstance(values, str)
         if values and not self.PATTERN.match(values):
             raise argparse.ArgumentError(
                 self,
-                "{!r} is not a valid user statement in form of '<username>:<password>'".format(
-                    values
-                ),
+                "{!r} is not a valid user statement in form of '<username>:<password>'".format(values),
             )
         setattr(namespace, self.dest, values)
 
@@ -56,21 +55,19 @@ class UserAction(argparse.Action):
 class PortAction(argparse.Action):
     """Custom action for argparse, to facilitate validation of a port number (0-65535)."""
 
-    PORT_RANGE = range(0, 65535 + 1)  # range of valid port numbers
+    PORT_RANGE: Final = range(0, 65535 + 1)  # range of valid port numbers
 
     def __call__(self, parser, namespace, values, option_string=None):
-        assert type(values) is int
+        assert isinstance(values, int)
         if values not in self.PORT_RANGE:
             raise argparse.ArgumentError(
                 self,
-                "port number must be between {} and {}".format(
-                    self.PORT_RANGE[0], self.PORT_RANGE[-1]
-                ),
+                "port number must be between {} and {}".format(self.PORT_RANGE[0], self.PORT_RANGE[-1]),
             )
         setattr(namespace, self.dest, values)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description=textwrap.dedent(
             """\
@@ -147,9 +144,7 @@ def main():
 
     parser.add_argument(
         "--logging-config",
-        default=os.path.normpath(
-            os.path.join(os.path.dirname(__file__), "logging.conf")
-        ),
+        default=os.path.normpath(os.path.join(os.path.dirname(__file__), "logging.conf")),
         type=str,
         help="the filename under which the logging configuration can be found, default: %(default)s",
     )

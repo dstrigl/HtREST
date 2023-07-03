@@ -19,8 +19,9 @@
 
 """ Heliotherm heat pump REST API Flask application. """
 
+import atexit
 import logging
-from typing import Optional
+from typing import Final, Optional
 
 from flask import Flask, current_app
 from flask_basicauth import BasicAuth
@@ -28,7 +29,7 @@ from htheatpump import HtHeatpump, VerifyAction
 
 from . import settings
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: Final = logging.getLogger(__name__)
 
 
 def create_app(
@@ -38,7 +39,7 @@ def create_app(
     bool_as_int: bool = False,
     read_only: bool = False,
     no_param_verification: bool = False,
-):
+) -> Flask:
     # try to connect to the heat pump
     ht_heatpump = HtHeatpump(device, baudrate=baudrate)
     if no_param_verification:
@@ -47,15 +48,20 @@ def create_app(
     try:
         ht_heatpump.open_connection()
         ht_heatpump.login()
-        _LOGGER.info(
-            "successfully connected to heat pump #%d", ht_heatpump.get_serial_number()
-        )
+        _LOGGER.info("successfully connected to heat pump #%d", ht_heatpump.get_serial_number())
         _LOGGER.info("software version = %s (%d)", *ht_heatpump.get_version())
     except Exception as ex:
         _LOGGER.error(ex)
         raise
     finally:
         ht_heatpump.logout()
+
+    def on_exit_app(ht_hp: HtHeatpump):
+        _LOGGER.debug("*** @on_exit_app -- %s -- %s", __file__, ht_hp)
+        ht_hp.logout()
+        ht_hp.close_connection()
+
+    atexit.register(on_exit_app, ht_hp=ht_heatpump)
 
     # create the Flask app
     app = Flask(__name__)
@@ -69,35 +75,19 @@ def create_app(
         app.config["BASIC_AUTH_USERNAME"] = username
         app.config["BASIC_AUTH_PASSWORD"] = password
         app.config["BASIC_AUTH_FORCE"] = True
-        basic_auth = BasicAuth(app)  # noqa: F841
+        _ = BasicAuth(app)
     _LOGGER.info("*** created Flask app %s with config %s", app, app.config)
-
-    # deprecated:: 2.2
-    #   Will be removed in Flask 2.3. Run setup code when creating
-    #   the application instead.
-    #
-    # @app.before_first_request
-    # def before_first_request():
-    #    # _LOGGER.debug("*** @app.before_first_request -- %s", __file__)
-    #    pass
-
-    @app.teardown_appcontext
-    def teardown_appcontext(exc):
-        # _LOGGER.debug("*** @app.teardown_appcontext -- %s -- %s", __file__, exc)
-        print(
-            "*** @app.teardown_appcontext -- {} -- {}".format(__file__, str(exc))
-        )  # TODO
 
     settings.BOOL_AS_INT = bool_as_int
     settings.READ_ONLY = read_only
 
     with app.app_context():
-        current_app.ht_heatpump = ht_heatpump  # TODO
+        current_app.ht_heatpump = ht_heatpump  # type: ignore[attr-defined]
 
         from htrest.apiv1 import blueprint as apiv1
 
         app.register_blueprint(apiv1)
-        print(apiv1.url_prefix)
-        print(app.url_map)
+        # _LOGGER.info(apiv1.url_prefix)
+        _LOGGER.info(app.url_map)
 
         return app

@@ -20,6 +20,7 @@
 """ REST API for operations related to the heat pump parameters. """
 
 import logging
+from typing import Final
 
 from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
@@ -28,14 +29,13 @@ from htheatpump import HtParams
 from .. import settings
 from .utils import DotKeyField, HtContext, ParamValueField, bool_as_int, int_as_bool
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: Final = logging.getLogger(__name__)
 
+api: Final = Namespace("param", description="Operations related to the heat pump parameters.")
 
-api = Namespace("param", description="Operations related to the heat pump parameters.")
-
-wildcard = fields.Wildcard(DotKeyField)
-param_list_model = api.model("param_list_model", {"*": wildcard})
-param_model = api.model("param_model", {"value": ParamValueField})
+wildcard: Final = fields.Wildcard(DotKeyField)
+param_list_model: Final = api.model("param_list_model", {"*": wildcard})
+param_model: Final = api.model("param_model", {"value": ParamValueField})
 
 
 @api.route("/")
@@ -50,16 +50,14 @@ class ParamList(Resource):
         if unknown:
             api.abort(
                 404,
-                "Parameter(s) {} not found".format(
-                    ", ".join(repr(name) for name in unknown)
-                ),
+                "Parameter(s) {} not found".format(", ".join(repr(name) for name in unknown)),
             )
         if not params:
             params = list(HtParams.keys())
-        with HtContext(current_app.ht_heatpump):
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
             res = {}
             for name in params:
-                value = current_app.ht_heatpump.get_param(name)
+                value = current_app.ht_heatpump.get_param(name)  # type: ignore[attr-defined]
                 res.update({name: bool_as_int(name, value)})
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -79,16 +77,14 @@ class ParamList(Resource):
         if unknown:
             api.abort(
                 404,
-                "Parameter(s) {} not found".format(
-                    ", ".join(repr(name) for name in unknown)
-                ),
+                "Parameter(s) {} not found".format(", ".join(repr(name) for name in unknown)),
             )
-        with HtContext(current_app.ht_heatpump):
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
             res = {}
             for name, value in api.payload.items():
                 value = int_as_bool(name, value)
                 if not settings.READ_ONLY:
-                    value = current_app.ht_heatpump.set_param(name, value)
+                    value = current_app.ht_heatpump.set_param(name, value)  # type: ignore[attr-defined]
                 res.update({name: bool_as_int(name, value)})
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",
@@ -109,8 +105,8 @@ class Param(Resource):
         _LOGGER.info("*** [GET] %s -- name='%s'", request.url, name)
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))
-        with HtContext(current_app.ht_heatpump):
-            value = current_app.ht_heatpump.get_param(name)
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            value = current_app.ht_heatpump.get_param(name)  # type: ignore[attr-defined]
         res = {"value": bool_as_int(name, value)}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -129,10 +125,10 @@ class Param(Resource):
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))
         value = api.payload["value"]
-        with HtContext(current_app.ht_heatpump):
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
             value = int_as_bool(name, value)
             if not settings.READ_ONLY:
-                value = current_app.ht_heatpump.set_param(name, value)
+                value = current_app.ht_heatpump.set_param(name, value)  # type: ignore[attr-defined]
         res = {"value": bool_as_int(name, value)}
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",

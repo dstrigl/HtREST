@@ -20,8 +20,9 @@
 """ Heliotherm heat pump REST API server APIv1. """
 
 import logging
+from typing import Final
 
-from flask import Blueprint  # , request
+from flask import Blueprint  # , current_app, request
 from flask_restx import Api
 
 from .apis.date_time import api as ns3
@@ -31,11 +32,11 @@ from .apis.fault_list import api as ns2
 from .apis.param import api as ns4
 from .apis.time_prog import api as ns6
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: Final = logging.getLogger(__name__)
 
-blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
+blueprint: Final = Blueprint("api", __name__, url_prefix="/api/v1")
 
-api = Api(
+api: Final = Api(
     blueprint,
     title="HtREST",
     version="1.0",
@@ -57,10 +58,10 @@ def before_request():
     # Not necessary, since login() will automatically try a reconnect on failure:
     #
     # try:
-    #    ht_heatpump.reconnect()  # TODO
+    #     current_app.ht_heatpump.reconnect()  # type: ignore[attr-defined]
     # except Exception as ex:
-    #    _LOGGER.error(ex)
-    #    raise
+    #     _LOGGER.error(ex)
+    #     raise
     pass
 
 

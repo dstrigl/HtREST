@@ -20,6 +20,7 @@
 """ REST API for fast query of heat pump parameters representing a 'MP' data point. """
 
 import logging
+from typing import Final
 
 from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
@@ -27,17 +28,16 @@ from htheatpump import HtParams
 
 from .utils import DotKeyField, HtContext, ParamValueField, bool_as_int
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: Final = logging.getLogger(__name__)
 
-
-api = Namespace(
+api: Final = Namespace(
     "fastquery",
     description="Fast query of heat pump parameters representing a 'MP' data point.",
 )
 
-wildcard = fields.Wildcard(DotKeyField)
-param_list_model = api.model("param_list_model", {"*": wildcard})
-param_model = api.model("param_model", {"value": ParamValueField})
+wildcard: Final = fields.Wildcard(DotKeyField)
+param_list_model: Final = api.model("param_list_model", {"*": wildcard})
+param_model: Final = api.model("param_model", {"value": ParamValueField})
 
 
 @api.route("/")
@@ -53,9 +53,7 @@ class FastQueryList(Resource):
         if unknown:
             api.abort(
                 404,
-                "Parameter(s) {} not found".format(
-                    ", ".join(repr(name) for name in unknown)
-                ),
+                "Parameter(s) {} not found".format(", ".join(repr(name) for name in unknown)),
             )
         invalid = [name for name in params if HtParams[name].dp_type != "MP"]
         if invalid:
@@ -67,8 +65,8 @@ class FastQueryList(Resource):
             )
         if not params:
             params = [name for name, param in HtParams.items() if param.dp_type == "MP"]
-        with HtContext(current_app.ht_heatpump):
-            res = current_app.ht_heatpump.fast_query(*params)
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            res = current_app.ht_heatpump.fast_query(*params)  # type: ignore[attr-defined]
         for name, value in res.items():
             res[name] = bool_as_int(name, value)
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
@@ -85,8 +83,8 @@ class FastQuery(Resource):
         _LOGGER.info("*** [GET] %s -- name='%s'", request.url, name)
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))
-        with HtContext(current_app.ht_heatpump):
-            value = current_app.ht_heatpump.fast_query(name)
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            value = current_app.ht_heatpump.fast_query(name)  # type: ignore[attr-defined]
         res = {"value": bool_as_int(name, value[name])}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res

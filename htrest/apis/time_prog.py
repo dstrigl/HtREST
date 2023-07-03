@@ -20,6 +20,7 @@
 """ REST API for operations related to the time programs of the heat pump. """
 
 import logging
+from typing import Final
 
 from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
@@ -29,13 +30,11 @@ from htheatpump import TimeProgram as HtTimeProg
 from .. import settings
 from .utils import HtContext
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: Final = logging.getLogger(__name__)
 
-api = Namespace(
-    "timeprog", description="Operations related to the time programs of the heat pump."
-)
+api: Final = Namespace("timeprog", description="Operations related to the time programs of the heat pump.")
 
-time_prog_model = api.model(
+time_prog_model: Final = api.model(
     "time_prog_model",
     {
         "index": fields.Integer(
@@ -82,7 +81,7 @@ time_prog_model = api.model(
     },
 )
 
-time_prog_entry_model = api.model(
+time_prog_entry_model: Final = api.model(
     "time_prog_entry_model",
     {
         "state": fields.Integer(
@@ -104,14 +103,12 @@ time_prog_entry_model = api.model(
     },
 )
 
-time_prog_with_entries_model = api.clone(
+time_prog_with_entries_model: Final = api.clone(
     "time_prog_with_entries_model",
     time_prog_model,
     {
         "entries": fields.List(
-            fields.List(
-                fields.Nested(time_prog_entry_model, required=True), required=True
-            ),
+            fields.List(fields.Nested(time_prog_entry_model, required=True), required=True),
             required=True,
         ),
     },
@@ -124,8 +121,8 @@ class TimeProgs(Resource):
     def get(self):
         """Returns a list of all available time programs of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(current_app.ht_heatpump):
-            time_progs = current_app.ht_heatpump.get_time_progs()
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            time_progs = current_app.ht_heatpump.get_time_progs()  # type: ignore[attr-defined]
         res = [time_prog.as_json(with_entries=False) for time_prog in time_progs]
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -135,34 +132,34 @@ class TimeProgs(Resource):
 @api.param("id", "The time program index")
 class TimeProg(Resource):
     @api.marshal_with(time_prog_with_entries_model, skip_none=True)
-    def get(self, id: int):
+    def get(self, identifier: int):
         """Returns the time program with the given index of the heat pump."""
-        _LOGGER.info("*** [GET] %s -- id=%d", request.url, id)
-        with HtContext(current_app.ht_heatpump):
-            time_prog = current_app.ht_heatpump.get_time_prog(id)
+        _LOGGER.info("*** [GET] %s -- id=%d", request.url, identifier)
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            time_prog = current_app.ht_heatpump.get_time_prog(identifier)  # type: ignore[attr-defined]
         res = time_prog.as_json(with_entries=True)
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
     @api.expect(time_prog_with_entries_model, validate=True)
     @api.marshal_with(time_prog_with_entries_model)
-    def put(self, id: int):
+    def put(self, identifier: int):
         """Sets all time program entries of a specific time program of the heat pump."""
         _LOGGER.info(
             "*** [PUT%s] %s -- id=%d, payload=%s",
             " (read-only)" if settings.READ_ONLY else "",
             request.url,
-            id,
+            identifier,
             api.payload,
         )
-        with HtContext(current_app.ht_heatpump):
-            time_prog = current_app.ht_heatpump.get_time_prog(
-                id, with_entries=False
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            time_prog = current_app.ht_heatpump.get_time_prog(  # type: ignore[attr-defined]
+                identifier, with_entries=False
             ).as_json(with_entries=False)
             time_prog.update({"entries": api.payload["entries"]})
             time_prog = HtTimeProg.from_json(time_prog)
             if not settings.READ_ONLY:
-                time_prog = current_app.ht_heatpump.set_time_prog(time_prog)
+                time_prog = current_app.ht_heatpump.set_time_prog(time_prog)  # type: ignore[attr-defined]
         res = time_prog.as_json(with_entries=True)
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",
@@ -175,38 +172,41 @@ class TimeProg(Resource):
 
 @api.route("/<int:id>/<int:day>/<int:num>")
 @api.param("id", "The time program index")
-@api.param(
-    "day", "The day of the time program entry (inside the specified time program)"
-)
+@api.param("day", "The day of the time program entry (inside the specified time program)")
 @api.param("num", "The number of the time program entry (of the specified day)")
 class TimeProgEntry(Resource):
     @api.marshal_with(time_prog_entry_model)
-    def get(self, id: int, day: int, num: int):
+    def get(self, identifier: int, day: int, num: int):
         """Returns a specific time program entry of the heat pump."""
-        _LOGGER.info("*** [GET] %s -- id=%d, day=%d, num=%d", request.url, id, day, num)
-        with HtContext(current_app.ht_heatpump):
-            entry = current_app.ht_heatpump.get_time_prog_entry(id, day, num)
+        _LOGGER.info("*** [GET] %s -- id=%d, day=%d, num=%d", request.url, identifier, day, num)
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            entry = current_app.ht_heatpump.get_time_prog_entry(identifier, day, num)  # type: ignore[attr-defined]
         res = entry.as_json()
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
 
     @api.expect(time_prog_entry_model, validate=True)
     @api.marshal_with(time_prog_entry_model)
-    def put(self, id: int, day: int, num: int):
+    def put(self, identifier: int, day: int, num: int):
         """Sets a specific time program entry of the heat pump."""
         _LOGGER.info(
             "*** [PUT%s] %s -- id=%d, day=%d, num=%d, payload=%s",
             " (read-only)" if settings.READ_ONLY else "",
             request.url,
-            id,
+            identifier,
             day,
             num,
             api.payload,
         )
         entry = HtTimeProgEntry.from_json(api.payload)
-        with HtContext(current_app.ht_heatpump):
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
             if not settings.READ_ONLY:
-                entry = current_app.ht_heatpump.set_time_prog_entry(id, day, num, entry)
+                entry = current_app.ht_heatpump.set_time_prog_entry(  # type: ignore[attr-defined]
+                    identifier,
+                    day,
+                    num,
+                    entry,
+                )
         res = entry.as_json()
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",

@@ -21,11 +21,15 @@
 
 
 # Flask-RESTX settings
-RESTX_SWAGGER_UI_DOC_EXPANSION = "list"
-RESTX_VALIDATE = True
-RESTX_MASK_SWAGGER = False
-RESTX_ERROR_404_HELP = False
-RESTX_BUNDLE_ERRORS = True
+from typing import Final
 
-BOOL_AS_INT = False  # boolean values are treated as integers (with false equivalent to 0 and true equivalent to 1)
-READ_ONLY = False  # no write accesses to the heat pump; if you want to be sure, that nothing will be manipulated
+RESTX_SWAGGER_UI_DOC_EXPANSION: Final = "list"
+RESTX_VALIDATE: Final = True
+RESTX_MASK_SWAGGER: Final = False
+RESTX_ERROR_404_HELP: Final = False
+RESTX_BUNDLE_ERRORS: Final = True
+
+# boolean values are treated as integers (with false equivalent to 0 and true equivalent to 1)
+BOOL_AS_INT: bool = False
+# no write accesses to the heat pump; if you want to be sure, that nothing will be manipulated
+READ_ONLY: bool = False

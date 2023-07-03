@@ -20,6 +20,7 @@
 """ REST API which delivers information about the connected heat pump. """
 
 import logging
+from typing import Final
 
 from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
@@ -27,13 +28,11 @@ from htheatpump import HtParams
 
 from .utils import HtContext
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: Final = logging.getLogger(__name__)
 
-api = Namespace(
-    "device", description="Delivers information about the connected heat pump."
-)
+api: Final = Namespace("device", description="Delivers information about the connected heat pump.")
 
-device_model = api.model(
+device_model: Final = api.model(
     "device_model",
     {
         "property_id": fields.Integer(
@@ -66,12 +65,12 @@ class Device(Resource):
     def get(self):
         """Returns the properties of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(current_app.ht_heatpump):
-            serial_number = current_app.ht_heatpump.get_serial_number()
-            software_version, _ = current_app.ht_heatpump.get_version()
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            serial_number = current_app.ht_heatpump.get_serial_number()  # type: ignore[attr-defined]
+            software_version, _ = current_app.ht_heatpump.get_version()  # type: ignore[attr-defined]
             res = {"serial_number": serial_number, "software_version": software_version}
             if "Liegenschaft" in HtParams:
-                property_id = current_app.ht_heatpump.get_param("Liegenschaft")
+                property_id = current_app.ht_heatpump.get_param("Liegenschaft")  # type: ignore[attr-defined]
                 res.update({"property_id": property_id})
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res

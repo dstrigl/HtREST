@@ -21,6 +21,7 @@
 
 import logging
 from datetime import datetime
+from typing import Final
 
 from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
@@ -28,13 +29,11 @@ from flask_restx import Namespace, Resource, fields
 from .. import settings
 from .utils import HtContext
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: Final = logging.getLogger(__name__)
 
-api = Namespace(
-    "datetime", description="Operations related to the date and time of the heat pump."
-)
+api: Final = Namespace("datetime", description="Operations related to the date and time of the heat pump.")
 
-date_time_model = api.model(
+date_time_model: Final = api.model(
     "date_time_model",
     {
         "datetime": fields.DateTime(
@@ -53,8 +52,8 @@ class DateTime(Resource):
     def get(self):
         """Returns the current date and time of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(current_app.ht_heatpump):
-            dt, _ = current_app.ht_heatpump.get_date_time()
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            dt, _ = current_app.ht_heatpump.get_date_time()  # type: ignore[attr-defined]
         res = {"datetime": dt}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -76,9 +75,9 @@ class DateTime(Resource):
             dt = datetime.now()
         else:
             dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
-        with HtContext(current_app.ht_heatpump):
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
             if not settings.READ_ONLY:
-                dt, _ = current_app.ht_heatpump.set_date_time(dt)
+                dt, _ = current_app.ht_heatpump.set_date_time(dt)  # type: ignore[attr-defined]
         res = {"datetime": dt}
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",
