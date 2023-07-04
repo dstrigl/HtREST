@@ -1,5 +1,22 @@
 # History
 
+## 0.1.12 (2023-??-??)
+
+* Added support for Python 3.9 and 3.10.
+* Dropped support for Python 3.7.
+* Updated copyright statements.
+* Bumped `htheatpump` from `1.3.2` to `1.3.3`.
+* Bumped `Flask` from `2.0.3` to `2.3.2`.
+* Bumped `flask-restx` from `0.5.1` to `1.1.0`.
+* Bumped `flake8` from `4.0.1` to `6.0.0`.
+* Bumped `tox` from `3.24.5` to `4.6.3`.
+* Bumped `mypy` from `0.931` to `1.4.1`.
+* Bumped `coverage` from `6.3.2` to `7.2.7`.
+* Bumped `pytest` from `7.0.1` to `7.4.0`.
+* Bumped `pytest-mypy` from `0.9.1` to `0.10.3`.
+* Bumped `pytest-cov` from `3.0.0` to `4.1.0`.
+* Bumped `pytest-sugar` from `0.9.4` to `0.9.7`.
+
 ## 0.1.11 (2022-02-27)
 
 * Bumped `htheatpump` from `1.3.1` to `1.3.2`.
