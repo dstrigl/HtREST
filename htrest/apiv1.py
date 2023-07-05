@@ -72,7 +72,7 @@ def after_request(response):
 
 
 @blueprint.teardown_request
-def teardown_request(exc):
+def teardown_request(exc):  # pylint: disable=W0613
     # _LOGGER.debug("*** @blueprint.teardown_request -- %s -- %s", __file__, exc)
     pass
 

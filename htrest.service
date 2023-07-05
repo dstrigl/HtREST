@@ -5,7 +5,7 @@ Requires=network.target
 
 [Service]
 Type=idle
-ExecStart=/home/pi/venv/htrest/bin/htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.11.99 --port 8777
+ExecStart=/home/pi/venv/htrest/bin/htrest -d /dev/ttyUSB0 -b 115200 --host 192.168.11.99 --port 8777 --read-only
 WorkingDirectory=/home/pi
 StandardOutput=inherit
 StandardError=inherit

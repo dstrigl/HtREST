@@ -41,7 +41,7 @@ def create_app(
     no_param_verification: bool = False,
 ) -> Flask:
     # try to connect to the heat pump
-    ht_heatpump = HtHeatpump(device, baudrate=baudrate)
+    ht_heatpump: Final = HtHeatpump(device, baudrate=baudrate)
     if no_param_verification:
         ht_heatpump.verify_param_action = VerifyAction.NONE()
     _LOGGER.info("open connection to heat pump (%s)", ht_heatpump)
