@@ -9,7 +9,7 @@
 * Bumped `Flask` from `2.0.3` to `2.3.2`.
 * Bumped `flask-restx` from `0.5.1` to `1.1.0`.
 * Bumped `flake8` from `4.0.1` to `6.0.0`.
-* Bumped `tox` from `3.24.5` to `4.6.3`.
+* Bumped `tox` from `3.24.5` to `4.6.4`.
 * Bumped `mypy` from `0.931` to `1.4.1`.
 * Bumped `coverage` from `6.3.2` to `7.2.7`.
 * Bumped `pytest` from `7.0.1` to `7.4.0`.
