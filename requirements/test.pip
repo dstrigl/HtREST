@@ -3,4 +3,4 @@ coverage==7.4.1
 pytest==8.0.0
 pytest-mypy==0.10.3
 pytest-cov==4.1.0
-pytest-sugar==0.9.7
+pytest-sugar==1.0.0
