@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #  HtREST - Heliotherm heat pump REST API
-#  Copyright (C) 2021  Daniel Strigl
+#  Copyright (C) 2023  Daniel Strigl
 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,21 +21,19 @@
 
 import logging
 from datetime import datetime
+from typing import Final
 
-from flask import request
+from flask import current_app, request
 from flask_restx import Namespace, Resource, fields
 
 from .. import settings
-from ..app import ht_heatpump
 from .utils import HtContext
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: Final = logging.getLogger(__name__)
 
-api = Namespace(
-    "datetime", description="Operations related to the date and time of the heat pump."
-)
+api: Final = Namespace("datetime", description="Operations related to the date and time of the heat pump.")
 
-date_time_model = api.model(
+date_time_model: Final = api.model(
     "date_time_model",
     {
         "datetime": fields.DateTime(
@@ -52,10 +50,10 @@ date_time_model = api.model(
 class DateTime(Resource):
     @api.marshal_with(date_time_model)
     def get(self):
-        """ Returns the current date and time of the heat pump. """
+        """Returns the current date and time of the heat pump."""
         _LOGGER.info("*** [GET] %s", request.url)
-        with HtContext(ht_heatpump):
-            dt, _ = ht_heatpump.get_date_time()
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
+            dt, _ = current_app.ht_heatpump.get_date_time()  # type: ignore[attr-defined]
         res = {"datetime": dt}
         _LOGGER.debug("*** [GET] %s -> %s", request.url, res)
         return res
@@ -77,9 +75,9 @@ class DateTime(Resource):
             dt = datetime.now()
         else:
             dt = datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
-        with HtContext(ht_heatpump):
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
             if not settings.READ_ONLY:
-                dt, _ = ht_heatpump.set_date_time(dt)
+                dt, _ = current_app.ht_heatpump.set_date_time(dt)  # type: ignore[attr-defined]
         res = {"datetime": dt}
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",

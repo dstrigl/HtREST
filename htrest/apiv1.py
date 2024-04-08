@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #  HtREST - Heliotherm heat pump REST API
-#  Copyright (C) 2021  Daniel Strigl
+#  Copyright (C) 2023  Daniel Strigl
 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -20,8 +20,9 @@
 """ Heliotherm heat pump REST API server APIv1. """
 
 import logging
+from typing import Final
 
-from flask import Blueprint  # , request
+from flask import Blueprint  # , current_app, request
 from flask_restx import Api
 
 from .apis.date_time import api as ns3
@@ -32,11 +33,11 @@ from .apis.param import api as ns4
 from .apis.time_prog import api as ns6
 from .apis.overwrite import api as ns7
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: Final = logging.getLogger(__name__)
 
-blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
+blueprint: Final = Blueprint("api", __name__, url_prefix="/api/v1")
 
-api = Api(
+api: Final = Api(
     blueprint,
     title="HtREST",
     version="1.0",
@@ -59,10 +60,10 @@ def before_request():
     # Not necessary, since login() will automatically try a reconnect on failure:
     #
     # try:
-    #    ht_heatpump.reconnect()
+    #     current_app.ht_heatpump.reconnect()  # type: ignore[attr-defined]
     # except Exception as ex:
-    #    _LOGGER.error(ex)
-    #    raise
+    #     _LOGGER.error(ex)
+    #     raise
     pass
 
 
@@ -73,13 +74,13 @@ def after_request(response):
 
 
 @blueprint.teardown_request
-def teardown_request(exc):
+def teardown_request(exc):  # pylint: disable=W0613
     # _LOGGER.debug("*** @blueprint.teardown_request -- %s -- %s", __file__, exc)
     pass
 
 
 @api.errorhandler
-def default_error_handler(ex):
+def default_error_handler(ex: Exception):
     msg = str(ex)
     # remove leading and trailing '"' in case of a KeyError
     #   see: https://stackoverflow.com/questions/24998968/why-does-strkeyerror-add-extra-quotes

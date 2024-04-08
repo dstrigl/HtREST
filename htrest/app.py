@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #  HtREST - Heliotherm heat pump REST API
-#  Copyright (C) 2021  Daniel Strigl
+#  Copyright (C) 2023  Daniel Strigl
 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,45 +19,49 @@
 
 """ Heliotherm heat pump REST API Flask application. """
 
+import atexit
 import logging
+from typing import Final, Optional
 
-from flask import Flask
+from flask import Flask, current_app
 from flask_basicauth import BasicAuth
 from htheatpump import HtHeatpump, VerifyAction
 
 from . import settings
 
-_LOGGER = logging.getLogger(__name__)
-
-ht_heatpump = None  # type: HtHeatpump
+_LOGGER: Final = logging.getLogger(__name__)
 
 
 def create_app(
-    device="/dev/ttyUSB0",
-    baudrate=115200,
-    user=None,
-    bool_as_int=False,
-    read_only=False,
-    no_param_verification=False,
-):
+    device: str = "/dev/ttyUSB0",
+    baudrate: int = 115200,
+    user: Optional[str] = None,
+    bool_as_int: bool = False,
+    read_only: bool = False,
+    no_param_verification: bool = False,
+) -> Flask:
     # try to connect to the heat pump
-    global ht_heatpump
+    ht_heatpump: Final = HtHeatpump(device, baudrate=baudrate)
+    if no_param_verification:
+        ht_heatpump.verify_param_action = VerifyAction.NONE()
+    _LOGGER.info("open connection to heat pump (%s)", ht_heatpump)
     try:
-        ht_heatpump = HtHeatpump(device, baudrate=baudrate)
-        if no_param_verification:
-            ht_heatpump.verify_param_action = VerifyAction.NONE()
-        _LOGGER.info("open connection to heat pump (%s)", ht_heatpump)
         ht_heatpump.open_connection()
         ht_heatpump.login()
-        _LOGGER.info(
-            "successfully connected to heat pump #%d", ht_heatpump.get_serial_number()
-        )
+        _LOGGER.info("successfully connected to heat pump #%d", ht_heatpump.get_serial_number())
         _LOGGER.info("software version = %s (%d)", *ht_heatpump.get_version())
     except Exception as ex:
         _LOGGER.error(ex)
         raise
     finally:
         ht_heatpump.logout()
+
+    def on_exit_app(ht_hp: HtHeatpump):
+        _LOGGER.debug("*** @on_exit_app -- %s -- %s", __file__, ht_hp)
+        # ht_hp.logout()
+        ht_hp.close_connection()
+
+    atexit.register(on_exit_app, ht_hp=ht_heatpump)
 
     # create the Flask app
     app = Flask(__name__)
@@ -71,21 +75,19 @@ def create_app(
         app.config["BASIC_AUTH_USERNAME"] = username
         app.config["BASIC_AUTH_PASSWORD"] = password
         app.config["BASIC_AUTH_FORCE"] = True
-        basic_auth = BasicAuth(app)  # noqa: F841
+        _ = BasicAuth(app)
     _LOGGER.info("*** created Flask app %s with config %s", app, app.config)
-
-    @app.before_first_request
-    def before_first_request():
-        # _LOGGER.debug("*** @app.before_first_request -- %s", __file__)
-        pass
 
     settings.BOOL_AS_INT = bool_as_int
     settings.READ_ONLY = read_only
 
-    from htrest.apiv1 import blueprint as apiv1
+    with app.app_context():
+        current_app.ht_heatpump = ht_heatpump  # type: ignore[attr-defined]
 
-    app.register_blueprint(apiv1)
-    # print(apiv1.url_prefix)
-    print(app.url_map)
+        from htrest.apiv1 import blueprint as apiv1
 
-    return app
+        app.register_blueprint(apiv1)
+        # _LOGGER.info(apiv1.url_prefix)
+        _LOGGER.info(app.url_map)
+
+        return app

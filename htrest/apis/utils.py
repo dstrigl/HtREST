@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #  HtREST - Heliotherm heat pump REST API
-#  Copyright (C) 2021  Daniel Strigl
+#  Copyright (C) 2023  Daniel Strigl
 
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 from contextlib import contextmanager
 
 from flask_restx import fields
-from htheatpump import HtDataTypes, HtParams
+from htheatpump import HtDataTypes, HtHeatpump, HtParams, HtParamValueType
 
 from .. import settings
 
@@ -38,7 +38,7 @@ class HtContext:
     >>>
     """
 
-    def __init__(self, heatpump):
+    def __init__(self, heatpump: HtHeatpump):
         assert heatpump is not None, "'ht_heatpump' must not be None"
         assert heatpump.is_open, "serial connection to heat pump not established"
         self._heatpump = heatpump
@@ -112,9 +112,7 @@ class DotKeyField(ParamValueField):
         # use '.' as a separator for nested access.
         # -> temporarily set to None to overcome this
         with self.toggle_attribute() as attribute:
-            data = super().output(
-                key_map[key if attribute is None else attribute], transformed_obj
-            )
+            data = super().output(key_map[key if attribute is None else attribute], transformed_obj)
         return data
 
     @contextmanager
@@ -129,15 +127,15 @@ class DotKeyField(ParamValueField):
         self.attribute = attribute
 
 
-def bool_as_int(name, value):
-    """ Convert a boolean value to an integer, if desired (:const:`False` = 0, :const:`True` = 1). """
+def bool_as_int(name: str, value: HtParamValueType) -> HtParamValueType:
+    """Convert a boolean value to an integer, if desired (:const:`False` = 0, :const:`True` = 1)."""
     if settings.BOOL_AS_INT and HtParams[name].data_type == HtDataTypes.BOOL:
-        value = 1 if value else 0
+        return 1 if value else 0
     return value
 
 
-def int_as_bool(name, value):
-    """ Convert an integer value to a boolean, if desired (``0`` = :const:`False`, anything else :const:`True`). """
+def int_as_bool(name: str, value: HtParamValueType) -> HtParamValueType:
+    """Convert an integer value to a boolean, if desired (``0`` = :const:`False`, anything else :const:`True`)."""
     if settings.BOOL_AS_INT and HtParams[name].data_type == HtDataTypes.BOOL:
-        value = True if value else False
+        return bool(value)
     return value
