@@ -54,11 +54,11 @@ class Overwrite(Resource):
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))
         value = api.payload["value"]
-        with HtContext(current_app.ht_heatpump):
+        with HtContext(current_app.ht_heatpump):  # type: ignore[attr-defined]
             if value is not None:
                 value = int_as_bool(name, value)
             if not settings.READ_ONLY:
-                value = current_app.ht_heatpump.overwrite_param(name, value)
+                value = current_app.ht_heatpump.overwrite_param(name, value)  # type: ignore[attr-defined]
         res = {"value": bool_as_int(name, value) if value is not None else value}
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",
