@@ -21,12 +21,11 @@
 
 import logging
 
-from flask import request
+from flask import current_app, request
 from flask_restx import Namespace, Resource
 from htheatpump import HtParams
 
 from .. import settings
-from ..app import ht_heatpump
 from .utils import HtContext, NullableParamValueField, bool_as_int, int_as_bool
 
 _LOGGER = logging.getLogger(__name__)
@@ -55,11 +54,11 @@ class Overwrite(Resource):
         if name not in HtParams:
             api.abort(404, "Parameter {!r} not found".format(name))
         value = api.payload["value"]
-        with HtContext(ht_heatpump):
+        with HtContext(current_app.ht_heatpump):
             if value is not None:
                 value = int_as_bool(name, value)
             if not settings.READ_ONLY:
-                value = ht_heatpump.overwrite_param(name, value)
+                value = current_app.ht_heatpump.overwrite_param(name, value)
         res = {"value": bool_as_int(name, value) if value is not None else value}
         _LOGGER.debug(
             "*** [PUT%s] %s -> %s",
