@@ -40,7 +40,6 @@ class HtContext:
 
     def __init__(self, heatpump: HtHeatpump):
         assert heatpump is not None, "'ht_heatpump' must not be None"
-        assert heatpump.is_open, "serial connection to heat pump not established"
         self._heatpump = heatpump
 
     @property
