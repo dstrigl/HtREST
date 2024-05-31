@@ -19,6 +19,7 @@
 
 """ Heliotherm heat pump REST API Flask application. """
 
+import atexit
 import logging
 
 from flask import Flask
@@ -42,11 +43,11 @@ def create_app(
 ):
     # try to connect to the heat pump
     global ht_heatpump
+    ht_heatpump = HtHeatpump(device, baudrate=baudrate)
+    if no_param_verification:
+        ht_heatpump.verify_param_action = VerifyAction.NONE()
+    _LOGGER.info("open connection to heat pump (%s)", ht_heatpump)
     try:
-        ht_heatpump = HtHeatpump(device, baudrate=baudrate)
-        if no_param_verification:
-            ht_heatpump.verify_param_action = VerifyAction.NONE()
-        _LOGGER.info("open connection to heat pump (%s)", ht_heatpump)
         ht_heatpump.open_connection()
         ht_heatpump.login()
         _LOGGER.info(
@@ -54,10 +55,18 @@ def create_app(
         )
         _LOGGER.info("software version = %s (%d)", *ht_heatpump.get_version())
     except Exception as ex:
-        _LOGGER.error(ex)
-        raise
+        _LOGGER.warning("open connection to heat pump failed: %s", str(ex))
+        # raise
     finally:
         ht_heatpump.logout()
+        # ht_heatpump.close_connection()  # TODO?
+
+    def on_exit_app():
+        _LOGGER.debug("*** @on_exit_app -- %s -- %s", __file__, ht_heatpump)
+        # ht_heatpump.logout()
+        ht_heatpump.close_connection()
+
+    atexit.register(on_exit_app)
 
     # create the Flask app
     app = Flask(__name__)

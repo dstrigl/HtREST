@@ -40,7 +40,6 @@ class HtContext:
 
     def __init__(self, heatpump):
         assert heatpump is not None, "'ht_heatpump' must not be None"
-        assert heatpump.is_open, "serial connection to heat pump not established"
         self._heatpump = heatpump
 
     @property
@@ -53,11 +52,13 @@ class HtContext:
         return self._heatpump
 
     def __enter__(self):
+        # self._heatpump.open_connection()  # TODO?
         self._heatpump.login()  # Hint: login() will also try a reconnect on failure
         return self
 
     def __exit__(self, *args):
         self._heatpump.logout()
+        # self._heatpump.close_connection()  # TODO?
 
 
 class ParamValueField(fields.Raw):
